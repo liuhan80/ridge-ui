@@ -1,0 +1,10 @@
+{
+    "name": "ridge-editor",
+    "version": "1.2.0",
+    "description": "RidgeJS Web Editor",
+    "author": {
+      "name": "Ridge System"
+    },
+    "license": "MIT"
+  }
+  

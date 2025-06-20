@@ -1,0 +1,31 @@
+{
+  "name": "ridge-calculator",
+  "version": "1.3.0",
+  "description": "简约计算器",
+  "keywords": [],
+  "ridgeType": "app",
+  "themes": {},
+  "dependencies": {
+    "ridge-container": "1.0.0",
+    "ridge-toolbox": "1.0.0",
+    "ridge-bootstrap": "^1.2.0"
+  },
+  "author": "",
+  "icon": "icon.png",
+  "cover": "cover.png",
+  "ridgeHome": {
+    "default": "index",
+    "mobileEnabled": true,
+    "desktopEnabled": true,
+    "tabletEnabled": true,
+    "homeMobile": "mobile",
+    "homeDesktop": "index",
+    "homeTablet": "index"
+  },
+  "ridgeEntries": {
+    "mobile": "mobile",
+    "desktop": "index",
+    "tablet": "index"
+  },
+  "ridgeUserId": "15011245191"
+}

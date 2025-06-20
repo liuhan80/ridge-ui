@@ -1,0 +1,82 @@
+{
+  "version": "1.4.0",
+  "style": {
+    "width": 1290,
+    "height": 960,
+    "classNames": []
+  },
+  "properties": {},
+  "cssFiles": [],
+  "jsFiles": [],
+  "elements": [
+    {
+      "title": "文本",
+      "path": "ridge-bootstrap/typography",
+      "id": "fsnqeb5er8",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 272,
+        "y": 88,
+        "width": 172,
+        "height": 37
+      },
+      "styleEx": {},
+      "props": {
+        "text": "文本",
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 24,
+        "fontFamily": "",
+        "ellipsis": false,
+        "clamp": 1,
+        "center": true,
+        "classList": [],
+        "effect": "ridge-effect-animejs/rotateIn?"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_1",
+      "path": "ridge-bootstrap/typography",
+      "id": "4vydexmy13",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 182,
+        "y": 254,
+        "width": 142,
+        "height": 61
+      },
+      "styleEx": {},
+      "props": {
+        "text": "文本",
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 40,
+        "fontFamily": "",
+        "ellipsis": false,
+        "clamp": 1,
+        "center": true,
+        "classList": [],
+        "effect": "ridge-effect-animejs/fadeOutScaleBlur?d=600&l=200&e=outQuad"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    }
+  ],
+  "name": "test",
+  "children": [
+    "fsnqeb5er8",
+    "4vydexmy13"
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "version": "1.3.0",
+  "style": {
+    "width": 300,
+    "height": 300,
+    "classNames": [],
+    "widthFix": true,
+    "heightFix": true
+  },
+  "properties": {},
+  "cssFiles": [],
+  "jsFiles": [],
+  "elements": [
+    {
+      "title": "图标",
+      "path": "ridge-bootstrap/icons",
+      "id": "a9k4gwd454",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 35,
+        "y": 16,
+        "width": 229,
+        "height": 228
+      },
+      "styleEx": {},
+      "props": {
+        "icon": "calculator",
+        "color": "#ebf5f3",
+        "size": 180,
+        "btn": false,
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    },
+    {
+      "title": "矩形",
+      "path": "ridge-bootstrap/div",
+      "id": "rw9nxxesga",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 300,
+        "height": 300
+      },
+      "styleEx": {},
+      "props": {
+        "color": "",
+        "bgcolor": "#0085cc",
+        "mask": "",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    },
+    {
+      "title": "截图",
+      "path": "ridge-toolbox/html2canvas",
+      "id": "pr10tqpk7b",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 228,
+        "y": 228,
+        "width": 72,
+        "height": 72
+      },
+      "styleEx": {},
+      "props": {
+        "children": [],
+        "saveOnClick": true
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    }
+  ],
+  "name": "icon",
+  "children": [
+    "rw9nxxesga",
+    "a9k4gwd454",
+    "pr10tqpk7b"
+  ]
+}

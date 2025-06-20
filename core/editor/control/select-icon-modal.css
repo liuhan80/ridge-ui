@@ -1,0 +1,33 @@
+.rg-select-icon-place {
+    display: flex;
+    align-items: center;
+    background-color: var(--semi-color-fill-0);
+    padding: 4px;
+    font-size: 18px;
+    gap: 5px;
+}
+
+.rg-select-icon-list {
+    overflow: hidden;
+    margin: 10px 0;
+    width: 886px;
+    height: 440px
+}
+
+.rg-select-icon-list .list-item {
+    border: 1px solid var(--semi-color-border);
+    height: 64px;
+    /* background-color: var(--semi-color-bg-2); */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    margin: 4px;
+}
+.rg-select-icon-list .list-item:hover {
+    background-color:  var(--semi-color-tertiary-light-hover);
+}
+.rg-select-icon-list .list-item.item-selected {
+    background-color:  var( --semi-color-info-light-default);
+}

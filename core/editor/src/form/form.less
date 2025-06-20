@@ -1,0 +1,309 @@
+@import url('./with-fields/style.less');
+
+
+.semi-portal {
+  img, svg {
+    vertical-align: initial;
+  }
+  
+}
+.object-form {
+    padding: 0 3px;
+    height: 100%;
+    overflow-y: overlay;
+
+    .semi-tabs-pane {
+      width: 100%;
+      height: 100%;
+      overflow: hidden auto;
+      color: var(--semi-color-text-0);
+    }
+
+    img, svg {
+      vertical-align: initial;
+    }
+
+    .event-edit {
+      .semi-tree-option-list {
+        padding: 0;
+      }
+    }
+
+    // override semi-ui
+    .semi-form-horizontal .semi-form-field:last-child {
+        margin-right: 2px;
+    }
+    .semi-form-horizontal .semi-form-field {
+        padding-right: 2px;
+    }
+
+    .semi-table-wrapper {
+        table {
+            thead {
+                display: none;
+            }
+            .semi-table-tbody>.semi-table-row {
+                .btn-code {
+                    visibility:hidden;
+                }
+                .btn-code.semi-button-primary {
+                    visibility: visible;
+                }
+                &:hover {
+                    .btn-code {
+                        visibility: visible;
+                    }
+                }
+            }
+
+            td.semi-table-row-cell {
+                padding: 4px 2px;
+                .semi-form-field {
+                    padding: 0;
+                }
+            }
+        }
+    }
+
+    .semi-form {
+      
+      .field-block {
+        padding: 4px 0;
+        overflow: hidden;
+        .semi-form-field[x-label-pos=left] .semi-form-field-label {
+          margin-bottom: 0;
+          margin-right: 0;
+          padding-top: 0px;
+          line-height: 26px;
+          min-width: 63px;
+          padding-bottom: 0px;
+          padding-right: 8px;
+          font-weight: normal;
+          color: var( --semi-color-text-2);
+        }
+        &.full {
+          .semi-form-field[x-label-pos=left] .semi-form-field-label {
+            min-width: 63px;
+          }
+        }
+      }
+      .with-code-expr {
+        display: flex;
+        .semi-button-tertiary.btn-code {
+            visibility: hidden;
+            &.semi-button-primary {
+                visibility: initial;    
+            }
+        }
+        .semi-button-tertiary.is-open {
+            visibility: initial;
+        } 
+        &:hover {
+            .semi-button-tertiary.btn-code {
+                visibility: initial;
+            } 
+        }
+      }
+      .semi-form-field-main>.semi-checkbox {
+          padding: 2px;
+      }
+      .semi-divider_inner-text {
+        font-size: 14px;
+        font-weight: normal;
+        color: var(--semi-color-text-1);
+      }
+      // 对semi样式的重写
+      .semi-form-field {
+          // 复选框组样式
+          .semi-checkboxGroup-horizontal-cardType {
+              padding-top: 0;
+              padding-bottom: 0;
+              gap: 4px;
+              .semi-checkbox {
+                  padding: 2px 4px;
+
+                  .semi-checkbox-addon {
+                      font-weight: normal;
+                  }
+              }
+          }
+
+          .semi-radio-addon-buttonRadio-small {
+              padding: 2px 4px;
+          }
+          .semi-checkboxGroup-horizontal-pureCardType {
+              .semi-checkbox {
+                  column-gap: 0;
+                  align-items: center;
+                  padding: 2px 5px;
+              }
+          }
+      }
+    }
+
+    .state-list-edit {
+      display: flex;
+      .state-list {
+        flex: 1;
+        .list-item {
+          display: flex;
+          align-items: center;
+          box-sizing: border-box;
+          &:hover {
+            background-color: var(--semi-color-fill-1);
+          }
+          &.is-current {
+            border: 1px solid var(--semi-color-info-light-active);
+            background-color: var(--semi-color-info-light-default); 
+          }
+          .state-name {
+            padding: 0 5px;
+          }
+        }
+      }
+    }
+
+    .background-edit {
+      display: flex;
+      .color-list {
+        flex: 1;
+      }
+    }
+    .semi-input-number.digit2 {
+        width: 46px;
+    }
+    
+  
+  .semi-input-wrapper {
+    .semi-input {
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+    .semi-input-append {
+      padding: 0 5px;
+    }
+  }
+  .semi-input-textarea-wrapper {
+    .semi-input-textarea {
+      padding: 0;
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+  }
+  .semi-input-number-suffix-btns {
+    margin-left: 1px;
+  }
+
+  .picker-button {
+    font-size: 20px;
+    width: 21px;
+    cursor: pointer;
+  }
+}
+
+.pop-icon-container {
+  .icon-list {
+    width: 420px;
+    height: 330px;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    i {
+      cursor: pointer;
+      color: var(--semi-color-tertiary-hover);
+      padding: 5px;
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      &:hover {
+        color: var(--semi-color-primary-hover)
+      }
+    }
+  }
+}
+
+
+.series-table-edit {
+  border: 1px solid var(--semi-color-border);
+  border-collapse: collapse;
+  font-size: 14px;
+  border-right: none;
+  border-bottom: none;
+  th {
+    background-color: var(--semi-color-fill-1);
+  }
+  th:nth-child(1), td:nth-child(1), th.column-plus {
+    background-color: var(--semi-color-fill-1);
+    width: 28px;
+    min-width: 28px;
+  }
+  td.row-delete {
+    padding: 0 5px;
+    width: 28px;
+    min-width: 28px;
+    line-height: 14px;
+    color: var(--semi-color-danger);
+    border: none;
+    display: none;
+  }
+  td.column-delete {
+    line-height: 14px;
+    cursor: pointer;
+    color: var(--semi-color-danger);
+  }
+  tr:hover {
+    td.row-delete {
+      width: 28px;
+      border:none;
+      min-width: 28px;
+      cursor: pointer;
+      display: table-cell;
+    }
+  }
+  td, th {
+    border: 1px solid var(--semi-color-border);
+    padding: 0.1rem 0.5rem;
+    vertical-align: middle;
+    min-width: 60px;
+  }
+  th.column-plus, td.row-plus {
+    cursor: pointer;
+    &:hover {
+      background-color: var(--semi-color-fill-0);
+    }
+  }
+}
+
+
+  .semi-tree-option-label {
+    .item-icon {
+      width: 18px;
+      margin-right: 4px;
+      height: 18px;
+    }
+  }
+
+
+.state-tree-wrapper {
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  height: 560px;
+  overflow: auto;
+  .semi-tree-option-label {
+    i.bi {
+      color: var(--semi-color-primary);
+      margin-right: 6px;
+      font-size: 18px;
+      height: 18px;
+    }
+  }
+  .semi-tree-option-empty {
+    height: 370px;
+  }
+  .semi-tabs {
+    flex: 1;
+  }
+}

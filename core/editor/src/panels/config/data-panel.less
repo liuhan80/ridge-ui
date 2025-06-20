@@ -1,0 +1,23 @@
+.data-panel-content {
+  height: 100%;
+  .store-tree {
+    height: calc(100% - 28px);
+    overflow: overlay;
+    .node-label {
+      display: flex;
+
+      .label-content {
+        flex: 1;
+        height: 24px;
+      }
+      .label-action {
+        display: none;
+      }
+      &:hover {
+        .label-action {
+          display: initial;
+        }
+      }
+    }
+  }
+}

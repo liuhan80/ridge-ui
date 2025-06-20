@@ -1,0 +1,356 @@
+{
+  "version": "1.2.0",
+  "style": {
+    "width": 1600,
+    "height": 2200,
+    "background": null,
+    "classNames": [],
+    "widthFix": false,
+    "heightFix": false
+  },
+  "properties": {},
+  "cssFiles": [],
+  "jsFiles": [
+    "composite:///js/index.store.js"
+  ],
+  "elements": [
+    {
+      "title": "Header",
+      "path": "ridge-container/composite",
+      "id": "hja7vym1tg",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 963,
+        "height": 60,
+        "alignSelfStretch": true
+      },
+      "styleEx": {},
+      "props": {
+        "pagePath": "/components/Header",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {
+        "darkChange": [
+          {
+            "store": "WebSiteIndex",
+            "method": "toggleTheme",
+            "payload": ""
+          }
+        ]
+      },
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    },
+    {
+      "title": "Splash",
+      "path": "ridge-container/composite",
+      "id": "m9w6ellgpn",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 1200,
+        "height": 564,
+        "autoHeight": false
+      },
+      "styleEx": {},
+      "props": {
+        "pagePath": "/components/Splash",
+        "classList": [],
+        "展示图": "light"
+      },
+      "propEx": {
+        "展示图": "WebSiteIndex.state.theme"
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    },
+    {
+      "title": "FeatureList",
+      "path": "ridge-container/composite",
+      "id": "mec9ipf30v",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "height": 226,
+        "width": 1200
+      },
+      "styleEx": {},
+      "props": {
+        "pagePath": "/components/FeatureList",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    },
+    {
+      "title": "文本",
+      "path": "ridge-bootstrap/typography",
+      "id": "3suog20a7z",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 1200,
+        "height": 43
+      },
+      "styleEx": {},
+      "props": {
+        "text": "有何不同？",
+        "classList": [
+          "ridge-bootstrap/fs-3",
+          "ridge-bootstrap/ps-3",
+          "ridge-bootstrap/border-start",
+          "ridge-bootstrap/border-3",
+          "ridge-bootstrap/border-danger"
+        ]
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    },
+    {
+      "title": "文本",
+      "path": "ridge-bootstrap/typography",
+      "id": "cl1fdx9ajj",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 1648.999944722878,
+        "y": 78.99999798468826,
+        "width": 1200,
+        "height": 48
+      },
+      "styleEx": {},
+      "props": {
+        "classList": [
+          "ridge-bootstrap/fs-3"
+        ],
+        "text": "丰富的组件"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    },
+    {
+      "title": "页签",
+      "path": "ridge-bootstrap/tabs",
+      "id": "7l5u7mn7dk",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 1474,
+        "y": 1273,
+        "width": 1200,
+        "height": 48
+      },
+      "styleEx": {},
+      "props": {
+        "data": [
+          {
+            "label": "Boostrap组件",
+            "value": "bootstrap"
+          },
+          {
+            "label": "Semi 组件",
+            "value": "semi"
+          },
+          {
+            "label": "NextUI 组件",
+            "value": "nextui"
+          }
+        ],
+        "value": "bootstrap",
+        "style": "nav-tabs",
+        "vertical": false,
+        "template": "",
+        "tabs": [
+          {
+            "label": "BootStrap",
+            "value": "bootstrap"
+          },
+          {
+            "label": "Semi",
+            "value": "semi"
+          },
+          {
+            "label": "HighCharts",
+            "value": "highchart"
+          },
+          {
+            "label": "MaterialUI",
+            "value": "material"
+          }
+        ]
+      },
+      "propEx": {
+        "value": "WebSiteIndex.state.index"
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    },
+    {
+      "title": "bootstrap",
+      "path": "ridge-container/composite",
+      "id": "hruwgrrpeu",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 200,
+        "y": 993.9999933112158,
+        "width": 1200,
+        "height": 733
+      },
+      "styleEx": {},
+      "props": {
+        "pagePath": "/demo/Bootstrap",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    },
+    {
+      "title": "Footer",
+      "path": "ridge-container/composite",
+      "id": "mjkudnap6q",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 1200,
+        "height": 132,
+        "alignSelfStretch": true
+      },
+      "styleEx": {},
+      "props": {
+        "pagePath": "/components/Footer",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    },
+    {
+      "title": "弹性容器",
+      "path": "ridge-container/flex",
+      "id": "5l4sainreq",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 101,
+        "y": 52,
+        "width": 360,
+        "height": 240
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "stretch",
+        "flexWrap": false,
+        "children": [
+          "hja7vym1tg",
+          "6csyawmsu6"
+        ],
+        "gap": 0,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": true,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_1",
+      "path": "ridge-container/flex",
+      "id": "6csyawmsu6",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 1572,
+        "height": 1802,
+        "autoHeight": false
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "m9w6ellgpn",
+          "3suog20a7z",
+          "mec9ipf30v",
+          "cl1fdx9ajj",
+          "7l5u7mn7dk",
+          "hruwgrrpeu",
+          "mjkudnap6q"
+        ],
+        "gap": 0,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    }
+  ],
+  "name": "index",
+  "children": [
+    "5l4sainreq"
+  ]
+}

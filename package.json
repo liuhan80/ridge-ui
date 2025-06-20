@@ -1,0 +1,28 @@
+{
+  "name": "ridge-platform",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "editor": "npm run start --workspace=ridge-editor",
+    "runtime": "npm run runtime --workspace=ridgejs",
+    "build-all": "npm run build --workspace=ridgejs && npm run build --workspace=ridgejs-editor",
+    "build-editor": "npm run build --workspace=ridge-editor",
+    "sync": "sh ./scripts/sync.sh C:/Work/ridge C:/Work/github.io core/runtime core/tools core/externals"
+  },
+  "workspaces": [
+    "components/*",
+    "server/*",
+    "core/*"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lerna": "^8.1.2",
+    "raw-loader": "^4.0.2",
+    "standard": "^17.0.0"
+  },
+  "browserslist": [
+    "last 1 chrome version",
+    "last 1 firefox version"
+  ]
+}
