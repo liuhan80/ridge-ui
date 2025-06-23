@@ -25,6 +25,7 @@ export default {
     dialogAppConfig: false,
     dialogAppPublish: false,
     userStoreStatus: {},
+    showLocalRecoverDialog: false, // 显示恢复本地地址对话框
     userAppTree: [], // 用户应用列表树
     appPublishing: false, // 应用发布中
     dialogOpenApp: false, // 打开应用对话框
@@ -213,6 +214,10 @@ export default {
     },
     openHelpDoc() {
       window.open('https://ridgeui.com/#/pages/document', '_blank')
+    },
+
+    openHistoryDialog() { // 打开本地历史对话框
+      this.showLocalRecoverDialog = true
     },
 
     closeConfigDialog () {

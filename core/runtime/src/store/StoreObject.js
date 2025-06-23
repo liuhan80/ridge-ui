@@ -30,6 +30,8 @@ export default class ValtioStoreObject {
     this.context = new Proxy(this, {
       get: function (storeObject, p) {
         switch (p) {
+          case 'context':
+            return storeObject.composite.context
           case 'composite':
             return storeObject.composite
           case 'emit':

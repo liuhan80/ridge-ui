@@ -55,8 +55,6 @@ export default {
   },
 
   async setup () {
-    this.axios.defaults.withCredentials = true
-
     this.fetchComponentPackages()
 
     this.appService = this.composite.context.services.appService

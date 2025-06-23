@@ -483,9 +483,9 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 21,
-        "width": 143,
+        "x": 48,
+        "y": 0,
+        "width": 95,
         "height": 50
       },
       "styleEx": {},
@@ -496,76 +496,11 @@
         "flexWrap": false,
         "fill": false,
         "children": [
-          "migpjio1on",
-          "bsr7zyki54",
           "pztcsow3r1"
         ],
         "gap": 5,
         "padding": 8,
         "classList": []
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "切换",
-      "path": "ridge-bootstrap/toggle",
-      "id": "migpjio1on",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 34,
-        "height": 23
-      },
-      "styleEx": {},
-      "props": {
-        "value": false,
-        "disabled": false
-      },
-      "propEx": {
-        "value": "BootStrapThemes.state.isDark"
-      },
-      "events": {
-        "onClick": [
-          {
-            "store": "BootStrapThemes",
-            "method": "toggleColorMode",
-            "payload": ""
-          }
-        ]
-      },
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "图标",
-      "path": "ridge-bootstrap/icons",
-      "id": "bsr7zyki54",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": 3,
-        "width": 25,
-        "height": 22
-      },
-      "styleEx": {},
-      "props": {
-        "icon": "circle-half",
-        "btn": false,
-        "classList": [
-          "ridge-bootstrap/text-body-secondary"
-        ]
       },
       "propEx": {},
       "events": {},

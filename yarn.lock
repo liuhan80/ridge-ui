@@ -12508,7 +12508,9 @@ ridge-boot@^1.0.0, "ridge-boot@file:C:\\Work\\ridge\\server\\boot":
   resolved "file:components/bootstrap"
   dependencies:
     "@uidotdev/usehooks" "^2.4.1"
+    bootstrap "^5.3.6"
     react "^18.2.0"
+    react-bootstrap "^2.10.10"
     react-dom "^18.2.0"
 
 ridge-build@^1.1.0, "ridge-build@file:C:\\Work\\ridge\\core\\tools":
@@ -12612,6 +12614,38 @@ ridge-build@^1.1.0, "ridge-build@file:C:\\Work\\ridge\\core\\tools":
   resolved "file:components/echarts"
   dependencies:
     echarts "^5.4.3"
+
+"ridge-editor@file:C:\\Work\\ridge\\core\\editor":
+  version "1.2.0"
+  resolved "file:core/editor"
+  dependencies:
+    "@codemirror/lang-css" "^6.2.1"
+    "@codemirror/lang-javascript" "^6.2.2"
+    "@codemirror/lang-json" "^6.0.1"
+    "@codemirror/lang-markdown" "^6.3.1"
+    "@codemirror/lint" "^6.8.3"
+    "@douyinfe/semi-ui" "^2.55.1"
+    bootstrap-icons "^1.11.3"
+    codemirror "^6.0.1"
+    dayjs "^1.11.10"
+    eslint-linter-browserify "^9.15.0"
+    globals "^15.12.0"
+    html2canvas "^1.4.1"
+    localforage "^1.10.0"
+    mousetrap "^1.6.5"
+    moveable "^0.53.0"
+    nedb "^1.8.0"
+    pako "^2.1.0"
+    react "^18.2.0"
+    react-color "^2.19.3"
+    react-colorful "^5.6.1"
+    react-dom "^18.2.0"
+    scheduler "^0.23.0"
+    selecto "^1.26.3"
+
+"ridge-effect-animejs@file:C:\\Work\\ridge\\components\\animejs":
+  version "1.0.0"
+  resolved "file:components/animejs"
 
 "ridge-enterprise-server@file:C:\\Work\\ridge\\server\\enterprise":
   version "1.0.0"

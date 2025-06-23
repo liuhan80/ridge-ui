@@ -112,6 +112,7 @@ class RidgeEditorContext extends RidgeContext {
             await appService.importFromNpmRegistry(packageName, packageInfo['dist-tags'].latest)
           } else {
             await Editor.confirm(`你将导入应用包：${packageInfo.description}，版本：${packageInfo['dist-tags'].latest}。您工作区已包含内容,您可以先导出应用包到本地后保存后继续，否则当前工作会丢失。是否继续？`)
+            await appService.backupCurrentApp()
             await appService.importFromNpmRegistry(packageName, packageInfo['dist-tags'].latest)
           }
           Editor.message('应用包已经导入：' + packageName)

@@ -583,15 +583,22 @@ export default class ApplicationService {
     // location.href = location.href
   }
 
+  async backupCurrentApp () {
+    await this.backUpService.backup()
+  }
+
   async importFromNpmRegistry (packageName, version) {
+    await this.backupCurrentApp()
     return await this.backUpService.importFromNpmRegistry(packageName, version)
   }
 
   async importFromRidgeCloud (path) {
+    await this.backupCurrentApp()
     return await this.backUpService.importFromRidgeCloud(path)
   }
 
   async importAppArchive (file) {
+    await this.backupCurrentApp()
     return await this.backUpService.importAppArchive(file, this.collection, this.store)
   }
 
@@ -600,7 +607,7 @@ export default class ApplicationService {
   }
 
   async recoverBackUpAppArchive (id) {
-    await this.backUpService.recover(id, this.collection)
+    await this.backUpService.recover(id)
   }
 
   async getAllBackups () {

@@ -195,7 +195,7 @@ const optionConfig = (name = 'options', label = '选项列表', value = [{
     value,
     type: 'string',
     connect: true,
-    control: () => import('ridgejs-editor/control/OptionConfig.jsx')
+    control: () => import('ridge-editor/control/OptionConfig.jsx')
   }
 }
 

@@ -1,10 +1,10 @@
 import React from 'react'
-import { ReactComposite } from 'ridgejs'
 
 export default ({
   value,
   onChange
 }) => {
+  const { ReactComposite } = window.ridgejs
   return (
     <ReactComposite app='ridge-editor-app' path='field/options/OptionListEdit' value={value} onChange={onChange} />
   )

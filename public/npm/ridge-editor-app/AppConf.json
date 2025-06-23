@@ -151,6 +151,7 @@
         "children": [
           "g2i7bm0vtu",
           "8tlocdm1pu",
+          "9k5tegnha8",
           "5xte90sd01",
           "5y687lk181",
           "vkpas23eq1",
@@ -1191,9 +1192,9 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": -28,
+        "x": -21,
         "y": 0,
-        "width": 80,
+        "width": 73,
         "height": 31
       },
       "styleEx": {},
@@ -1202,7 +1203,8 @@
         "theme": "solid",
         "disabled": false,
         "loading": false,
-        "text": "本地保存"
+        "text": "保存",
+        "icon": "IconSaveStroked"
       },
       "propEx": {},
       "events": {
@@ -2149,19 +2151,19 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
+        "x": 1728,
         "y": 0,
-        "width": 74,
+        "width": 70,
         "height": 31
       },
       "styleEx": {},
       "props": {
-        "text": "导出",
         "size": "default",
         "theme": "light",
         "disabled": false,
         "loading": false,
-        "icon": "IconExport"
+        "icon": "IconExport",
+        "text": "导出"
       },
       "propEx": {},
       "events": {
@@ -2223,9 +2225,9 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": -34,
+        "x": -66,
         "y": 0,
-        "width": 108,
+        "width": 77,
         "height": 31
       },
       "styleEx": {
@@ -2238,7 +2240,7 @@
         "loading": false,
         "icon": "IconCloudUploadStroked",
         "type": "primary",
-        "text": "上传/发布"
+        "text": "上传"
       },
       "propEx": {},
       "events": {
@@ -2447,22 +2449,22 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 525,
-        "y": 61,
-        "width": 74,
+        "x": 635,
+        "y": 0,
+        "width": 70,
         "height": 31
       },
       "styleEx": {
         "visible": "RidgeAppConfig.state.cloudEnabled"
       },
       "props": {
-        "text": "打开",
         "size": "default",
         "theme": "light",
         "disabled": false,
         "loading": false,
         "icon": "IconCloudStroked",
-        "type": "primary"
+        "type": "primary",
+        "text": "打开"
       },
       "propEx": {},
       "events": {
@@ -2612,6 +2614,103 @@
       "full": false,
       "$id": "https://ridge-ui.com/schemas/element",
       "slots": []
+    },
+    {
+      "title": "按钮_3",
+      "path": "ridge-semi/button",
+      "id": "9k5tegnha8",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 57,
+        "y": -27,
+        "width": 78,
+        "height": 31
+      },
+      "styleEx": {},
+      "props": {
+        "text": "历史",
+        "icon": "IconHistory",
+        "size": "default",
+        "theme": "light",
+        "disabled": false,
+        "iconSize": 18,
+        "loading": false
+      },
+      "propEx": {},
+      "events": {
+        "onClick": [
+          {
+            "store": "RidgeAppConfig",
+            "method": "openHistoryDialog",
+            "payload": ""
+          }
+        ]
+      },
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "对话框_3",
+      "path": "ridge-semi/modal",
+      "id": "1vu4nufesc",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 977,
+        "y": 948,
+        "width": 753,
+        "height": 598,
+        "portalled": true
+      },
+      "styleEx": {},
+      "props": {
+        "value": false,
+        "textContent": "默认对话框文本内容",
+        "children": [
+          "m5iysl599u"
+        ],
+        "showHeader": true,
+        "showFooter": false,
+        "mask": false,
+        "confirmLoading": false,
+        "title": "从本地历史恢复"
+      },
+      "propEx": {
+        "value": "RidgeAppConfig.state.showLocalRecoverDialog"
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "History",
+      "path": "ridge-container/composite",
+      "id": "m5iysl599u",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 432,
+        "y": 801,
+        "width": 600,
+        "height": 480
+      },
+      "styleEx": {},
+      "props": {
+        "pagePath": "/user/History",
+        "packageName": "",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
     }
   ],
   "name": "AppConf",
@@ -2619,6 +2718,7 @@
     "h1n1smb50c",
     "16q5hl7gz4",
     "nos8ix35zk",
-    "d8bxkbczt0"
+    "d8bxkbczt0",
+    "1vu4nufesc"
   ]
 }

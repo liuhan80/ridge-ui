@@ -54,8 +54,7 @@ export default {
   ],
   events: [{
     name: 'selectionChanged',
-    desc: '选择变化',
-    args: ['selectedRowKeys', 'selectedRows']
+    label: '选择变化'
   }],
   width: 300,
   height: 52

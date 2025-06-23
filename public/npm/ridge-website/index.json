@@ -56,10 +56,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 0,
+        "y": -5714,
         "width": 1200,
-        "height": 564,
-        "autoHeight": false
+        "height": 537
       },
       "styleEx": {},
       "props": {
@@ -70,175 +69,6 @@
       "propEx": {
         "展示图": "WebSiteIndex.state.theme"
       },
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "FeatureList",
-      "path": "ridge-container/composite",
-      "id": "mec9ipf30v",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": 0,
-        "height": 226,
-        "width": 1200
-      },
-      "styleEx": {},
-      "props": {
-        "pagePath": "/components/FeatureList",
-        "classList": []
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "文本",
-      "path": "ridge-bootstrap/typography",
-      "id": "3suog20a7z",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 1200,
-        "height": 43
-      },
-      "styleEx": {},
-      "props": {
-        "text": "有何不同？",
-        "classList": [
-          "ridge-bootstrap/fs-3",
-          "ridge-bootstrap/ps-3",
-          "ridge-bootstrap/border-start",
-          "ridge-bootstrap/border-3",
-          "ridge-bootstrap/border-danger"
-        ]
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "文本",
-      "path": "ridge-bootstrap/typography",
-      "id": "cl1fdx9ajj",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 1648.999944722878,
-        "y": 78.99999798468826,
-        "width": 1200,
-        "height": 48
-      },
-      "styleEx": {},
-      "props": {
-        "classList": [
-          "ridge-bootstrap/fs-3"
-        ],
-        "text": "丰富的组件"
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "页签",
-      "path": "ridge-bootstrap/tabs",
-      "id": "7l5u7mn7dk",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 1474,
-        "y": 1273,
-        "width": 1200,
-        "height": 48
-      },
-      "styleEx": {},
-      "props": {
-        "data": [
-          {
-            "label": "Boostrap组件",
-            "value": "bootstrap"
-          },
-          {
-            "label": "Semi 组件",
-            "value": "semi"
-          },
-          {
-            "label": "NextUI 组件",
-            "value": "nextui"
-          }
-        ],
-        "value": "bootstrap",
-        "style": "nav-tabs",
-        "vertical": false,
-        "template": "",
-        "tabs": [
-          {
-            "label": "BootStrap",
-            "value": "bootstrap"
-          },
-          {
-            "label": "Semi",
-            "value": "semi"
-          },
-          {
-            "label": "HighCharts",
-            "value": "highchart"
-          },
-          {
-            "label": "MaterialUI",
-            "value": "material"
-          }
-        ]
-      },
-      "propEx": {
-        "value": "WebSiteIndex.state.index"
-      },
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "bootstrap",
-      "path": "ridge-container/composite",
-      "id": "hruwgrrpeu",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 200,
-        "y": 993.9999933112158,
-        "width": 1200,
-        "height": 733
-      },
-      "styleEx": {},
-      "props": {
-        "pagePath": "/demo/Bootstrap",
-        "classList": []
-      },
-      "propEx": {},
       "events": {},
       "visible": true,
       "locked": false,
@@ -327,16 +157,853 @@
         "alignItems": "center",
         "flexWrap": false,
         "children": [
-          "m9w6ellgpn",
-          "3suog20a7z",
-          "mec9ipf30v",
-          "cl1fdx9ajj",
-          "7l5u7mn7dk",
-          "hruwgrrpeu",
+          "3r0b38eqrg",
+          "kw2rp4qe0w",
           "mjkudnap6q"
         ],
         "gap": 0,
         "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "多层容器",
+      "path": "ridge-container/stack",
+      "id": "3r0b38eqrg",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 540,
+        "height": 825,
+        "alignSelfStretch": true
+      },
+      "styleEx": {},
+      "props": {
+        "classList": [
+          "ridge-bootstrap/border-1",
+          "ridge-bootstrap/border-bottom",
+          "ridge-bootstrap/border-info"
+        ],
+        "children": [
+          "nl8cc7qd1l",
+          "xb5kjngyc7"
+        ]
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "图片",
+      "path": "ridge-bootstrap/image",
+      "id": "nl8cc7qd1l",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 120,
+        "height": 541
+      },
+      "styleEx": {},
+      "props": {
+        "fitPosition": "center",
+        "src": "composite:///image/back.svg",
+        "classList": [],
+        "objectFit": "object-fit-cover"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_2",
+      "path": "ridge-container/flex",
+      "id": "xb5kjngyc7",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 440,
+        "y": 132,
+        "width": 360,
+        "height": 240
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "center",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "m9w6ellgpn",
+          "6joadp3t46"
+        ],
+        "gap": 8,
+        "padding": 8,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_3",
+      "path": "ridge-container/flex",
+      "id": "6joadp3t46",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 662,
+        "width": 1188,
+        "height": 238
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "flex-start",
+        "flexWrap": false,
+        "children": [
+          "xuvf73ck3p",
+          "6jplf9buey"
+        ],
+        "gap": 0,
+        "padding": 8,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_4",
+      "path": "ridge-container/flex",
+      "id": "xuvf73ck3p",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 1148,
+        "height": 83
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "center",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "g1pauqdnsr",
+          "ns87ns72zy",
+          "fc008ue0zz",
+          "tkgvy8k5j6",
+          "eu2lru84fx",
+          "gp0iu47060",
+          "3n81cmumu7"
+        ],
+        "gap": 0,
+        "padding": 8,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "矩形",
+      "path": "ridge-bootstrap/div",
+      "id": "ns87ns72zy",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 259,
+        "y": 599,
+        "width": 240,
+        "height": 2
+      },
+      "styleEx": {},
+      "props": {
+        "color": "",
+        "bgcolor": "#e6e8e8",
+        "mask": "",
+        "center": false,
+        "effect": "",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "矩形",
+      "path": "ridge-bootstrap/div",
+      "id": "tkgvy8k5j6",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 259,
+        "y": 599,
+        "height": 2,
+        "width": 230
+      },
+      "styleEx": {},
+      "props": {
+        "color": "",
+        "bgcolor": "#e6e8e8",
+        "mask": "",
+        "center": false,
+        "effect": "",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "矩形",
+      "path": "ridge-bootstrap/div",
+      "id": "gp0iu47060",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 259,
+        "y": 599,
+        "height": 2,
+        "width": 240
+      },
+      "styleEx": {},
+      "props": {
+        "color": "",
+        "bgcolor": "#e6e8e8",
+        "mask": "",
+        "center": false,
+        "effect": "",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_5",
+      "path": "ridge-container/flex",
+      "id": "6jplf9buey",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 1161,
+        "height": 157
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "flex-start",
+        "alignItems": "flex-start",
+        "flexWrap": false,
+        "children": [
+          "d80h5edhhq",
+          "m6qserpey6",
+          "wnulllyvfy",
+          "ct9y38ej81"
+        ],
+        "gap": 8,
+        "padding": 8,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_6",
+      "path": "ridge-container/flex",
+      "id": "d80h5edhhq",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 375,
+        "height": 141,
+        "flex": "1"
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "70sswy0vex",
+          "gc8fo26tlr"
+        ],
+        "gap": 8,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_6",
+      "path": "ridge-container/flex",
+      "id": "m6qserpey6",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 376,
+        "height": 240,
+        "flex": "1"
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "jjelyqd3pz",
+          "qijjyqi4q0"
+        ],
+        "gap": 8,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_1",
+      "path": "ridge-bootstrap/typography",
+      "id": "70sswy0vex",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 250,
+        "height": 31
+      },
+      "styleEx": {},
+      "props": {
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 24,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": false,
+        "clamp": 1,
+        "center": true,
+        "effect": "",
+        "classList": [
+          "ridge-bootstrap/text-body-secondary"
+        ],
+        "text": "创建应用"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_2",
+      "path": "ridge-bootstrap/typography",
+      "id": "gc8fo26tlr",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 86,
+        "y": 0,
+        "width": 229,
+        "height": 89
+      },
+      "styleEx": {},
+      "props": {
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 16,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": false,
+        "clamp": 1,
+        "center": false,
+        "effect": "",
+        "classList": [
+          "ridge-bootstrap/text-body-tertiary"
+        ],
+        "text": "从空白或者基于现有的应用模板创建应用。应用保存在页面存储中，可以预览和查看应用效果"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_1",
+      "path": "ridge-bootstrap/typography",
+      "id": "jjelyqd3pz",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": -18,
+        "y": 0,
+        "width": 250,
+        "height": 33
+      },
+      "styleEx": {},
+      "props": {
+        "color": "#bdc439",
+        "bgcolor": "",
+        "fontSize": 24,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": false,
+        "clamp": 1,
+        "center": true,
+        "effect": "",
+        "classList": [
+          "ridge-bootstrap/text-body-secondary"
+        ],
+        "text": "云端保存"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_1",
+      "path": "ridge-bootstrap/typography",
+      "id": "qa2fkheem9",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 250,
+        "height": 33
+      },
+      "styleEx": {},
+      "props": {
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 24,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": false,
+        "clamp": 1,
+        "center": true,
+        "effect": "",
+        "classList": [],
+        "text": "多端使用"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_6",
+      "path": "ridge-container/flex",
+      "id": "wnulllyvfy",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 606.328140070409,
+        "y": 859.5000090422453,
+        "width": 280,
+        "height": 141.00002712673611
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "flex-start",
+        "flexWrap": false,
+        "children": [
+          "qa2fkheem9",
+          "pvep9rn2z1"
+        ],
+        "gap": 8,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_1",
+      "path": "ridge-bootstrap/typography",
+      "id": "h0gdcjznqw",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 250,
+        "height": 38
+      },
+      "styleEx": {},
+      "props": {
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 24,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": false,
+        "clamp": 1,
+        "center": true,
+        "effect": "",
+        "classList": [],
+        "text": "发布和分享"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_6",
+      "path": "ridge-container/flex",
+      "id": "ct9y38ej81",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 254,
+        "height": 240,
+        "flex": "1"
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "h0gdcjznqw",
+          "jr5etuzffa"
+        ],
+        "gap": 8,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_2",
+      "path": "ridge-bootstrap/typography",
+      "id": "qijjyqi4q0",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": -387,
+        "y": 0,
+        "width": 226,
+        "height": 92
+      },
+      "styleEx": {},
+      "props": {
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 16,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": false,
+        "clamp": 1,
+        "center": false,
+        "effect": "",
+        "classList": [
+          "ridge-bootstrap/text-body-tertiary"
+        ],
+        "text": "成为注册用户， 可以免费将应用保存到云端。 您在任何设备都可以打开和编辑应用"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_2",
+      "path": "ridge-bootstrap/typography",
+      "id": "pvep9rn2z1",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 273,
+        "height": 92
+      },
+      "styleEx": {},
+      "props": {
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 16,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": false,
+        "clamp": 1,
+        "center": false,
+        "effect": "",
+        "classList": [
+          "ridge-bootstrap/text-body-tertiary"
+        ],
+        "text": "通过RidgeX PC版、移动版、在线网页查看或者使用您创作的应用。同时还可以将应用分享给他人使用"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_2",
+      "path": "ridge-bootstrap/typography",
+      "id": "jr5etuzffa",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 235,
+        "height": 91
+      },
+      "styleEx": {},
+      "props": {
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 16,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": false,
+        "clamp": 1,
+        "center": false,
+        "effect": "",
+        "classList": [
+          "ridge-bootstrap/text-body-tertiary"
+        ],
+        "text": "从空白或者基于现有的应用模板创建应用。 再浏览器里通过拖拽方式配置和预览页面"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "图片_1",
+      "path": "ridge-bootstrap/image",
+      "id": "g1pauqdnsr",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 237,
+        "y": 654,
+        "width": 48,
+        "height": 48
+      },
+      "styleEx": {},
+      "props": {
+        "fitPosition": "left",
+        "src": "composite:///image/icon/LogosComposeMultiplatform.svg",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "图片_2",
+      "path": "ridge-bootstrap/image",
+      "id": "fc008ue0zz",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 542,
+        "y": 657,
+        "width": 48,
+        "height": 48
+      },
+      "styleEx": {},
+      "props": {
+        "fitPosition": "left",
+        "src": "composite:///image/icon/LineMdCloudAltPrintTwotoneLoop.svg",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "图片_3",
+      "path": "ridge-bootstrap/image",
+      "id": "eu2lru84fx",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 846,
+        "y": 659,
+        "width": 48,
+        "height": 48
+      },
+      "styleEx": {},
+      "props": {
+        "fitPosition": "left",
+        "classList": [],
+        "src": "composite:///image/icon/m-devices.svg"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "图片_4",
+      "path": "ridge-bootstrap/image",
+      "id": "3n81cmumu7",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 1161,
+        "y": 646,
+        "width": 48,
+        "height": 48
+      },
+      "styleEx": {},
+      "props": {
+        "fitPosition": "left",
+        "src": "composite:///image/icon/Market.svg",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_7",
+      "path": "ridge-container/flex",
+      "id": "kw2rp4qe0w",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 360,
+        "height": 478,
+        "alignSelfStretch": true
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "flex-start",
+        "alignItems": "flex-start",
+        "flexWrap": false,
+        "children": [],
+        "gap": 8,
+        "padding": 8,
         "hoverable": false,
         "rectStyle": {},
         "classList": []

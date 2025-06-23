@@ -245,14 +245,15 @@
         "x": 0,
         "y": 0,
         "width": 518,
-        "height": 58
+        "height": 64
       },
       "styleEx": {},
       "props": {
         "classList": [
           "ridge-bootstrap/text-body-secondary"
         ],
-        "text": "锐制(Ridge)是一个高效的网页开发工具，可以帮助您快速通过拖拽方式制作页面。而且，我们采取开放的方式接入各种前端组件"
+        "text": "锐制 (Ridge) 用拖拽式开发让页面搭建更高效！开放式架构支持接入海量前端组件，无需复杂编码即可自由组合功能模块，让开发效率与组件扩展性兼得，轻松实现创意页面落地。",
+        "fontSize": 12
       },
       "propEx": {},
       "events": {},
@@ -725,18 +726,18 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 46,
-        "height": 32
+        "width": 48,
+        "height": 26
       },
       "styleEx": {},
       "props": {
         "text": "免费",
         "classList": [
-          "ridge-bootstrap/text-success",
-          "ridge-bootstrap/fw-bolder",
-          "ridge-bootstrap/fs-5",
-          "ridge-bootstrap/text-decoration-underline"
-        ]
+          "ridge-bootstrap/fw-bolder"
+        ],
+        "center": true,
+        "color": "#05b027",
+        "fontSize": 20
       },
       "propEx": {},
       "events": {},
@@ -755,7 +756,7 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 586,
+        "width": 581,
         "height": 40
       },
       "styleEx": {},
@@ -787,17 +788,17 @@
       "id": "fq384rwnd7",
       "style": {
         "x": 241,
-        "y": 12,
-        "width": 276.99994097699175,
-        "height": 47.95314243861607
+        "y": 12.2965,
+        "width": 304,
+        "height": 48
       },
       "styleEx": {},
       "props": {
         "classList": [
-          "ridge-bootstrap/fw-light",
-          "ridge-bootstrap/text-success"
+          "ridge-bootstrap/fw-semibold"
         ],
-        "text": "不用怀疑--当前网站就是是使用Ridge设计器制作的"
+        "text": "不用怀疑--当前页面就是使用RidgeUI制作",
+        "color": "#e66605"
       },
       "propEx": {},
       "events": {},

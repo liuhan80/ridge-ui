@@ -1,6 +1,7 @@
 /* global Blob File */
-import JSZip from 'jszip'
+import JSZip, { version } from 'jszip'
 import NeCollection from './NeCollection.js'
+import Localforge from 'localforage'
 import { dataURLtoBlob, saveAs } from '../utils/blob'
 import { basename, dirname, extname, formateDate } from '../utils/string.js'
 import { buildFileTree, getFileTree } from '../panels/files/buildFileTree.js'
@@ -15,32 +16,37 @@ export default class BackUpService {
   constructor (appService) {
     this.appService = appService
     this.coll = appService.collection
+
+    this.backUpStorage = Localforge.createInstance({ name: 'ridge-store' })
+
     this.store = appService.store
     this.archiveColl = new NeCollection('ridge.backup.db')
   }
 
-  async createHistory (coll, name) {
-    const date = formateDate()
-    const dbname = 'ridge.backup-store-' + date + '.db'
-    const historyObject = {
-      created: date,
-      name,
-      pageCount: await coll.count({ type: 'page' }),
-      dbname
+  // 备份当前应用内容到本地存储历史库
+  async backup () {
+    const appPackageObject = await this.appService.getPackageJSONObject()
+
+    if (appPackageObject) {
+      const date = formateDate()
+      const backUpName = `${appPackageObject.name}-${appPackageObject.version}-${date}`
+
+      const appBlob = await this.getAppBlob()
+
+      await this.backUpStorage.setItem(backUpName, appBlob)
+      const historyObject = {
+        backUpName,
+        name: appPackageObject.name,
+        version: appPackageObject.version
+      }
+      await this.archiveColl.insert(historyObject)
     }
-    await this.archiveColl.insert(historyObject)
-
-    const hisColl = new NeCollection(dbname)
-
-    await this.dumpColl(coll, hisColl)
   }
 
-  async dumpColl (from, to) {
-    await to.clean()
-    const documents = await from.find({})
-
-    for (const doc of documents) {
-      await to.insert(doc)
+  async recover (name) {
+    const appBlob = await this.backUpStorage.getItem(name)
+    if (appBlob) {
+      await this.importAppArchive(appBlob)
     }
   }
 
@@ -49,23 +55,14 @@ export default class BackUpService {
   }
 
   async deleteHistory (id) {
-    const historyObject = await this.archiveColl.findOne(id)
+    const historyObject = await this.archiveColl.findOne({
+      backUpName: id
+    })
     if (historyObject) {
-      const hisColl = new NeCollection(historyObject.dbname)
-      await hisColl.clean()
-      await this.archiveColl.remove(id)
-    }
-  }
-
-  async recover (id, coll) {
-    const historyObject = await this.archiveColl.findOne(id)
-    if (historyObject) {
-      const hisColl = new NeCollection(historyObject.dbname)
-      await coll.clean()
-      await this.dumpColl(hisColl, coll)
-      return true
-    } else {
-      return false
+      await this.archiveColl.remove({
+        backUpName: id
+      })
+      await this.backUpStorage.removeItem(id)
     }
   }
 

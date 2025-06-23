@@ -18,7 +18,7 @@ export default ({
   }
   const rowSelection = {
     getCheckboxProps: record => ({
-      disabled: record.name === '设计文档', // Column configuration not to be checked
+      disabled: false, // Column configuration not to be checked
       name: record.name
     }),
     onSelect: (record, selected) => {
