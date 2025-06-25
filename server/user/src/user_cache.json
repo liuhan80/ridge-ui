@@ -1,19 +1,19 @@
 [
   {
-    "sess": "fd0107b7e7feedebea5584185c02bc57b852a395a5cb23b545fe7a725ef74026",
+    "sess": "2ec9f5908368f77c90c73f9f01e85fc112265c90324125761b3e64aa349b9ad8",
     "user": {
       "id": "15011245191",
       "store": "1000",
       "type": "admin",
       "profile": {
         "userId": "15011245191",
-        "avatar": "15011245191",
+        "avatar": "/avatar/15011245191.webp",
         "_id": "QLZCxTxrWSxYBaN8",
         "createdAt": "2024-12-30T03:31:03.370Z",
-        "updatedAt": "2025-05-06T01:10:13.697Z"
+        "updatedAt": "2025-05-22T08:52:01.586Z"
       },
       "registered": "2024-11-15T07:59:12.705Z"
     },
-    "expire": 1750490860807
+    "expire": 1753413098922
   }
 ]
