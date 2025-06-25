@@ -12,10 +12,12 @@
     "ridge-bootstrap": "^1.2.0"
   },
   "author": "Ridge System",
-  "icon": "icon.png",
+  "icon": "sunrise.svg",
   "cover": "cover.png",
   "ridgeEntries": {
-    "mobile": "mobile"
+    "mobile": "mobile",
+    "desktop": "index",
+    "tablet": "index"
   },
   "ridgeUserId": "15011245191"
 }

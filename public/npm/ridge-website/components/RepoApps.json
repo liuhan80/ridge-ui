@@ -21,9 +21,9 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 293,
-        "y": 60,
-        "width": 359,
+        "x": 0,
+        "y": 0,
+        "width": 1200,
         "height": 240
       },
       "styleEx": {},
@@ -56,9 +56,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 0,
-        "width": 1179,
-        "height": 1144,
+        "y": -42,
+        "width": 1182,
+        "height": 624,
         "autoSize": true,
         "alignSelfStretch": true,
         "autoHeight": true
@@ -79,7 +79,7 @@
         "direction": "y",
         "fixedHeight": true,
         "fixedWidth": true,
-        "overflowAuto": true
+        "overflowAuto": false
       },
       "propEx": {
         "dataSource": "RepoComponents.state.packageList"
@@ -102,8 +102,8 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 375,
-        "height": 339
+        "width": 370,
+        "height": 330
       },
       "styleEx": {},
       "props": {

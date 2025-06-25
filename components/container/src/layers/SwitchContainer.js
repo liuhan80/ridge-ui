@@ -49,9 +49,9 @@ const SLIDE_EFFECTS = {
  */
 export default class SwitchContainer extends BaseContainer {
   isSwiper () {
-    const { swipeable } = this.props
+    const { swipeable, swipeEffect } = this.props
 
-    return swipeable && this.isRuntime
+    return (swipeable || swipeEffect) && this.isRuntime
   }
 
   // 获取子元素容器， 在启用了swipper后， 需要按swipper结构创建swiperEl
@@ -73,7 +73,7 @@ export default class SwitchContainer extends BaseContainer {
    * @param {*} el
    */
   async mounted () {
-    const { __composite, onChange, swipeEffect } = this.props
+    const { __composite, onChange, swipeEffect, swipeable } = this.props
     this.containerEl.classList.add('switch-container')
     this.forceUpdateChildren = true
     if (this.isSwiper()) {
@@ -89,6 +89,12 @@ export default class SwitchContainer extends BaseContainer {
       const initialSlide = this.getCurrentSlideIndex()
 
       const effect = {}
+
+      if (swipeable) {
+        effect.allowTouchMove = true
+      } else {
+        effect.allowTouchMove = false
+      }
 
       if (swipeEffect) {
         if (SLIDE_EFFECTS[swipeEffect]) {

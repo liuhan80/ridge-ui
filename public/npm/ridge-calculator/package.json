@@ -11,17 +11,8 @@
     "ridge-bootstrap": "^1.2.0"
   },
   "author": "",
-  "icon": "icon.png",
+  "icon": "calculator.svg",
   "cover": "cover.png",
-  "ridgeHome": {
-    "default": "index",
-    "mobileEnabled": true,
-    "desktopEnabled": true,
-    "tabletEnabled": true,
-    "homeMobile": "mobile",
-    "homeDesktop": "index",
-    "homeTablet": "index"
-  },
   "ridgeEntries": {
     "mobile": "mobile",
     "desktop": "index",

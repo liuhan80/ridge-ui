@@ -166,7 +166,7 @@
       },
       "styleEx": {},
       "props": {
-        "text": "12,865+ ",
+        "text": "21,851+ ",
         "classList": [
           "ridge-bootstrap/fw-semibold",
           "ridge-bootstrap/text-body-emphasis"
@@ -673,7 +673,7 @@
           "ridge-bootstrap/rounded-2"
         ],
         "icon": "box-seam",
-        "text": "用设计器打开当前页面",
+        "text": "用编辑器打开当前页面",
         "style": "light"
       },
       "propEx": {},
@@ -788,16 +788,16 @@
       "id": "fq384rwnd7",
       "style": {
         "x": 241,
-        "y": 12.2965,
-        "width": 304,
-        "height": 48
+        "y": 12,
+        "width": 270,
+        "height": 34
       },
       "styleEx": {},
       "props": {
         "classList": [
           "ridge-bootstrap/fw-semibold"
         ],
-        "text": "不用怀疑--当前页面就是使用RidgeUI制作",
+        "text": "当前页面也使用RidgeUI制作",
         "color": "#e66605"
       },
       "propEx": {},

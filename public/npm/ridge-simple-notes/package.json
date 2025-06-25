@@ -7,13 +7,11 @@
   "themes": {},
   "dependencies": {
     "ridge-container": "1.0.0",
-    "ridge-text": "1.0.0",
     "ridge-bootstrap": "^1.2.0",
-    "ridge-marked": "^1.0.0",
-    "ridge-json-tree": "^1.0.0"
+    "ridge-marked": "^1.0.0"
   },
   "author": "Ridge System",
-  "icon": "icon.png",
+  "icon": "note.svg",
   "cover": "cover.png",
   "ridgeEntries": {
     "mobile": "index",

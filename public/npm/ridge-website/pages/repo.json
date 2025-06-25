@@ -84,7 +84,7 @@
         "x": 0,
         "y": 0,
         "width": 1200,
-        "height": 1513,
+        "height": 2598,
         "autoSize": false,
         "autoHeight": false
       },
@@ -121,9 +121,8 @@
         "x": 0,
         "y": 0,
         "width": 1200,
-        "height": 1454,
-        "autoHeight": false,
-        "flex": "1"
+        "height": 2539,
+        "autoHeight": false
       },
       "styleEx": {},
       "props": {

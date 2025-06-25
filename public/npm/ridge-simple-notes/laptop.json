@@ -1,8 +1,8 @@
 {
   "version": "1.2.0",
   "style": {
-    "width": 1200,
-    "height": 800,
+    "width": 920,
+    "height": 720,
     "background": "",
     "classNames": []
   },
@@ -13,51 +13,16 @@
   ],
   "elements": [
     {
-      "title": "侧边弹层",
-      "path": "ridge-bootstrap/offcanvas",
-      "id": "2yoh6zp9wx",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 423,
-        "y": 64,
-        "width": 411,
-        "height": 525,
-        "portalled": true
-      },
-      "styleEx": {},
-      "props": {
-        "value": true,
-        "children": [
-          "sjiybjla3l"
-        ],
-        "showHeader": true,
-        "showFooter": true,
-        "padding": 8,
-        "title": "编辑便签",
-        "full": true,
-        "direction": "offcanvas-end"
-      },
-      "propEx": {
-        "value": "SimpleNote.state.showSider"
-      },
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "slots": []
-    },
-    {
       "title": "弹性容器",
       "path": "ridge-container/flex",
       "id": "sjiybjla3l",
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 278,
-        "height": 240
+        "x": 891,
+        "y": 161,
+        "width": 395,
+        "height": 463
       },
       "styleEx": {},
       "props": {
@@ -67,11 +32,10 @@
         "flexWrap": false,
         "children": [
           "gu42gwdj83",
-          "nuskgqg026",
-          "1qnjde36wc"
+          "nuskgqg026"
         ],
-        "gap": 8,
-        "padding": 8,
+        "gap": 0,
+        "padding": 0,
         "hoverable": false,
         "rectStyle": {},
         "classList": []
@@ -92,14 +56,14 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 319,
-        "height": 43
+        "width": 343,
+        "height": 16
       },
       "styleEx": {},
       "props": {
         "direction": "row",
-        "justify": "flex-start",
-        "alignItems": "flex-start",
+        "justify": "center",
+        "alignItems": "stretch",
         "flexWrap": false,
         "children": [
           "9hn5to1we7"
@@ -150,93 +114,18 @@
       "slots": []
     },
     {
-      "title": "弹性容器_1",
-      "path": "ridge-container/flex",
-      "id": "1qnjde36wc",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": -353,
-        "width": 360,
-        "height": 55
-      },
-      "styleEx": {},
-      "props": {
-        "direction": "row",
-        "justify": "flex-end",
-        "alignItems": "flex-start",
-        "flexWrap": false,
-        "children": [
-          "lj55i9oktb",
-          "q1as64fhrk"
-        ],
-        "gap": 8,
-        "padding": 8,
-        "hoverable": false,
-        "rectStyle": {},
-        "classList": []
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "slots": []
-    },
-    {
-      "title": "按钮_1",
-      "path": "ridge-bootstrap/button",
-      "id": "q1as64fhrk",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 84,
-        "height": 40
-      },
-      "styleEx": {},
-      "props": {
-        "text": "保存",
-        "type": "primary",
-        "src": "",
-        "icon": "check2",
-        "size": "btn-normal",
-        "fontSize": 16,
-        "style": "general",
-        "rounded": false,
-        "full": false,
-        "disabled": false,
-        "withBadge": false,
-        "badgeCount": ""
-      },
-      "propEx": {},
-      "events": {
-        "onClick": [
-          {
-            "store": "SimpleNote",
-            "method": "editNoteComplete",
-            "payload": ""
-          }
-        ]
-      },
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "slots": []
-    },
-    {
       "title": "列表容器",
       "path": "ridge-container/list",
       "id": "9hn5to1we7",
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 231,
-        "height": 39
+        "x": 79.99998791383041,
+        "y": 11.99999894246016,
+        "width": 178,
+        "height": 17.000001964002546,
+        "alignSelfStretch": false,
+        "flex": "1"
       },
       "styleEx": {},
       "props": {
@@ -248,10 +137,11 @@
         "overflowAuto": true,
         "direction": "x",
         "fixedHeight": true,
-        "fixedWidth": true,
+        "fixedWidth": false,
         "sortable": false,
         "gap": 2,
-        "classNames": []
+        "classNames": [],
+        "horizontalDivide": 6
       },
       "propEx": {
         "dataSource": "SimpleNote.state.stickyNoteColors"
@@ -269,9 +159,9 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 1000,
-        "y": 350,
-        "width": 56,
+        "x": 0,
+        "y": 0,
+        "width": 27,
         "height": 51
       },
       "styleEx": {},
@@ -280,9 +170,7 @@
         "bgcolor": "#f5bf42",
         "mask": "",
         "center": true,
-        "classList": [
-          "ridge-bootstrap/rounded-4"
-        ]
+        "classList": []
       },
       "propEx": {
         "bgcolor": "SimpleNote.computed.listItemColor"
@@ -310,14 +198,12 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 36,
-        "height": 36
+        "width": 26,
+        "height": 16
       },
       "styleEx": {},
       "props": {
-        "classList": [
-          "ridge-bootstrap/rounded-4"
-        ],
+        "classList": [],
         "children": [
           "emohlmlaes"
         ]
@@ -413,7 +299,7 @@
         "sortable": false,
         "gap": 8,
         "classNames": [],
-        "horizontalDivide": 5
+        "horizontalDivide": 6
       },
       "propEx": {
         "dataSource": "SimpleNote.state.notes"
@@ -521,48 +407,6 @@
       "slots": []
     },
     {
-      "title": "按钮_2",
-      "path": "ridge-bootstrap/button",
-      "id": "lj55i9oktb",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": -14,
-        "y": 0,
-        "width": 96,
-        "height": 40
-      },
-      "styleEx": {},
-      "props": {
-        "text": "删除",
-        "type": "danger",
-        "src": "",
-        "icon": "trash",
-        "size": "btn-normal",
-        "fontSize": 16,
-        "style": "general",
-        "rounded": false,
-        "full": false,
-        "disabled": false,
-        "withBadge": false,
-        "badgeCount": ""
-      },
-      "propEx": {},
-      "events": {
-        "onClick": [
-          {
-            "store": "SimpleNote",
-            "method": "onRemoveNoteClick",
-            "payload": ""
-          }
-        ]
-      },
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "slots": []
-    },
-    {
       "title": "弹性容器_3",
       "path": "ridge-container/flex",
       "id": "5u6x2hi849",
@@ -607,7 +451,7 @@
         "x": 0,
         "y": 0,
         "width": 360,
-        "height": 55
+        "height": 41
       },
       "styleEx": {},
       "props": {
@@ -616,10 +460,11 @@
         "alignItems": "center",
         "flexWrap": false,
         "children": [
-          "7dgv1kn96g"
+          "7dgv1kn96g",
+          "5tkjt86srd"
         ],
         "gap": 8,
-        "padding": 8,
+        "padding": 0,
         "hoverable": false,
         "rectStyle": {},
         "classList": []
@@ -640,25 +485,26 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 110,
-        "height": 42
+        "width": 45,
+        "height": 48
       },
       "styleEx": {},
       "props": {
-        "type": "primary",
+        "type": "link",
         "src": "",
         "icon": "plus-lg",
         "size": "btn-normal",
-        "fontSize": 16,
+        "fontSize": 19,
         "style": "light",
-        "rounded": true,
-        "full": false,
+        "rounded": false,
+        "full": true,
         "disabled": false,
         "withBadge": false,
-        "badgeCount": "",
-        "text": "写便签"
+        "badgeCount": ""
       },
-      "propEx": {},
+      "propEx": {
+        "icon": "SimpleNote.state.plusIcon"
+      },
       "events": {
         "onClick": [
           {
@@ -694,8 +540,10 @@
         "classList": [],
         "children": [
           "7fifvmjl9y",
-          "8prjd1i4p0"
-        ]
+          "8prjd1i4p0",
+          "sjiybjla3l"
+        ],
+        "swipeEffect": "cards"
       },
       "propEx": {
         "current": "SimpleNote.state.contentIndex"
@@ -731,7 +579,9 @@
         "padding": 10,
         "hoverable": false,
         "rectStyle": {},
-        "classList": []
+        "classList": [
+          "ridge-bootstrap/bg-body"
+        ]
       },
       "propEx": {},
       "events": {},
@@ -785,15 +635,15 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": -58,
+        "y": -40,
         "width": 185,
-        "height": 48
+        "height": 36
       },
       "styleEx": {},
       "props": {
         "color": "#939696",
         "bgcolor": "",
-        "fontSize": 36,
+        "fontSize": 22,
         "autoFontSize": false,
         "fontFamily": "",
         "ellipsis": false,
@@ -801,7 +651,6 @@
         "center": true,
         "effect": "",
         "classList": [
-          "ridge-bootstrap/fs-3",
           "ridge-bootstrap/text-body-tertiary"
         ],
         "text": "内容为空"
@@ -820,16 +669,16 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 183,
-        "y": 120,
+        "x": 0,
+        "y": 19,
         "width": 138,
-        "height": 47
+        "height": 97
       },
       "styleEx": {},
       "props": {
         "icon": "calendar",
         "color": "",
-        "size": 32,
+        "size": 64,
         "btn": false,
         "classList": [
           "ridge-bootstrap/text-body-tertiary"
@@ -841,11 +690,127 @@
       "locked": false,
       "full": false,
       "slots": []
+    },
+    {
+      "title": "弹性容器_7",
+      "path": "ridge-container/flex",
+      "id": "5tkjt86srd",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": -9,
+        "y": 0,
+        "width": 287,
+        "height": 240
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "flex-end",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "f3q53qx9ok",
+          "uwxrin2nwa"
+        ],
+        "gap": 8,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "按钮_3",
+      "path": "ridge-bootstrap/button",
+      "id": "uwxrin2nwa",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 544,
+        "y": 94,
+        "width": 45,
+        "height": 41
+      },
+      "styleEx": {
+        "visible": "SimpleNote.state.currentNote"
+      },
+      "props": {
+        "type": "link",
+        "src": "",
+        "icon": "check2",
+        "size": "btn-normal",
+        "fontSize": 19,
+        "style": "light",
+        "rounded": false,
+        "full": true,
+        "disabled": false,
+        "withBadge": false,
+        "badgeCount": ""
+      },
+      "propEx": {},
+      "events": {
+        "onClick": [
+          {
+            "store": "SimpleNote",
+            "method": "editNoteComplete",
+            "payload": ""
+          }
+        ]
+      },
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "图标_1",
+      "path": "ridge-bootstrap/icons",
+      "id": "f3q53qx9ok",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": -100,
+        "y": 0,
+        "width": 41,
+        "height": 29
+      },
+      "styleEx": {
+        "visible": "SimpleNote.state.noteId"
+      },
+      "props": {
+        "icon": "trash",
+        "color": "",
+        "size": 20,
+        "btn": false,
+        "classList": [
+          "ridge-bootstrap/text-danger"
+        ]
+      },
+      "propEx": {},
+      "events": {
+        "onClick": [
+          {
+            "store": "SimpleNote",
+            "method": "onRemoveNoteClick",
+            "payload": ""
+          }
+        ]
+      },
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
     }
   ],
   "name": "laptop",
   "children": [
-    "2yoh6zp9wx",
     "5u6x2hi849"
   ]
 }

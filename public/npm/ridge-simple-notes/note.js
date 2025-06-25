@@ -12,6 +12,8 @@ const stickyNoteColors = [
 export default {
   name: 'SimpleNote',
   state: {
+    noteId: '', // 当前编辑Note
+    plusIcon: 'plus-lg', // 增加或删除图标
     showSider: false, // 显示编辑窗口
     contentIndex: 0, // 当前内容区切换
     currentNote: '', // 当前编辑的内容
@@ -32,10 +34,26 @@ export default {
 
   actions: {
     showNewNote () { // 新增便签
-      this.noteId = ''
-      this.currentSelectedColor = stickyNoteColors[0].color
+      if (this.contentIndex === 1) {
+        this.noteId = ''
+        this.currentSelectedColor = stickyNoteColors[0].color
+        this.currentNote = ''
+        this.toggleNoteEdit()
+      } else {
+        this.toggleNoteList()
+      }
+    },
+
+    toggleNoteList () {
+      this.contentIndex = 1
       this.currentNote = ''
-      this.showSider = true
+      this.noteId = ''
+      this.plusIcon = 'plus-lg'
+    },
+
+    toggleNoteEdit() {
+      this.contentIndex = 2
+      this.plusIcon = 'x-lg'
     },
 
     onEditNoteClick (scope) { // 编辑便签
@@ -43,7 +61,7 @@ export default {
       this.noteId = item.id
       this.currentSelectedColor = item.color
       this.currentNote = item.content
-      this.showSider = true
+      this.toggleNoteEdit()
     },
 
     onColorItemClick (scope) { // 切换便签颜色
@@ -56,13 +74,13 @@ export default {
       } else {
         this._addNote(this.currentNote, this.currentSelectedColor)
       }
-      this.showSider = false
+      this.toggleNoteList()
       this.notes = this._getNoteList()
     },
 
     onRemoveNoteClick() { // 删除便签
-      this.showSider = false
       this.removeNote(this.noteId)
+      this.toggleNoteList()
       this.notes = this._getNoteList()
     },
 

@@ -341,7 +341,10 @@
         "fixedHeight": true,
         "classNames": [],
         "itemClassNames": [],
-        "selectedClassNames": []
+        "selectedClassNames": [],
+        "fixedWidth": true,
+        "direction": "x",
+        "overflowAuto": true
       },
       "propEx": {
         "dataSource": "WeatherForcast.state.filterResult"
@@ -396,9 +399,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 0,
+        "y": 4,
         "width": 455,
-        "height": 21,
+        "height": 26,
         "flex": "1"
       },
       "styleEx": {},
@@ -773,7 +776,7 @@
         "visible": true,
         "x": 521.5000345249368,
         "y": 109.00000369910038,
-        "width": 45.99997780539773,
+        "width": 46,
         "height": 22
       },
       "styleEx": {},
@@ -803,7 +806,7 @@
         "visible": true,
         "x": 309,
         "y": 0,
-        "width": 63,
+        "width": 52,
         "height": 22,
         "autoSize": true
       },
@@ -896,7 +899,8 @@
         "rows": 3,
         "classNames": [],
         "itemClassNames": [],
-        "selectedClassNames": []
+        "selectedClassNames": [],
+        "direction": "x"
       },
       "propEx": {
         "dataSource": "WeatherForcast.state.weatherData.next5Days"
@@ -917,8 +921,8 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 64,
-        "height": 102
+        "width": 55,
+        "height": 116
       },
       "styleEx": {},
       "props": {
@@ -953,7 +957,7 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 48,
+        "width": 41,
         "height": 42
       },
       "styleEx": {},
