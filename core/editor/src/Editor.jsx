@@ -31,7 +31,7 @@ class Editor extends React.Component {
     this.codeEditorRef = React.createRef()
 
     this.state = {
-      editorLoadingMessage: '编辑器已启动.. 正在加载应用资源',
+      editorLoadingMessage: '编辑器已启动.. 正在加载应用资源 ',
       editorLoading: true,
       // panel visibles
       componentPanelVisible: true, // 组件面板可见性
