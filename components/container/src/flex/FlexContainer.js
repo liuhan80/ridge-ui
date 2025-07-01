@@ -189,10 +189,19 @@ export default class FlexBoxContainer extends BaseContainer {
     } else { // 非flex 按配置的宽或者高
       // 主轴方向宽高
       style.flex = 'none'
-      if (this.props.direction === 'row') {
-        style.width = toCSSLength(configStyle.width)
+      // 如果只有一个子节点， 那么认为属于基础布局类型  宽高设置为不超过外层100%
+      if (Array.isArray(this.props.children) && this.props.children.length === 1) {
+        if (this.props.direction === 'row') {
+          style.width = configStyle.width ? `min(100%, ${configStyle.width}px)` : ''
+        } else {
+          style.height = configStyle.height ? `min(100%, ${configStyle.height}px)` : ''
+        }
       } else {
-        style.height = toCSSLength(configStyle.height)
+        if (this.props.direction === 'row') {
+          style.width = toCSSLength(configStyle.width)
+        } else {
+          style.height = toCSSLength(configStyle.height)
+        }
       }
     }
 

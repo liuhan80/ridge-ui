@@ -6,6 +6,7 @@ import collapseNav from './src/collapse-nav/index.d.js'
 import colorpicker from './src/colorpicker/index.d.js'
 import div from './src/div/index.d.js'
 import dropdown from './src/dropdown/index.d.js'
+import highlight from './src/highlight/index.d.js'
 import icons from './src/icons/index.d.js'
 import image from './src/image/index.d.js'
 import input from './src/input/index.d.js'
@@ -26,4 +27,4 @@ import tabs from './src/tabs/index.d.js'
 import textarea from './src/textarea/index.d.js'
 import toggle from './src/toggle/index.d.js'
 import typography from './src/typography/index.d.js'
-export { avatar, badge, button, checkbox, collapseNav, colorpicker, div, dropdown, icons, image, input, jelloTab, link, modal, offcanvas, placeholder, popover, progress, radio, range, rating, select, spniners, table, tabs, textarea, toggle, typography }
+export { avatar, badge, button, checkbox, collapseNav, colorpicker, div, dropdown, highlight, icons, image, input, jelloTab, link, modal, offcanvas, placeholder, popover, progress, radio, range, rating, select, spniners, table, tabs, textarea, toggle, typography }

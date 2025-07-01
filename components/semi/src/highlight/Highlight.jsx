@@ -6,6 +6,6 @@ export default ({
   searchWords
 }) => {
   return (
-    <Highlight highlightStyle={{ borderRadius: 4 }} sourceString={sourceString} searchWords={searchWords} />
+    <Highlight highlightStyle={{ borderRadius: 4 }} sourceString={sourceString} searchWords={searchWords} autoEscape={false} />
   )
 }

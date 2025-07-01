@@ -1,0 +1,156 @@
+{
+  "version": "1.4.0",
+  "style": {
+    "width": 1290,
+    "height": 960,
+    "classNames": []
+  },
+  "properties": {},
+  "cssFiles": [],
+  "jsFiles": [
+    "composite:///js/select.js"
+  ],
+  "elements": [
+    {
+      "title": "列表容器",
+      "path": "ridge-container/list",
+      "id": "ivn7gjygcr",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 68,
+        "y": 45,
+        "width": 506,
+        "height": 528
+      },
+      "styleEx": {},
+      "props": {
+        "dataSource": [],
+        "selected": [],
+        "children": [
+          "570lhwv88m"
+        ],
+        "overflowAuto": true,
+        "direction": "y",
+        "fixedHeight": true,
+        "fixedWidth": true,
+        "horizontalDivide": 3,
+        "verticalDivide": 3,
+        "sortable": false,
+        "gap": 4,
+        "classNames": [
+          "ridge-bootstrap/bg-warning-subtle"
+        ]
+      },
+      "propEx": {
+        "dataSource": "Hello.state.foods"
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器",
+      "path": "ridge-container/flex",
+      "id": "570lhwv88m",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 83,
+        "height": 103
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "8mdv8hjgeg",
+          "zb90r639tv"
+        ],
+        "gap": 8,
+        "padding": 8,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "图片",
+      "path": "ridge-bootstrap/image",
+      "id": "8mdv8hjgeg",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 156,
+        "y": 86,
+        "width": 64,
+        "height": 64
+      },
+      "styleEx": {},
+      "props": {
+        "fitPosition": "left",
+        "src": "",
+        "classList": []
+      },
+      "propEx": {
+        "src": "Hello.computed.icon"
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本",
+      "path": "ridge-bootstrap/typography",
+      "id": "zb90r639tv",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 189,
+        "y": 168,
+        "width": 67,
+        "height": 22
+      },
+      "styleEx": {},
+      "props": {
+        "text": "文本",
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 14,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": false,
+        "clamp": 1,
+        "center": true,
+        "effect": "",
+        "classList": []
+      },
+      "propEx": {
+        "text": "Hello.computed.name"
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    }
+  ],
+  "name": "SelectFood",
+  "children": [
+    "ivn7gjygcr"
+  ]
+}

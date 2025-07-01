@@ -9,6 +9,7 @@ import { cloneDeep, isEqual } from 'lodash'
 
 import { getNodeListConfig } from '../workspace/editorUtils.js'
 import EditorComposite from '../workspace/EditorComposite.js'
+import { ensureLeading } from '../utils/string.js'
 // import PreviewComposite from '../workspace/PreviewComposite.js'
 
 const debug = Debug('ridge:editor')
@@ -640,7 +641,8 @@ class RidgeEditorContext extends RidgeContext {
   getBlobUrl (url, packageName) {
     if (url.startsWith('composite://') && packageName == null) {
       const protocolPath = url.substring('composite://'.length)
-      const file = this.services.appService.getFileByPath(protocolPath)
+
+      const file = this.services.appService.getFileByPath(ensureLeading(protocolPath))
       if (file) {
         return this.services.appService.getDataUrl(file.id)
       } else {

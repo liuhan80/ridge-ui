@@ -1,0 +1,20 @@
+{
+  "name": "ridge-weekfood",
+  "version": "1.0.0",
+  "description": "一周营养",
+  "keywords": [],
+  "ridgeType": "app",
+  "themes": {},
+  "dependencies": {
+    "ridge-container": "1.0.0",
+    "ridge-bootstrap": "^1.2.0"
+  },
+  "author": "Ridge System",
+  "icon": "favicon.svg",
+  "cover": "cover.png",
+  "ridgeEntries": {
+    "desktop": "index",
+    "tablet": "index"
+  },
+  "ridgeUserId": "15011245191"
+}

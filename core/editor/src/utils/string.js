@@ -13,6 +13,9 @@ const dirname = (path) => {
   return path.substring(0, path.lastIndexOf('/'))
 }
 
+const ensureLeading = (str, slash = '/') => {
+  return str.startsWith(slash) ? str : (slash + str)
+}
 const basename = (path, ext) => {
   const fileName = path.substring(path.lastIndexOf('/') + 1)
   if (ext) {
@@ -27,6 +30,7 @@ const extname = path => {
 }
 
 export {
+  ensureLeading,
   basename,
   dirname,
   extname,

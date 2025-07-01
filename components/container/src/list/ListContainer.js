@@ -111,29 +111,16 @@ export default class ListContainer {
   getContainerStyle () {
     const {
       gap,
-      direction = 'y',
-      overflowAuto
+      direction = 'y'
     } = this.props
 
     const containerStyle = {
       gap: gap + 'px',
       display: 'flex',
       flexDirection: direction === 'y' ? 'row' : 'column',
-      overflow: overflowAuto ? 'auto' : 'hidden',
       padding: 0
     }
 
-    if (!overflowAuto) { // 无超出滚动
-      containerStyle.width = '100%'
-      containerStyle.height = '100%'
-    } else {
-      if (direction === 'x') { // 横向滚动
-        containerStyle.height = '100%'
-      }
-      if (direction === 'y') { // 纵向滚动
-        containerStyle.width = '100%'
-      }
-    }
     containerStyle.flexWrap = 'wrap'
     return containerStyle
   }
