@@ -1,10 +1,13 @@
-import {  carbs, vegetables, fruits, protein, nuts } from '../foods.js'
-
 export default {
   name: 'SelectFood',
   properties: [{
     name: 'value',
     label: '已选择',
+    type: 'object',
+    value: []
+  }, {
+    name: 'foodList',
+    label: '食物列表',
     type: 'object',
     value: []
   }],
@@ -13,13 +16,9 @@ export default {
     label: '选择变化'
   }],
   state: {
-    currentPage: 0,
-    pageSize: 16,
     filter: '',
-    currentPageList: [], // 当前页内列表
-    filteredPageList: [], // 过滤后列表
-    selectedFoods: [], // 已选择内容
-    foods: [...carbs, ...vegetables, ...fruits, ...protein, ...nuts]
+    filteredList: [], // 过滤后列表
+    selectedFoods: [] // 已选择内容
   },
 
   computed: {
@@ -53,45 +52,30 @@ export default {
     }
   },
 
-
   setup () {
-    this.updateByFilter()
+    this.updateByFilter ()
   },
 
   watch: {
     filter () {
-       this.updateByFilter() 
+      this.updateByFilter () 
+    },
+    foodList () {
+      this.updateByFilter () 
     }
   },
 
   actions: {
-
     updateByFilter () {
-      this.currentPage = 0 
-      this.filteredPageList = this.foods.filter(food => {
+      this.filteredList = this.foodList?.filter(food => {
           return food.name.indexOf(this.filter) > -1
       })
-      this.currentPageList = this.filteredPageList.slice(this.currentPage * this.pageSize, (this.currentPage + 1) * this.pageSize)
     },
-    
-    prevPage() {
-      if (this.currentPage === 0) {
-        return
-      }
-      this.currentPage = this.currentPage - 1
-      this.currentPageList = this.filteredPageList.slice(this.currentPage * this.pageSize, (this.currentPage + 1) * this.pageSize)
-    },
-    nextPage () {
-        if (this.currentPage * this.pageSize > this.filteredPageList.length ) {
-          return
-        }
-        this.currentPage = this.currentPage + 1
-        this.currentPageList = this.filteredPageList.slice(this.currentPage * this.pageSize, (this.currentPage + 1) * this.pageSize)
-    },
+  
     onItemClick (scope) {
+      debugger
       if (this.value?.indexOf(scope.item.name) === -1 ) {
         this.emit('onChange', [...this.value|| [], scope.item.name])
-        // this.selectedFoods.push(scope.item.name)
       } else {
         this.emit('onChange', this.value?.filter(name => name !== scope.item.name))
       }

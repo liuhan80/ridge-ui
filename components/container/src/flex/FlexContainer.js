@@ -94,7 +94,21 @@ export default class FlexBoxContainer extends BaseContainer {
           containerStyle.overflowY = 'auto'
         }
       }
+
+      // 如果所有子节点都设置为固定主轴长度， 那么主轴方向自动出滚动条   否则内容必然会被遮盖
+      /*
+      if (this.props.children.find(node => node.config.style.flex) == null) {
+        if (direction === 'column') {
+          containerStyle.overflowY = 'auto'
+          containerStyle.overflowX = 'hidden'
+        } else {
+          containerStyle.overflowY = 'hidden'
+          containerStyle.overflowX = 'auto'
+        }
+      }
+      */
     }
+
     // if (this.el.style.flex) {
     //   if (direction === 'row') {
     //     containerStyle.overflowX = 'hidden'
@@ -171,9 +185,11 @@ export default class FlexBoxContainer extends BaseContainer {
       style.alignSelf = 'stretch'
     } else if (this.props.alignItems !== 'stretch') { // 交叉不拉伸
       if (this.props.direction === 'row') {
-        style.height = configStyle.height ? `min(100%, ${configStyle.height}px)` : ''
+        style.height = toCSSLength(configStyle.height)
+        // style.height = configStyle.height ? `min(100%, ${configStyle.height}px)` : ''
       } else if (this.props.direction === 'column') {
-        style.width = configStyle.width ? `min(100%, ${configStyle.width}px)` : ''
+        style.width = toCSSLength(configStyle.width)
+        // style.width = configStyle.width ? `min(100%, ${configStyle.width}px)` : ''
       }
     }
 
