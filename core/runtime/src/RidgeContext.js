@@ -4,6 +4,7 @@ import { loadRemoteJsModule } from './utils/load.js'
 import Composite from './node/Composite.js'
 import createDebug from 'debug'
 import { isObject } from './utils/is.js'
+import { ensureLeading } from './utils/string.js'
 
 window.createDebug = createDebug
 
@@ -128,9 +129,9 @@ class RidgeContext {
       return url
     } else if (url.startsWith('composite://')) {
       if (packageName) {
-        return this.baseUrl + '/' + packageName + url.substring('composite://'.length)
+        return this.baseUrl + '/' + packageName + ensureLeading(url.substring('composite://'.length))
       } else {
-        return this.baseUrl + url.substring('composite://'.length)
+        return this.baseUrl + ensureLeading(url.substring('composite://'.length))
       }
     } else {
       return this.baseUrl + '/' + url

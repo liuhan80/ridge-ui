@@ -41,6 +41,10 @@ const toCSSLength = (value) => {
     : `${parseFloat(str) || 0}px`
 }
 
+const ensureLeading = (str, slash = '/') => {
+  return str.startsWith(slash) ? str : (slash + str)
+}
+
 export {
   filename,
   camelCase,
@@ -48,5 +52,6 @@ export {
   hashString,
   toCSSLength,
   generateUrlFontName,
+  ensureLeading,
   nanoid
 }
