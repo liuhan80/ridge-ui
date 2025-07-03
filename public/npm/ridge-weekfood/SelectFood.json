@@ -1,50 +1,413 @@
 {
   "version": "1.4.0",
   "style": {
-    "width": 1290,
-    "height": 960,
+    "width": 420,
+    "height": 760,
     "classNames": []
   },
-  "properties": {},
+  "properties": {
+    "value": []
+  },
   "cssFiles": [],
   "jsFiles": [
     "composite:///js/select.js"
   ],
   "elements": [
     {
-      "title": "列表容器",
+      "title": "列表容器_1",
       "path": "ridge-container/list",
-      "id": "ivn7gjygcr",
+      "id": "illd1scw2b",
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 68,
-        "y": 45,
-        "width": 506,
-        "height": 528
+        "x": 557,
+        "y": 226,
+        "width": 404,
+        "height": 456,
+        "flex": "1"
       },
       "styleEx": {},
       "props": {
         "dataSource": [],
         "selected": [],
         "children": [
-          "570lhwv88m"
+          "jr8ayb277x"
         ],
         "overflowAuto": true,
         "direction": "y",
         "fixedHeight": true,
-        "fixedWidth": true,
-        "horizontalDivide": 3,
-        "verticalDivide": 3,
+        "fixedWidth": false,
+        "horizontalDivide": 1,
+        "verticalDivide": 1,
         "sortable": false,
         "gap": 4,
         "classNames": [
-          "ridge-bootstrap/bg-warning-subtle"
+          "ridge-bootstrap/bg-body",
+          "ridge-bootstrap/border",
+          "ridge-bootstrap/border-1",
+          "ridge-bootstrap/border-body-tertiary"
         ]
       },
       "propEx": {
-        "dataSource": "Hello.state.foods"
+        "dataSource": "SelectFood.state.currentPageList"
       },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_1",
+      "path": "ridge-container/flex",
+      "id": "jr8ayb277x",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 73
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "flex-start",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "8k291n0ie4",
+          "5pdy22zaju",
+          "38s1bls4qr"
+        ],
+        "gap": 8,
+        "padding": 8,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": [
+          "ridge-bootstrap/border-1",
+          "ridge-bootstrap/border-bottom",
+          "ridge-bootstrap/border-body-tertiary"
+        ]
+      },
+      "propEx": {},
+      "events": {
+        "onClick": [
+          {
+            "store": "SelectFood",
+            "method": "onItemClick",
+            "payload": ""
+          }
+        ]
+      },
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "图片_1",
+      "path": "ridge-bootstrap/image",
+      "id": "8k291n0ie4",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "styleEx": {},
+      "props": {
+        "fitPosition": "left",
+        "src": "",
+        "classList": []
+      },
+      "propEx": {
+        "src": "SelectFood.computed.icon"
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_2",
+      "path": "ridge-container/flex",
+      "id": "5pdy22zaju",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 282,
+        "height": 240,
+        "flex": "1"
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "flex-start",
+        "flexWrap": false,
+        "children": [
+          "09jqoan3ix",
+          "19807trmzj"
+        ],
+        "gap": 8,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_1",
+      "path": "ridge-bootstrap/typography",
+      "id": "09jqoan3ix",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 282,
+        "height": 24
+      },
+      "styleEx": {},
+      "props": {
+        "text": "文本",
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 16,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": true,
+        "clamp": 1,
+        "center": false,
+        "effect": "",
+        "classList": [
+          "ridge-bootstrap/text-body-secondary"
+        ]
+      },
+      "propEx": {
+        "text": "SelectFood.computed.name",
+        "bgcolor": null
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_2",
+      "path": "ridge-bootstrap/typography",
+      "id": "19807trmzj",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 808,
+        "y": 255,
+        "width": 100,
+        "height": 22,
+        "alignSelfStretch": true
+      },
+      "styleEx": {},
+      "props": {
+        "text": "文本",
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 14,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": true,
+        "clamp": 1,
+        "center": false,
+        "effect": "",
+        "classList": [
+          "ridge-bootstrap/text-body-tertiary"
+        ]
+      },
+      "propEx": {
+        "text": "SelectFood.computed.nutritional",
+        "bgcolor": null
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "单行输入",
+      "path": "ridge-bootstrap/input",
+      "id": "0un76o2djx",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 550,
+        "y": 47,
+        "width": 336,
+        "height": 39
+      },
+      "styleEx": {},
+      "props": {
+        "value": "",
+        "validState": "",
+        "disabled": false,
+        "size": "form-control-normal",
+        "type": "text",
+        "classList": [
+          "ridge-bootstrap/rounded-4"
+        ],
+        "placeholder": "请输入条件搜索"
+      },
+      "propEx": {
+        "value": "SelectFood.state.filter"
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "图标",
+      "path": "ridge-bootstrap/icons",
+      "id": "38s1bls4qr",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": -23,
+        "width": 34,
+        "height": 30
+      },
+      "styleEx": {
+        "visible": "SelectFood.computed.selectedIconVisible"
+      },
+      "props": {
+        "icon": "check-circle-fill",
+        "color": "#60e682",
+        "size": 20,
+        "btn": false,
+        "classList": []
+      },
+      "propEx": {
+        "size": null
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本",
+      "path": "ridge-bootstrap/typography",
+      "id": "k23b5qerak",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 65,
+        "height": 22
+      },
+      "styleEx": {},
+      "props": {
+        "text": "您已选择",
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 14,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": true,
+        "clamp": 1,
+        "center": false,
+        "effect": "",
+        "classList": [
+          "ridge-bootstrap/text-end"
+        ]
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_3",
+      "path": "ridge-bootstrap/typography",
+      "id": "93r74hvmjg",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 29,
+        "height": 22
+      },
+      "styleEx": {},
+      "props": {
+        "text": "文本",
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 14,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": false,
+        "clamp": 1,
+        "center": true,
+        "effect": "",
+        "classList": [
+          "ridge-bootstrap/fw-semibold"
+        ]
+      },
+      "propEx": {
+        "text": "SelectFood.computed.selectedCount"
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本",
+      "path": "ridge-bootstrap/typography",
+      "id": "uvnsue6nfd",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 47,
+        "height": 22
+      },
+      "styleEx": {},
+      "props": {
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 14,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": true,
+        "clamp": 1,
+        "center": false,
+        "effect": "",
+        "classList": [],
+        "text": "种食物"
+      },
+      "propEx": {},
       "events": {},
       "visible": true,
       "locked": false,
@@ -54,24 +417,59 @@
     {
       "title": "弹性容器",
       "path": "ridge-container/flex",
-      "id": "570lhwv88m",
+      "id": "h3atc9wmky",
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 83,
-        "height": 103
+        "x": 14,
+        "y": 7,
+        "width": 360,
+        "height": 240
       },
       "styleEx": {},
       "props": {
         "direction": "column",
         "justify": "flex-start",
-        "alignItems": "center",
+        "alignItems": "stretch",
         "flexWrap": false,
         "children": [
-          "8mdv8hjgeg",
-          "zb90r639tv"
+          "1usnh5338l",
+          "quybvn33i4",
+          "fnpdyxigm7"
+        ],
+        "gap": 0,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": true,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_3",
+      "path": "ridge-container/flex",
+      "id": "1usnh5338l",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 360,
+        "height": 55
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "flex-start",
+        "alignItems": "flex-start",
+        "flexWrap": false,
+        "children": [
+          "0un76o2djx"
         ],
         "gap": 8,
         "padding": 8,
@@ -87,26 +485,36 @@
       "slots": []
     },
     {
-      "title": "图片",
-      "path": "ridge-bootstrap/image",
-      "id": "8mdv8hjgeg",
+      "title": "弹性容器_4",
+      "path": "ridge-container/flex",
+      "id": "quybvn33i4",
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 156,
-        "y": 86,
-        "width": 64,
-        "height": 64
+        "x": 6,
+        "y": 0,
+        "width": 420,
+        "height": 55
       },
       "styleEx": {},
       "props": {
-        "fitPosition": "left",
-        "src": "",
+        "direction": "row",
+        "justify": "flex-start",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "k23b5qerak",
+          "93r74hvmjg",
+          "uvnsue6nfd",
+          "iuiom1chid"
+        ],
+        "gap": 8,
+        "padding": 8,
+        "hoverable": false,
+        "rectStyle": {},
         "classList": []
       },
-      "propEx": {
-        "src": "Hello.computed.icon"
-      },
+      "propEx": {},
       "events": {},
       "visible": true,
       "locked": false,
@@ -114,35 +522,145 @@
       "slots": []
     },
     {
-      "title": "文本",
-      "path": "ridge-bootstrap/typography",
-      "id": "zb90r639tv",
+      "title": "弹性容器_5",
+      "path": "ridge-container/flex",
+      "id": "fnpdyxigm7",
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 189,
-        "y": 168,
-        "width": 67,
-        "height": 22
+        "x": 51,
+        "y": 102,
+        "width": 360,
+        "height": 240,
+        "flex": "1"
       },
       "styleEx": {},
       "props": {
-        "text": "文本",
-        "color": "",
-        "bgcolor": "",
-        "fontSize": 14,
-        "autoFontSize": false,
-        "fontFamily": "",
-        "ellipsis": false,
-        "clamp": 1,
-        "center": true,
-        "effect": "",
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "stretch",
+        "flexWrap": false,
+        "children": [
+          "illd1scw2b"
+        ],
+        "gap": 8,
+        "padding": 8,
+        "hoverable": false,
+        "rectStyle": {},
         "classList": []
       },
-      "propEx": {
-        "text": "Hello.computed.name"
-      },
+      "propEx": {},
       "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "图标_1",
+      "path": "ridge-bootstrap/icons",
+      "id": "3r7nzs9xk7",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 23,
+        "width": 54,
+        "height": 33
+      },
+      "styleEx": {},
+      "props": {
+        "icon": "arrow-left-circle-fill",
+        "color": "",
+        "size": 24,
+        "btn": false,
+        "classList": [
+          "ridge-bootstrap/text-body-tertiary"
+        ]
+      },
+      "propEx": {},
+      "events": {
+        "onClick": [
+          {
+            "store": "SelectFood",
+            "method": "prevPage",
+            "payload": ""
+          }
+        ]
+      },
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_6",
+      "path": "ridge-container/flex",
+      "id": "iuiom1chid",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 179,
+        "height": 240,
+        "flex": "1"
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "flex-end",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "3r7nzs9xk7",
+          "8ca1e0n0xp"
+        ],
+        "gap": 8,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "图标_1",
+      "path": "ridge-bootstrap/icons",
+      "id": "8ca1e0n0xp",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": -10,
+        "y": 0,
+        "width": 53,
+        "height": 33
+      },
+      "styleEx": {},
+      "props": {
+        "icon": "arrow-right-circle-fill",
+        "color": "",
+        "size": 24,
+        "btn": false,
+        "classList": [
+          "ridge-bootstrap/text-body-tertiary"
+        ]
+      },
+      "propEx": {},
+      "events": {
+        "onClick": [
+          {
+            "store": "SelectFood",
+            "method": "nextPage",
+            "payload": ""
+          }
+        ]
+      },
       "visible": true,
       "locked": false,
       "full": false,
@@ -151,6 +669,6 @@
   ],
   "name": "SelectFood",
   "children": [
-    "ivn7gjygcr"
+    "h3atc9wmky"
   ]
 }
