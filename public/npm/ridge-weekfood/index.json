@@ -1693,7 +1693,7 @@
         "center": false,
         "effect": "",
         "classList": [],
-        "text": "每周饮食种类"
+        "text": "一周营养摄入分类"
       },
       "propEx": {},
       "events": {},
@@ -1723,8 +1723,7 @@
         "flexWrap": false,
         "children": [
           "zn3ipi64w2",
-          "1ch57z7zvj",
-          "rqb1r42e3w"
+          "1ch57z7zvj"
         ],
         "gap": 8,
         "padding": 8,
@@ -2151,41 +2150,6 @@
         "effect": "",
         "classList": [],
         "text": "超出"
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "slots": []
-    },
-    {
-      "title": "弹性容器_18",
-      "path": "ridge-container/flex",
-      "id": "rqb1r42e3w",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 196,
-        "height": 68,
-        "flex": "1"
-      },
-      "styleEx": {},
-      "props": {
-        "direction": "row",
-        "justify": "flex-start",
-        "alignItems": "flex-start",
-        "flexWrap": false,
-        "children": [],
-        "gap": 8,
-        "padding": 8,
-        "hoverable": false,
-        "rectStyle": {},
-        "classList": [
-          "ridge-bootstrap/bg-body-tertiary"
-        ]
       },
       "propEx": {},
       "events": {},

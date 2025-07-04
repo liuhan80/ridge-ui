@@ -67,7 +67,7 @@
         "x": 0,
         "y": 0,
         "width": 402,
-        "height": 73
+        "height": 64
       },
       "styleEx": {},
       "props": {
@@ -81,7 +81,7 @@
           "38s1bls4qr"
         ],
         "gap": 8,
-        "padding": 8,
+        "padding": 2,
         "hoverable": false,
         "rectStyle": {},
         "classList": [
@@ -140,9 +140,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": -9339,
+        "y": -29,
         "width": 282,
-        "height": 61,
+        "height": 58,
         "flex": "1"
       },
       "styleEx": {},
@@ -155,7 +155,7 @@
           "09jqoan3ix",
           "19807trmzj"
         ],
-        "gap": 8,
+        "gap": 4,
         "padding": 0,
         "hoverable": false,
         "rectStyle": {},
@@ -255,7 +255,8 @@
         "x": 550,
         "y": 47,
         "width": 336,
-        "height": 39
+        "height": 39,
+        "flex": "1"
       },
       "styleEx": {},
       "props": {
@@ -352,7 +353,7 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 0,
+        "y": -46,
         "width": 29,
         "height": 22
       },
@@ -366,7 +367,7 @@
         "fontFamily": "",
         "ellipsis": false,
         "clamp": 1,
-        "center": true,
+        "center": false,
         "effect": "",
         "classList": [
           "ridge-bootstrap/fw-semibold"
@@ -389,7 +390,7 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 0,
+        "y": 12,
         "width": 47,
         "height": 22
       },
@@ -466,7 +467,7 @@
       "props": {
         "direction": "row",
         "justify": "flex-start",
-        "alignItems": "flex-start",
+        "alignItems": "stretch",
         "flexWrap": false,
         "children": [
           "0un76o2djx"
@@ -491,10 +492,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 6,
+        "x": 0,
         "y": 0,
         "width": 420,
-        "height": 55
+        "height": 24
       },
       "styleEx": {},
       "props": {
@@ -505,8 +506,7 @@
         "children": [
           "k23b5qerak",
           "93r74hvmjg",
-          "uvnsue6nfd",
-          "iuiom1chid"
+          "uvnsue6nfd"
         ],
         "gap": 8,
         "padding": 8,
@@ -551,116 +551,6 @@
       },
       "propEx": {},
       "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "slots": []
-    },
-    {
-      "title": "图标_1",
-      "path": "ridge-bootstrap/icons",
-      "id": "3r7nzs9xk7",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": 23,
-        "width": 54,
-        "height": 33
-      },
-      "styleEx": {},
-      "props": {
-        "icon": "arrow-left-circle-fill",
-        "color": "",
-        "size": 24,
-        "btn": false,
-        "classList": [
-          "ridge-bootstrap/text-body-tertiary"
-        ]
-      },
-      "propEx": {},
-      "events": {
-        "onClick": [
-          {
-            "store": "SelectFood",
-            "method": "prevPage",
-            "payload": ""
-          }
-        ]
-      },
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "slots": []
-    },
-    {
-      "title": "弹性容器_6",
-      "path": "ridge-container/flex",
-      "id": "iuiom1chid",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 179,
-        "height": 240,
-        "flex": "1"
-      },
-      "styleEx": {},
-      "props": {
-        "direction": "row",
-        "justify": "flex-end",
-        "alignItems": "center",
-        "flexWrap": false,
-        "children": [
-          "3r7nzs9xk7",
-          "8ca1e0n0xp"
-        ],
-        "gap": 8,
-        "padding": 0,
-        "hoverable": false,
-        "rectStyle": {},
-        "classList": []
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "slots": []
-    },
-    {
-      "title": "图标_1",
-      "path": "ridge-bootstrap/icons",
-      "id": "8ca1e0n0xp",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": -10,
-        "y": 0,
-        "width": 53,
-        "height": 33
-      },
-      "styleEx": {},
-      "props": {
-        "icon": "arrow-right-circle-fill",
-        "color": "",
-        "size": 24,
-        "btn": false,
-        "classList": [
-          "ridge-bootstrap/text-body-tertiary"
-        ]
-      },
-      "propEx": {},
-      "events": {
-        "onClick": [
-          {
-            "store": "SelectFood",
-            "method": "nextPage",
-            "payload": ""
-          }
-        ]
-      },
       "visible": true,
       "locked": false,
       "full": false,

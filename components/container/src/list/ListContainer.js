@@ -63,7 +63,7 @@ export default class ListContainer {
     }
 
     if (this.scrollerEl) {
-      this.scrollerEl.className = classNames.join(' ') + (hasScrollbar(this.scrollerEl) ? ' swiper-no-swiping' : '')
+      this.scrollerEl.className = classNames.join(' ')
       Object.assign(this.scrollerEl.style, this.getScrollerStyle())
     }
   }
