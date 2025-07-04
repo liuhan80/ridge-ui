@@ -1,0 +1,54 @@
+{
+  "version": "1.2.0",
+  "style": {
+    "width": 420,
+    "height": 820,
+    "background": "",
+    "classNames": []
+  },
+  "properties": {},
+  "cssFiles": [],
+  "jsFiles": [
+    "composite:///js/guess.js"
+  ],
+  "elements": [
+    {
+      "title": "按钮",
+      "path": "ridge-bootstrap/button",
+      "id": "b7xkbe66u8",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 82,
+        "y": 377,
+        "width": 92,
+        "height": 48
+      },
+      "styleEx": {},
+      "props": {
+        "text": "按钮",
+        "type": "primary",
+        "src": "",
+        "icon": "question-circle",
+        "size": "btn-normal",
+        "fontSize": 16,
+        "style": "general",
+        "rounded": false,
+        "full": false,
+        "disabled": false,
+        "withBadge": false,
+        "badgeCount": ""
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    }
+  ],
+  "name": "index",
+  "children": [
+    "b7xkbe66u8"
+  ]
+}
