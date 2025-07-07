@@ -5,7 +5,7 @@
   "keywords": [],
   "ridgeType": "app",
   "themes": {
-    "ridge-bootstrap": "bootswatch/dist/cyborg/bootstrap.min.css"
+    "ridge-bootstrap": "bootstrap/dist/css/bootstrap.min.css"
   },
   "dependencies": {
     "ridge-container": "1.0.0",
