@@ -62,7 +62,7 @@
         "visible": true,
         "x": 0,
         "y": -2,
-        "width": 229,
+        "width": 213,
         "height": 67
       },
       "styleEx": {},
@@ -953,21 +953,17 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 839,
-        "y": 44,
+        "x": 0,
+        "y": 0,
         "width": 340,
-        "height": 475
+        "height": 498
       },
       "styleEx": {},
       "props": {
         "current": "",
         "preload": true,
         "swipeable": false,
-        "classList": [
-          "ridge-bootstrap/border-1",
-          "ridge-bootstrap/border-primary-emphasis",
-          "ridge-bootstrap/border"
-        ],
+        "classList": [],
         "children": [
           "5wtdie2no4",
           "r05ipss7xq",
@@ -1111,10 +1107,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": -1708,
+        "x": -628,
         "y": 0,
-        "width": 229,
-        "height": 93
+        "width": 193,
+        "height": 88
       },
       "styleEx": {},
       "props": {
@@ -1149,10 +1145,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 153.99999851133768,
-        "y": 13.000004465987045,
+        "x": 0,
+        "y": 0,
         "width": 312,
-        "height": 65
+        "height": 51
       },
       "styleEx": {},
       "props": {
@@ -1608,10 +1604,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 737,
-        "y": -221,
+        "x": 0,
+        "y": 0,
         "width": 334,
-        "height": 475
+        "height": 476
       },
       "styleEx": {},
       "props": {
@@ -1620,6 +1616,7 @@
         "alignItems": "center",
         "flexWrap": false,
         "children": [
+          "an6y3d28yq",
           "0c8dy97zod",
           "zoqft0ro0s",
           "ahlgvi205v"
@@ -1659,6 +1656,7 @@
           "r2snf6a0ct",
           "ip0e1igiih",
           "3pfza072ye",
+          "13twvpbuuk",
           "nr0sv8inob"
         ],
         "gap": 8,
@@ -1681,10 +1679,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": -2,
-        "y": 0,
+        "x": 0,
+        "y": -1049,
         "width": 90,
-        "height": 193
+        "height": 130
       },
       "styleEx": {},
       "props": {
@@ -1739,17 +1737,17 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 5,
-        "y": 14,
-        "width": 181,
-        "height": 85
+        "x": -372,
+        "y": 0,
+        "width": 105,
+        "height": 52
       },
       "styleEx": {},
       "props": {
         "text": "1234",
         "color": "",
         "bgcolor": "",
-        "fontSize": 64,
+        "fontSize": 32,
         "autoFontSize": false,
         "fontFamily": "",
         "ellipsis": false,
@@ -1809,6 +1807,71 @@
           }
         ]
       },
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_8",
+      "path": "ridge-bootstrap/typography",
+      "id": "an6y3d28yq",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 291,
+        "height": 20
+      },
+      "styleEx": {},
+      "props": {
+        "text": "猜出由 0 - 9 组成的无重复四位密码。",
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 14,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": true,
+        "clamp": 1,
+        "center": false,
+        "effect": "",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_5",
+      "path": "ridge-container/flex",
+      "id": "13twvpbuuk",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": -4720,
+        "width": 324,
+        "height": 38
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "flex-start",
+        "alignItems": "flex-start",
+        "flexWrap": false,
+        "children": [],
+        "gap": 8,
+        "padding": 8,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
       "visible": true,
       "locked": false,
       "full": false,
