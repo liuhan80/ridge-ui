@@ -395,10 +395,10 @@ export default class ComponentPanel extends React.Component {
     }
 
     return (
-      <>
+      <div className='config-panel'>
         <Tabs
-          type='card'
           className='on-title'
+          type='line'
           style={{
             display: configPage ? 'none' : 'block'
           }}
@@ -438,7 +438,7 @@ export default class ComponentPanel extends React.Component {
             />
           </TabPane>
         </Tabs>
-      </>
+      </div>
     )
   }
 }

@@ -1,14 +1,19 @@
 import React from 'react'
-import { Spin, ImagePreview, Modal, Toast } from '@douyinfe/semi-ui'
-import ConfigPanel from './panels/config/index.jsx'
-import RightBottomPanel from './panels/outline/index.jsx'
-import ComponentPanel from './panels/component/index.jsx'
-import LeftBottomPanel from './panels/files/index.jsx'
+
+import { Spin, ImagePreview, Modal, Toast, Tabs, TabPane, Icon } from '@douyinfe/semi-ui'
+
+import ConfigPanel from './panels/config/ConfigPanel.jsx'
+import ComponentListing from './panels/component/ComponentListing.jsx'
+import AppFileList from './panels/files/AppFileList.jsx'
+import OutLineTree from './panels/outline/OutLineTree.jsx'
 import DialogCodeEdit from './panels/files/DialogCodeEdit.jsx'
 import EditMenuBar from './panels/menu/EditMenuBar.jsx'
 import PreviewMenuBar from './panels/menu/PreviewMenuBar.jsx'
 import context from './service/RidgeEditorContext.js'
 
+import IconMultiFile from './icons/StreamlineMultipleFile2.svg'
+import FluentAppsAddIn28Filled from './icons/FluentAppsAddIn28Filled.svg'
+import IconClist from './icons/CilList.svg'
 import './editor.less'
 
 import UserPanel from './panels/user/UserPanel.jsx'
@@ -33,6 +38,7 @@ class Editor extends React.Component {
     this.state = {
       editorLoadingMessage: '编辑器已启动.. 正在加载应用资源 ',
       editorLoading: true,
+      pages: [], // 打开的页面
       // panel visibles
       componentPanelVisible: true, // 组件面板可见性
       propPanelVisible: false, // 属性面板可见性
@@ -162,13 +168,8 @@ class Editor extends React.Component {
 
     const {
       editorLoading,
-      componentPanelVisible,
-      appFilePanelVisible,
-      propPanelVisible,
-      outlinePanelVisible,
-      panelPosition,
+      pages,
       editMenuBarVisible,
-      previewMenuBarVisible,
       imagePreviewVisible,
       imagePreviewSrc,
       codeEditTitle,
@@ -177,40 +178,71 @@ class Editor extends React.Component {
     } = state
     return (
       <>
-        <div
-          ref={workspaceRef}
-          className='workspace'
-        >
-          <div className='view-port' ref={viewPortContainerRef} />
-          {
-            !editorLoading &&
-              <>
-                <UserPanel visible={componentPanelVisible} />
-                <EditMenuBar visible={editMenuBarVisible} />
-                <PreviewMenuBar visible={previewMenuBarVisible} />
-                <ComponentPanel title='组件' position={panelPosition.ADD} visible={componentPanelVisible} />
-                <LeftBottomPanel title='应用资源' position={panelPosition.LEFT_BOTTOM} visible={appFilePanelVisible} />
-                <RightBottomPanel title='布局导航' position={panelPosition.DATA} visible={outlinePanelVisible} />
-                <ConfigPanel position={panelPosition.PROP} visible={propPanelVisible} />
-                <ImagePreview
-                  src={imagePreviewSrc} visible={imagePreviewVisible} onVisibleChange={() => {
-                    this.setState({
-                      imagePreviewVisible: false
-                    })
-                  }}
-                />
-                {noOpenFileVisible && <div className='no-open-file'><ReactComposite app='ridge-editor-app' path='Welcome' /></div>}
-                <DialogCodeEdit
-                  ref={codeEditorRef}
-                  title={codeEditTitle}
-                  onClose={() => {
-                    this.setState({
-                      codeEditVisible: false
-                    })
-                  }}
-                />
-              </>
-          }
+        <div className='editor-root'>
+          {!editorLoading &&
+            <Tabs
+              className='root-nav'
+              tabPosition='left' type='button' tabBarExtraContent={
+                <>
+                  {/* <Icon svg={<FluentAppsAddIn28Filled />} /> */}
+                  <ReactComposite app='ridge-editor-app' path='/user/UserPanel' />
+                  {/* <Icon svg={<FluentAppsAddIn28Filled />} /> */}
+                </>
+              }
+            >
+              <TabPane
+                tab={
+                  <Icon size='default' svg={<IconMultiFile />} />
+                }
+                itemKey='components'
+              >
+                <AppFileList />
+              </TabPane>
+              <TabPane
+                tab={
+                  <Icon svg={<FluentAppsAddIn28Filled />} />
+                }
+                itemKey='app'
+              >
+                <ComponentListing />
+              </TabPane>
+
+              <TabPane
+                tab={
+                  <Icon svg={<IconClist />} />
+                        }
+                itemKey='outline'
+              >
+                <OutLineTree />
+              </TabPane>
+            </Tabs>}
+          <div className='editor-content'>
+            <EditMenuBar visible={editMenuBarVisible} />
+            <div className='workspace-panel'>
+              <div
+                ref={workspaceRef}
+                className='workspace'
+              >
+                <div className='view-port' ref={viewPortContainerRef} />
+                {
+                      !editorLoading &&
+                        <>
+                          {/* <UserPanel visible={componentPanelVisible} /> */}
+                          {/* <EditMenuBar visible={editMenuBarVisible} /> */}
+                          {/* <PreviewMenuBar visible={previewMenuBarVisible} /> */}
+                          {/* <ComponentPanel title='组件' position={panelPosition.ADD} visible={componentPanelVisible} /> */}
+                          {/* <LeftBottomPanel title='应用资源' position={panelPosition.LEFT_BOTTOM} visible={appFilePanelVisible} /> */}
+                          {/* <RightBottomPanel title='布局导航' position={panelPosition.DATA} visible={outlinePanelVisible} /> */}
+                          {/* <ConfigPanel position={panelPosition.PROP} visible={propPanelVisible} /> */}
+                          {noOpenFileVisible && <div className='no-open-file'><ReactComposite app='ridge-editor-app' path='Welcome' /></div>}
+                        </>
+                    }
+              </div>
+              <ConfigPanel />
+            </div>
+          </div>
+          <div />
+
         </div>
         {
           editorLoading &&
@@ -218,6 +250,22 @@ class Editor extends React.Component {
               <Spin tip={editorLoadingMessage} />
             </div>
         }
+        <ImagePreview
+          src={imagePreviewSrc} visible={imagePreviewVisible} onVisibleChange={() => {
+            this.setState({
+              imagePreviewVisible: false
+            })
+          }}
+        />
+        <DialogCodeEdit
+          ref={codeEditorRef}
+          title={codeEditTitle}
+          onClose={() => {
+            this.setState({
+              codeEditVisible: false
+            })
+          }}
+        />
       </>
     )
   }

@@ -1,21 +1,33 @@
 
 .menu-bar {
-    position: fixed;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
     display: flex;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-bottom: 1px solid var(--semi-color-border);
+    .page-tabs {
+        flex: 1;
+        >.semi-tabs-content {
+            padding: 0;
+        }
 
+        .semi-tabs-bar-icon {
+            font-size: 10px;
+            margin-right: 5px;
+            color: var(--semi-color-danger);
+        }
+        >.semi-tabs-bar-card.semi-tabs-bar-top::before {
+            border-bottom: none;
+        }
+
+        .semi-tabs-tab-single.semi-tabs-tab .semi-icon:not(.semi-icon-checkbox_tick,.semi-icon-radio,.semi-icon-checkbox_indeterminate) {
+            top: 0;
+        }
+    }
     .bar-content {
         background: var(--semi-color-bg-0);
-        border: 1px solid var(--semi-color-border);
-        padding: 8px;
-        border-radius: 8px;
+        padding: 3px;
         z-index: 101;
-
         .bi {
             font-size: 16px;
         }

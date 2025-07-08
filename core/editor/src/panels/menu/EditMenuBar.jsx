@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Divider, Badge, Space, ButtonGroup, Modal, Dropdown, InputNumber, Tooltip } from '@douyinfe/semi-ui'
+import { Button, Divider, Badge, Space, ButtonGroup, Modal, Dropdown, InputNumber, Tooltip, Tabs, TabPane } from '@douyinfe/semi-ui'
 import context from '../../service/RidgeEditorContext.js'
 import './style.less'
 
@@ -41,7 +41,7 @@ class MenuBar extends React.Component {
     }
   }
 
-  setOpenPage (id, name, content) {
+  setOpenPage (id, name) {
     this.setState({
       currentPageName: name,
       currentPageId: id
@@ -50,6 +50,7 @@ class MenuBar extends React.Component {
     if (this.state.openedPageList.filter(p => p.value === id).length === 0) {
       this.setState({
         openedPageList: [...this.state.openedPageList, {
+          modified: false,
           value: id,
           label: name
         }]
@@ -58,9 +59,19 @@ class MenuBar extends React.Component {
   }
 
   setPageChanged (changed) {
+    const { openedPageList } = this.state
     this.setState({
-      pageChanged: changed
+      openedPageList: openedPageList.map(p => {
+        if (p.value === this.state.currentPageId) {
+          p.modified = changed
+        }
+        return p
+      })
     })
+
+    // this.setState({
+    //   pageChanged: changed
+    // })
   }
 
   setZoom (zoom) {
@@ -164,8 +175,8 @@ class MenuBar extends React.Component {
   }
 
   render () {
-    const { zoomChange, renderPageList, savePage, state, props } = this
-    const { zoom, pageChanged, isLight, currentPageName, showContainer } = state
+    const { zoomChange, savePage, state, props, switchToPage } = this
+    const { zoom, pageChanged, isLight, currentPageName, currentPageId, showContainer, openedPageList } = state
     const { visible } = props
     return (
       <div
@@ -174,6 +185,17 @@ class MenuBar extends React.Component {
           display: visible ? '' : 'none'
         }}
       >
+        <Tabs
+          className='page-tabs' type='card' activeKey={currentPageId} onTabClose={key => {
+
+          }} onTabClick={key => {
+            switchToPage(key)
+          }}
+        >
+          {openedPageList.map(t => (
+            <TabPane icon={t.modified ? <i class='bi bi-circle-fill' /> : null} closable tab={t.label} itemKey={t.value} key={t.value} />
+          ))}
+        </Tabs>
         <Space className='bar-content'>
           <Badge dot={pageChanged} type='danger'>
             <Button
@@ -181,7 +203,6 @@ class MenuBar extends React.Component {
               type='tertiary' icon={<i className='bi bi-floppy' />} theme='borderless' onClick={savePage}
             />
           </Badge>
-          {currentPageName && renderPageList()}
           <InputNumber
             disabled={!currentPageName} style={{ width: '96px', background: 'transparent' }} value={zoom} suffix='%' onChange={val => {
               zoomChange(val)

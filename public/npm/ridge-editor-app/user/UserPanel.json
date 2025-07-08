@@ -1,8 +1,8 @@
 {
   "version": "1.2.0",
   "style": {
-    "width": 277,
-    "height": 40,
+    "width": 48,
+    "height": 100,
     "background": "",
     "classNames": [],
     "widthFix": true,
@@ -21,10 +21,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 9,
+        "x": 42,
         "y": 3,
-        "width": 261,
-        "height": 34
+        "width": 88,
+        "height": 62
       },
       "styleEx": {},
       "props": {
@@ -32,9 +32,9 @@
         "preload": true,
         "classNames": [],
         "children": [
-          "zpba8qyouv",
+          "xl0lor59xn",
           "d19vbzmd68",
-          "ixamdypkli"
+          "9hkhxtjyv2"
         ]
       },
       "propEx": {
@@ -43,7 +43,7 @@
       "events": {},
       "visible": true,
       "locked": false,
-      "full": false,
+      "full": true,
       "$id": "https://ridge-ui.com/schemas/element",
       "slots": []
     },
@@ -54,20 +54,19 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 419,
-        "y": 76,
-        "width": 220,
-        "height": 35
+        "x": -152,
+        "y": 79,
+        "width": 55,
+        "height": 102
       },
       "styleEx": {},
       "props": {
-        "direction": "row",
-        "justify": "flex-start",
+        "direction": "column",
+        "justify": "center",
         "alignItems": "center",
         "flexWrap": false,
         "children": [
-          "fg7usrr1sx",
-          "l70azu7er5"
+          "4v5k9xny80"
         ],
         "gap": 8,
         "padding": 0,
@@ -88,8 +87,8 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 0,
+        "x": 621,
+        "y": 82,
         "width": 51,
         "height": 27
       },
@@ -125,8 +124,8 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": -17,
-        "y": 0,
+        "x": 156,
+        "y": 37,
         "width": 261,
         "height": 34
       },
@@ -136,11 +135,7 @@
         "justify": "flex-start",
         "alignItems": "center",
         "flexWrap": false,
-        "children": [
-          "l38fkphkff",
-          "ss5jj9qx5r",
-          "fftvan1i0p"
-        ],
+        "children": [],
         "gap": 3,
         "padding": 0,
         "classList": []
@@ -348,19 +343,20 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 51.99999328053325,
-        "y": 7.499988800888761,
-        "width": 26,
-        "height": 24.999999999999996
+        "x": 0,
+        "y": -28,
+        "width": 40,
+        "height": 41
       },
       "styleEx": {},
       "props": {
         "icon": "IconSetting",
-        "size": "small",
+        "size": "large",
         "theme": "borderless",
         "disabled": false,
         "loading": false,
-        "type": "tertiary"
+        "type": "tertiary",
+        "iconSize": 24
       },
       "propEx": {},
       "events": {
@@ -385,8 +381,8 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 15,
-        "y": 82,
+        "x": 121,
+        "y": 109,
         "width": 509,
         "height": 331,
         "portalled": true
@@ -415,80 +411,14 @@
       ]
     },
     {
-      "title": "community",
-      "path": "ridge-container/flex",
-      "id": "ixamdypkli",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 822,
-        "y": 461,
-        "width": 207,
-        "height": 43
-      },
-      "styleEx": {},
-      "props": {
-        "direction": "row",
-        "justify": "flex-start",
-        "alignItems": "flex-start",
-        "flexWrap": false,
-        "fill": false,
-        "children": [
-          "x84m1w2pet"
-        ],
-        "gap": 8,
-        "padding": 5,
-        "classList": []
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "文本_3",
-      "path": "ridge-semi/text",
-      "id": "x84m1w2pet",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 198,
-        "height": 27
-      },
-      "styleEx": {},
-      "props": {
-        "text": "Ridge编辑器(社区版)",
-        "size": "normal",
-        "copyable": false,
-        "ellipsis": false,
-        "type": "secondary",
-        "link": "",
-        "classList": [
-          "ridge-bootstrap/fw-semibold"
-        ]
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
       "title": "对话框_3",
       "path": "ridge-semi/modal",
       "id": "muk6gu1ly1",
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 835,
-        "y": 68,
+        "x": 814,
+        "y": 65,
         "width": 605,
         "height": 517,
         "portalled": true
@@ -565,10 +495,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 33,
-        "height": 31
+        "x": -4,
+        "y": -3,
+        "width": 32,
+        "height": 35
       },
       "styleEx": {},
       "props": {
@@ -606,8 +536,8 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 0,
+        "x": 547,
+        "y": 18,
         "width": 166,
         "height": 27
       },
@@ -636,8 +566,8 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 0,
+        "x": 367,
+        "y": 7,
         "width": 187,
         "height": 25
       },
@@ -670,8 +600,8 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 25,
-        "y": 433,
+        "x": 17,
+        "y": 439,
         "width": 762,
         "height": 590,
         "portalled": true
@@ -1025,6 +955,113 @@
       "full": false,
       "$id": "https://ridge-ui.com/schemas/element",
       "slots": []
+    },
+    {
+      "title": "logon",
+      "path": "ridge-container/flex",
+      "id": "9hkhxtjyv2",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": -232,
+        "y": 100,
+        "width": 48,
+        "height": 117
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "flex-end",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "l38fkphkff",
+          "fftvan1i0p"
+        ],
+        "gap": 8,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "community",
+      "path": "ridge-container/flex",
+      "id": "xl0lor59xn",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 24,
+        "y": 19,
+        "width": 0,
+        "height": 111
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "flex-start",
+        "alignItems": "flex-start",
+        "flexWrap": false,
+        "children": [],
+        "gap": 8,
+        "padding": 8,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "头像_1",
+      "path": "ridge-semi/avatar",
+      "id": "4v5k9xny80",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 4,
+        "height": 41,
+        "width": 39
+      },
+      "styleEx": {},
+      "props": {
+        "shape": "circle",
+        "text": "A",
+        "color": "white",
+        "borderColor": "green",
+        "contentMotion": false,
+        "topLabel": "",
+        "bottomPlus": false,
+        "size": "default"
+      },
+      "propEx": {
+        "src": "UserPanel.state.userAvatar"
+      },
+      "events": {
+        "onClick": [
+          {
+            "store": "UserPanel",
+            "method": "openLoginModal",
+            "payload": ""
+          }
+        ]
+      },
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
     }
   ],
   "name": "UserPanel",
@@ -1032,6 +1069,10 @@
     "hntjmjjcf4",
     "c6l59sn87j",
     "muk6gu1ly1",
-    "n2ygbm6xqd"
+    "n2ygbm6xqd",
+    "ss5jj9qx5r",
+    "zpba8qyouv",
+    "l70azu7er5",
+    "fg7usrr1sx"
   ]
 }

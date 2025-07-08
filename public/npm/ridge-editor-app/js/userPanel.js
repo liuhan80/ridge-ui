@@ -3,7 +3,7 @@ export default {
   name: 'UserPanel',
   description: '用户状态面板',
   state: {
-    userAvatar: '', // 用户头像
+    userAvatar: '/avatar.svg', // 用户头像
     userId: '', // 用户账号
     loginUserModalVisible: false, // 显示登录对话框
     userProfileModalVisible: false, // 显示用户概览对话框
@@ -37,7 +37,6 @@ export default {
 
     async checkLoginStatus () { // 检查用户登录状态
       const user = await getUserStatus()
-
       if (user === 'disconnected') {
         this.displayState = 'community'
       } else if (user === 'unlogon') {

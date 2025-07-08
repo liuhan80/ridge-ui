@@ -223,6 +223,14 @@ class RidgeEditorContext extends RidgeContext {
     }
   }
 
+  async getPageContentById (id) {
+    const { appService } = this.services
+    const file = await appService.getFile(id)
+    if (file && file.type === 'page') {
+      return file.content
+    }
+  }
+
   /**
    * 在编辑器新标签页打开页面
    * @param {*} page
@@ -256,11 +264,12 @@ class RidgeEditorContext extends RidgeContext {
   async loadPageInWorkspace (id, name, content) {
     this.currentOpenPageId = id
     this.workspaceEl.classList.remove('preview')
+    let pageContent = null
     if (content) {
-      this.pageContent = content
-      this.pageContent.name = name
+      pageContent = content
+      pageContent.name = name
     } else {
-      this.pageContent = this.openedFileContentMap.get(id)
+      pageContent = this.openedFileContentMap.get(id)
     }
 
     const { configPanel, outlinePanel, menuBar } = this.services
@@ -273,7 +282,7 @@ class RidgeEditorContext extends RidgeContext {
 
     this.editorComposite = new EditorComposite({
       id,
-      config: cloneDeep(this.pageContent),
+      config: cloneDeep(pageContent),
       context: this
     })
 
@@ -284,7 +293,7 @@ class RidgeEditorContext extends RidgeContext {
     this.editorComposite.firstPaint(this.viewPortContainerEl)
     const zoom = this.workspaceControl.fitByWidth()
     menuBar.setZoom(zoom)
-    menuBar.setOpenPage(id, this.pageContent.name, this.pageContent)
+    menuBar.setOpenPage(id, pageContent.name)
 
     await this.editorComposite.mount()
 
@@ -471,12 +480,13 @@ class RidgeEditorContext extends RidgeContext {
   /**
    * 检查页面改动，改变时通知menubar
    */
-  checkModification () {
-    if (this.editorComposite && this.pageContent) {
+  async checkModification () {
+    if (this.editorComposite) {
       try {
         const pageJSONObject = this.editorComposite.exportPageJSON()
+        const pageContent = await this.getPageContentById(this.currentOpenPageId)
 
-        this.isModified = !isEqual(pageJSONObject, this.pageContent)
+        this.isModified = !isEqual(pageJSONObject, pageContent)
 
         this.services.menuBar && this.services.menuBar.setPageChanged(this.isModified)
       } catch (e) {}

@@ -50,7 +50,7 @@ module.exports = {
           /icons/
         ],
         use: [
-          '@svgr/webpack', 'url-loader'
+          '@svgr/webpack'
         ]
       },
       {

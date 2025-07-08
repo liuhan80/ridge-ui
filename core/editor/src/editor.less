@@ -41,12 +41,64 @@ html, body {
 }
 
 
-.workspace {
-  position: absolute;
-  width: 100%;
-  left: 0;
-  top: 0;
+.editor-root {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
   height: 100%;
+  .root-nav {
+    width: 300px;
+    border-right: 1px solid var(--semi-color-border);
+    >.semi-tabs-bar {
+      width: 56px;
+      background-color: var( --semi-color-fill-1);
+      .semi-tabs-tab-button.semi-tabs-tab {
+        padding: 4px;
+        height: 38px;
+        .semi-icon {
+          margin-left: 8px;
+        }
+      }
+      >.semi-tabs-bar-extra {
+        padding: 0;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+    }
+    
+    .semi-icon {
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  >.editor-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    >.workspace-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      .workspace {
+        flex: 1;
+      }
+      .config-panel {
+        width: 320px;
+        padding: 4px;
+        border-left: 1px solid var(--semi-color-border);
+      }
+    }
+  }
+}
+
+.workspace {
+  flex: 1;
+  position: relative;
   background: var( --semi-color-fill-0);
   overflow: hidden;
   &.preview {
@@ -67,7 +119,6 @@ html, body {
     background-color: var( --semi-color-bg-0);
     position: fixed;
     left: 5px;
-    top: 5px;
     background: var(--semi-color-bg-0);
     border: 1px solid var(--semi-color-border);
     border-radius: 8px;

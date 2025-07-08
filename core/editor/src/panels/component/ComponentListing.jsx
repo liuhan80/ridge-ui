@@ -5,6 +5,8 @@ import { cloneDeep } from 'lodash'
 import SvgLoader from '../../utils/SVGFromSrc.js'
 import { extname } from '../../utils/string.js'
 import { ReactComposite } from 'ridgejs'
+import './index.less'
+
 const trace = require('debug')('ridge:cl')
 const { Text, Title } = Typography
 
@@ -265,24 +267,17 @@ class ComponentListing extends React.Component {
 
     const tabChange = this.tabChange.bind(this)
     return (
-      <>
+      <div className='component-panel'>
         {fullLoading && <Spin size='large' tip='等待应用载入' />}
         {!fullLoading && loadedPackages.length &&
         // <Popover visible={componentPopOver} content={renderDescription(popComponent)} position='rightTop'>
           <Tabs
             type='button'
             size='small'
-            tabPosition='left'
+            tabPosition='top'
             tabBarExtraContent={
               <ReactComposite app='ridge-editor-app' path='DialogRepoApp' />
-              // <Button
-              //   theme='borderless' type='secondary'
-              //   icon={<IconPackAdd />} onClick={() => {
-              //     const { appFileListPanel } = context.services
-              //     appFileListPanel.openSearchPackageDialog()
-              //   }}
-              // />
-              }
+            }
             activeKey={currentPackage}
             onChange={key => tabChange(key)}
           >
@@ -346,7 +341,7 @@ class ComponentListing extends React.Component {
             })}
           </Tabs>}
         {/* </Popover> */}
-      </>
+      </div>
     )
   }
 }

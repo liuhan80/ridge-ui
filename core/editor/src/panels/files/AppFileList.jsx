@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button, Tree, Dropdown, Typography, Toast, Upload, Spin, Modal, Space } from '@douyinfe/semi-ui'
+import { Button, Tree, Dropdown, Typography, Toast, Upload, Spin, Modal } from '@douyinfe/semi-ui'
 import { ReactComposite } from 'ridgejs'
 import context from '../../service/RidgeEditorContext.js'
 import { eachNode } from './buildFileTree.js'

@@ -4,6 +4,7 @@ export default ({ visible }) => {
   return (
     <div
       className='user-panel' style={{
+        bottom: '19px',
         display: visible ? '' : 'none'
       }}
     >
