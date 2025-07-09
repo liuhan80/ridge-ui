@@ -30,6 +30,8 @@ export default class WorkSpaceControl {
 
     this.initKeyBind()
     this.initComponentDrop()
+    this.viewPortX = 0
+    this.viewPortY = 0
 
     this.dragActive = true
     this.selected = []
@@ -124,6 +126,31 @@ export default class WorkSpaceControl {
     }
 
     this.viewPortEl.style.transform = `translate(${this.viewPortX}px, ${this.viewPortY}px) scale(${this.zoom})`
+  }
+
+  getTransform () {
+    return {
+      viewPortX: this.viewPortX,
+      viewPortY: this.viewPortY,
+      zoom: this.zoom
+    }
+  }
+
+  setTransform ({ viewPortX = 0, viewPortY = 0, zoom = 1 }) {
+    this.viewPortX = viewPortX
+    this.viewPortY = viewPortY
+    this.zoom = zoom
+
+    this.viewPortEl.style.transform = `translate(${this.viewPortX}px, ${this.viewPortY}px) scale(${this.zoom})`
+
+    // 使用 scrollTo() 方法
+    setTimeout(() => {
+      this.workspaceEl.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      })
+    }, 500)
   }
 
   setWorkSpaceMovable () {

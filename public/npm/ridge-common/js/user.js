@@ -142,6 +142,10 @@ export default {
       this.showRegisterDialog = true
     },
 
+    openRegisterPage () { // 打开云端注册页面
+      window.open('https://ridgeui.com/#/pages/register')
+    },
+
     async registerUser () { // 用户注册
       const checked = checkRegister(this.register.id, this.register.password, this.register.passwordConfirm, this.register.agreed, this.captcha)
       if (checked !== true) {

@@ -5,8 +5,8 @@
     "height": 550,
     "background": "",
     "classNames": [],
-    "widthFix": true,
-    "heightFix": true
+    "widthFix": false,
+    "heightFix": false
   },
   "properties": {},
   "cssFiles": [],
@@ -125,7 +125,7 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 588,
+        "width": 579,
         "height": 30
       },
       "styleEx": {},

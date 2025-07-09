@@ -262,7 +262,7 @@ class ComponentListing extends React.Component {
   }
 
   render () {
-    const { fullLoading, loadedPackages, currentPackage, componentPopOver, popComponent, appPackageObject } = this.state
+    const { fullLoading, loadedPackages, currentPackage, appPackageObject } = this.state
     const { dragStart, renderDescription, changePackageTheme, renderComponentItem } = this
 
     const tabChange = this.tabChange.bind(this)

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Spin, ImagePreview, Modal, Toast, Tabs, TabPane, Icon } from '@douyinfe/semi-ui'
+import { Spin, ImagePreview, Modal, Toast, Tabs, TabPane, Icon, Button } from '@douyinfe/semi-ui'
 
 import ConfigPanel from './panels/config/ConfigPanel.jsx'
 import ComponentListing from './panels/component/ComponentListing.jsx'
@@ -8,19 +8,17 @@ import AppFileList from './panels/files/AppFileList.jsx'
 import OutLineTree from './panels/outline/OutLineTree.jsx'
 import DialogCodeEdit from './panels/files/DialogCodeEdit.jsx'
 import EditMenuBar from './panels/menu/EditMenuBar.jsx'
-import PreviewMenuBar from './panels/menu/PreviewMenuBar.jsx'
 import context from './service/RidgeEditorContext.js'
 
 import IconMultiFile from './icons/StreamlineMultipleFile2.svg'
 import FluentAppsAddIn28Filled from './icons/FluentAppsAddIn28Filled.svg'
 import IconClist from './icons/CilList.svg'
-import './editor.less'
+import IconSidePanelClose from './icons/CarbonSidePanelClose.svg'
 
-import UserPanel from './panels/user/UserPanel.jsx'
-import {
-  PANEL_SIZE_1920, PANEL_SIZE_1366
-} from './utils/constant.js'
 import { ReactComposite } from 'ridgejs'
+
+import './editor.less'
+import PreviewMenuBar from './panels/menu/PreviewMenuBar.jsx'
 
 // 公用错误提示方法
 globalThis.msgerror = msg => {
@@ -36,19 +34,22 @@ class Editor extends React.Component {
     this.codeEditorRef = React.createRef()
 
     this.state = {
-      editorLoadingMessage: '编辑器已启动.. 正在加载应用资源 ',
-      editorLoading: true,
-      pages: [], // 打开的页面
+      pageOpened: false,
+      collapseLeft: false,
+      leftResizing: false,
+      isPreview: false,
+      leftReisizeWidth: 300,
       // panel visibles
-      componentPanelVisible: true, // 组件面板可见性
-      propPanelVisible: false, // 属性面板可见性
-      outlinePanelVisible: false, // 大纲面板可见性
-      appFilePanelVisible: true, // 应用资源面板可见性
-      editMenuBarVisible: true, // 编辑菜单栏可见性
-      previewMenuBarVisible: false, // 预览菜单栏可见性
-      noOpenFileVisible: true, // 无打开文件时的提示可见性
-      panelPosition: PANEL_SIZE_1920,
+      // componentPanelVisible: true, // 组件面板可见性
+      // propPanelVisible: false, // 属性面板可见性
+      // outlinePanelVisible: false, // 大纲面板可见性
+      // appFilePanelVisible: true, // 应用资源面板可见性
+      // editMenuBarVisible: true, // 编辑菜单栏可见性
+      // previewMenuBarVisible: false, // 预览菜单栏可见性
+      // noOpenFileVisible: true, // 无打开文件时的提示可见性
       // image preview
+      editPreview: false,
+
       imagePreviewSrc: null,
       imagePreviewVisible: false,
 
@@ -58,18 +59,42 @@ class Editor extends React.Component {
       codeEditVisible: false,
       codeEditType: ''
     }
-    if (window.screen.width <= 1366) {
-      this.state.panelPosition = PANEL_SIZE_1366
-    }
   }
 
   componentDidMount () {
     context.editorDidMount(this, this.workspaceRef.current, this.viewPortContainerRef.current)
   }
 
-  setEditorLoadingMessage (msg) {
+  handleLeftResize () {
+    document.addEventListener('mousemove', ev => {
+      if (this.state.leftResizing) {
+        this.setState({
+          leftReisizeWidth: ev.clientX
+        })
+      }
+    })
+    document.addEventListener('mouseup', ev => {
+      this.setState({
+        leftResizing: false
+      })
+    })
+  }
+
+  setPageOpened (opened) {
     this.setState({
-      editorLoadingMessage: msg
+      pageOpened: opened
+    })
+  }
+
+  toggleLeftCollapse () {
+    this.setState({
+      collapseLeft: !this.state.collapseLeft
+    })
+  }
+
+  setPreview (preview) {
+    this.setState({
+      isPreview: preview
     })
   }
 
@@ -96,6 +121,8 @@ class Editor extends React.Component {
   setEditorLoaded () {
     this.setState({
       editorLoading: false
+    }, () => {
+      this.handleLeftResize()
     })
   }
 
@@ -122,42 +149,6 @@ class Editor extends React.Component {
     })
   }
 
-  togglePageEdit () {
-    this.setState({
-      noOpenFileVisible: false,
-      componentPanelVisible: true,
-      appFilePanelVisible: true,
-      propPanelVisible: true,
-      editMenuBarVisible: true,
-      previewMenuBarVisible: false,
-      outlinePanelVisible: true
-    })
-  }
-
-  togglePagePreview () {
-    this.setState({
-      noOpenFileVisible: false,
-      componentPanelVisible: false,
-      appFilePanelVisible: false,
-      propPanelVisible: false,
-      editMenuBarVisible: false,
-      previewMenuBarVisible: true,
-      outlinePanelVisible: false
-    })
-  }
-
-  togglePageClose () {
-    this.setState({
-      noOpenFileVisible: true,
-      componentPanelVisible: true,
-      appFilePanelVisible: true,
-      propPanelVisible: false,
-      editMenuBarVisible: true,
-      previewMenuBarVisible: false,
-      outlinePanelVisible: false
-    })
-  }
-
   render () {
     const {
       state,
@@ -167,89 +158,88 @@ class Editor extends React.Component {
     } = this
 
     const {
-      editorLoading,
-      pages,
-      editMenuBarVisible,
+      isPreview,
+      collapseLeft,
+      pageOpened,
       imagePreviewVisible,
+      leftReisizeWidth,
       imagePreviewSrc,
-      codeEditTitle,
-      noOpenFileVisible,
-      editorLoadingMessage
+      codeEditTitle
     } = state
     return (
       <>
-        <div className='editor-root'>
-          {!editorLoading &&
-            <Tabs
-              className='root-nav'
-              tabPosition='left' type='button' tabBarExtraContent={
-                <>
-                  {/* <Icon svg={<FluentAppsAddIn28Filled />} /> */}
-                  <ReactComposite app='ridge-editor-app' path='/user/UserPanel' />
-                  {/* <Icon svg={<FluentAppsAddIn28Filled />} /> */}
-                </>
+        <div
+          className='editor-root' style={{
+            display: isPreview ? 'none' : ''
+          }}
+        >
+          <Tabs
+            className='root-nav'
+            style={{
+              width: collapseLeft ? '58px' : (leftReisizeWidth + 'px')
+            }}
+            onTabClick={(key, ev) => {
+              this.setState({
+                collapseLeft: false
+              })
+            }}
+            tabPosition='left' type='button' tabBarExtraContent={
+              <>
+                <Button
+                  icon={<IconSidePanelClose />} onClick={() => {
+                    this.setState({
+                      collapseLeft: !collapseLeft
+                    })
+                  }}
+                />
+              </>
               }
-            >
-              <TabPane
-                tab={
-                  <Icon size='default' svg={<IconMultiFile />} />
-                }
-                itemKey='components'
-              >
-                <AppFileList />
-              </TabPane>
-              <TabPane
-                tab={
-                  <Icon svg={<FluentAppsAddIn28Filled />} />
-                }
-                itemKey='app'
-              >
-                <ComponentListing />
-              </TabPane>
-
-              <TabPane
-                tab={
-                  <Icon svg={<IconClist />} />
-                        }
-                itemKey='outline'
-              >
-                <OutLineTree />
-              </TabPane>
-            </Tabs>}
+          >
+            <TabPane tab={<Icon size='default' svg={<IconMultiFile />} />} itemKey='components'>
+              <AppFileList />
+            </TabPane>
+            <TabPane tab={<Icon svg={<FluentAppsAddIn28Filled />} />} itemKey='app'>
+              <ComponentListing />
+            </TabPane>
+            <TabPane tab={<Icon svg={<IconClist />} />} itemKey='outline'>
+              <OutLineTree />
+            </TabPane>
+          </Tabs>
+          {!collapseLeft &&
+            <div
+              className='left-resizer' onMouseDown={e => {
+                e.preventDefault()
+                this.setState({
+                  leftResizing: true
+                })
+              }}
+            />}
           <div className='editor-content'>
-            <EditMenuBar visible={editMenuBarVisible} />
+            <EditMenuBar />
             <div className='workspace-panel'>
-              <div
-                ref={workspaceRef}
-                className='workspace'
-              >
+              <div ref={workspaceRef} className='workspace'>
                 <div className='view-port' ref={viewPortContainerRef} />
                 {
-                      !editorLoading &&
-                        <>
-                          {/* <UserPanel visible={componentPanelVisible} /> */}
-                          {/* <EditMenuBar visible={editMenuBarVisible} /> */}
-                          {/* <PreviewMenuBar visible={previewMenuBarVisible} /> */}
-                          {/* <ComponentPanel title='组件' position={panelPosition.ADD} visible={componentPanelVisible} /> */}
-                          {/* <LeftBottomPanel title='应用资源' position={panelPosition.LEFT_BOTTOM} visible={appFilePanelVisible} /> */}
-                          {/* <RightBottomPanel title='布局导航' position={panelPosition.DATA} visible={outlinePanelVisible} /> */}
-                          {/* <ConfigPanel position={panelPosition.PROP} visible={propPanelVisible} /> */}
-                          {noOpenFileVisible && <div className='no-open-file'><ReactComposite app='ridge-editor-app' path='Welcome' /></div>}
-                        </>
-                    }
+                    !pageOpened && <div className='no-open-file'><ReactComposite app='ridge-editor-app' path='Welcome' /></div>
+                }
               </div>
-              <ConfigPanel />
+              {pageOpened && <ConfigPanel />}
             </div>
           </div>
           <div />
-
         </div>
-        {
-          editorLoading &&
-            <div className='editor-loading'>
-              <Spin tip={editorLoadingMessage} />
-            </div>
-        }
+
+        <div
+          className='preview-root' style={{
+            display: isPreview ? '' : 'none'
+          }}
+        >
+          <PreviewMenuBar />
+          <div className='preview-container'>
+            <div className='preview-view-port' />
+          </div>
+        </div>
+
         <ImagePreview
           src={imagePreviewSrc} visible={imagePreviewVisible} onVisibleChange={() => {
             this.setState({

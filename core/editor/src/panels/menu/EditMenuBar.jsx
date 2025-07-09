@@ -1,6 +1,8 @@
 import React from 'react'
-import { Button, Divider, Badge, Space, ButtonGroup, Modal, Dropdown, InputNumber, Tooltip, Tabs, TabPane } from '@douyinfe/semi-ui'
+import { Button, Divider, Badge, Space, ButtonGroup, Modal, Dropdown, InputNumber, Tooltip, Tabs, TabPane, Popover } from '@douyinfe/semi-ui'
+import { ReactComposite } from 'ridgejs'
 import context from '../../service/RidgeEditorContext.js'
+import HumbleiconsShare from '../../icons/HumbleiconsShare.svg'
 import './style.less'
 
 const THEMES = [{
@@ -101,8 +103,11 @@ class MenuBar extends React.Component {
 
   switchToPage = id => {
     if (this.state.currentPageId === id) return
-    context.closeCurrentPage(true)
-    context.loadPageInWorkspace(id)
+
+    context.checkModification().then(() => {
+      context.closeCurrentPage(true)
+      context.loadPageInWorkspace(id)
+    })
   }
 
   savePage = () => {
@@ -174,23 +179,32 @@ class MenuBar extends React.Component {
     )
   }
 
+  onTabClose = key => {
+    const { closeCurrentPage } = this
+    const tabFound = this.state.openedPageList.find(p => p.value === key)
+    if (tabFound.modified) {
+      Modal.confirm({
+        zIndex: 10001,
+        title: '注意',
+        content: '页面未保存，是否继续关闭',
+        onOk: async () => {
+          closeCurrentPage()
+        }
+      })
+    } else {
+      closeCurrentPage()
+    }
+  }
+
   render () {
-    const { zoomChange, savePage, state, props, switchToPage } = this
+    const { zoomChange, savePage, state, props, switchToPage, onTabClose } = this
     const { zoom, pageChanged, isLight, currentPageName, currentPageId, showContainer, openedPageList } = state
-    const { visible } = props
     return (
       <div
         className='menu-bar'
-        style={{
-          display: visible ? '' : 'none'
-        }}
       >
         <Tabs
-          className='page-tabs' type='card' activeKey={currentPageId} onTabClose={key => {
-
-          }} onTabClick={key => {
-            switchToPage(key)
-          }}
+          className='page-tabs' type='card' activeKey={currentPageId} onTabClose={onTabClose} onTabClick={switchToPage}
         >
           {openedPageList.map(t => (
             <TabPane icon={t.modified ? <i class='bi bi-circle-fill' /> : null} closable tab={t.label} itemKey={t.value} key={t.value} />
@@ -203,74 +217,21 @@ class MenuBar extends React.Component {
               type='tertiary' icon={<i className='bi bi-floppy' />} theme='borderless' onClick={savePage}
             />
           </Badge>
+          <Tooltip content='预览页面'>
+            <Button
+              disabled={!currentPageName}
+              type='tertiary'
+              theme='borderless'
+              icon={<i className='bi bi-play-fill' />} onClick={() => { context.toggleMode() }}
+            >预览
+            </Button>
+          </Tooltip>
           <InputNumber
             disabled={!currentPageName} style={{ width: '96px', background: 'transparent' }} value={zoom} suffix='%' onChange={val => {
               zoomChange(val)
             }}
           />
           <Divider layout='vertical' />
-          {/* <Dropdown
-            trigger='click'
-            position='top'
-            disabled={!currentPageName}
-            render={
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  icon={<i className='bi bi-align-top' />} onClick={() => {
-                    context.alignComponents('top')
-                  }}
-                >顶部对齐
-                </Dropdown.Item>
-                <Dropdown.Item
-                  icon={<i className='bi bi-align-bottom' />} onClick={() => {
-                    context.alignComponents('bottom')
-                  }}
-                >底部对齐
-                </Dropdown.Item>
-                <Dropdown.Item
-                  icon={<i className='bi bi-align-start' />}
-                  onClick={() => {
-                    context.alignComponents('left')
-                  }}
-                >左对齐
-                </Dropdown.Item>
-                <Dropdown.Item
-                  icon={<i className='bi bi-align-end' />}
-                  onClick={() => {
-                    context.alignComponents('right')
-                  }}
-                >右对齐
-                </Dropdown.Item>
-                <Dropdown.Item
-                  icon={<i className='bi bi-align-middle' />}
-                  onClick={() => {
-                    context.alignComponents('vcenter')
-                  }}
-                >垂直居中对齐
-                </Dropdown.Item>
-                <Dropdown.Item
-                  icon={<i className='bi bi-align-center' />}
-                  onClick={() => {
-                    context.alignComponents('hcenter')
-                  }}
-                >横向居中对齐
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item onClick={() => {
-                  context.alignComponents('vcenter')
-                }}
-                >垂直均分
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => {
-                  context.alignComponents('hcenter')
-                }}
-                >横向均分
-                </Dropdown.Item>
-              </Dropdown.Menu>
-          }
-          >
-            <Button icon={<i className='bi bi-layout-wtf' />} theme='borderless' size='small' type='tertiary' />
-        </Dropdown> */}
           <Tooltip content='夜间/日间模式'>
             <Button
               type='tertiary'
@@ -315,14 +276,11 @@ class MenuBar extends React.Component {
           >
             <Button icon={<i className='bi bi-palette2' />} theme='borderless' size='small' type='tertiary' />
           </Dropdown>
-          <Tooltip content='预览页面'>
-            <Button
-              disabled={!currentPageName}
-              type='tertiary'
-              theme='borderless'
-              icon={<i className='bi bi-play-fill' />} onClick={() => { context.toggleMode() }}
-            />
-          </Tooltip>
+          <Divider layout='vertical' />
+          <ReactComposite app='ridge-editor-app' path='/user/UserPanel' />
+          <Popover trigger='click' position='topRight' showArrow content={<ReactComposite app='ridge-editor-app' path='/AppShare' />}>
+            <Button icon={<HumbleiconsShare />}>导出</Button>
+          </Popover>
         </Space>
       </div>
     )

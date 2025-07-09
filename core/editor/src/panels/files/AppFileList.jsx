@@ -49,6 +49,7 @@ class AppFileList extends React.Component {
 
   async loadAndUpdateFileTree () {
     const { appService } = context.services
+    await appService.init()
     await appService.updateAppFileTree()
     const appTreeData = await appService.getAppFileTree()
     const appJSONObject = await appService.getPackageJSONObject()

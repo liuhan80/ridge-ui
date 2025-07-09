@@ -45,6 +45,9 @@ class RidgeEditorContext extends RidgeContext {
 
     // 保存工作区间打开过的页面列表
     this.openedFileContentMap = new Map()
+
+    // 页面位置map
+    this.pageTransformMap = new Map()
     this.checkInterval = setInterval(this.checkModification.bind(this), 2000)
   }
 
@@ -129,7 +132,6 @@ class RidgeEditorContext extends RidgeContext {
       }
     }
 
-    await appService.init()
     this.viewPortContainerEl = viewPortContainerEl
     this.workspaceEl = workspaceEl
 
@@ -263,7 +265,6 @@ class RidgeEditorContext extends RidgeContext {
    **/
   async loadPageInWorkspace (id, name, content) {
     this.currentOpenPageId = id
-    this.workspaceEl.classList.remove('preview')
     let pageContent = null
     if (content) {
       pageContent = content
@@ -272,27 +273,20 @@ class RidgeEditorContext extends RidgeContext {
       pageContent = this.openedFileContentMap.get(id)
     }
 
-    const { configPanel, outlinePanel, menuBar } = this.services
+    const { Editor } = this
+    Editor.setPageOpened(true)
 
-    this.viewPortContainerEl.classList.remove('preview-full')
+    const { menuBar } = this.services
+
     if (this.editorComposite) {
-      // await this.saveCurrentPage()
       this.editorComposite.unmount()
     }
-
     this.editorComposite = new EditorComposite({
       id,
       config: cloneDeep(pageContent),
       context: this
     })
-
-    this.Editor.togglePageEdit()
-    // await this.editorComposite.initialize()
-    // this.editorComposite.updateStyle()
-    // await this.editorComposite.loadChildren()
     this.editorComposite.firstPaint(this.viewPortContainerEl)
-    const zoom = this.workspaceControl.fitByWidth()
-    menuBar.setZoom(zoom)
     menuBar.setOpenPage(id, pageContent.name)
 
     await this.editorComposite.mount()
@@ -301,9 +295,17 @@ class RidgeEditorContext extends RidgeContext {
       this.workspaceControl.enable()
     }
 
+    const { configPanel, outlinePanel } = this.services
+
     configPanel.updatePageConfigFields()
     this.workspaceControl.selectElements([])
 
+    const transform = this.pageTransformMap.get(id)
+    if (transform) {
+      this.workspaceControl.setTransform(transform)
+    } else {
+      this.workspaceControl.setTransform({})
+    }
     outlinePanel.updateOutline(true)
   }
 
@@ -318,13 +320,8 @@ class RidgeEditorContext extends RidgeContext {
       context: this
     })
 
-    this.workspaceEl.classList.add('preview')
-
     await this.previewComposite.initialize()
-    await this.previewComposite.mount(this.viewPortContainerEl)
-
-    // toggle editor
-    this.Editor.togglePagePreview()
+    await this.previewComposite.mount(document.querySelector('.preview-view-port'))
   }
 
   /**
@@ -337,9 +334,11 @@ class RidgeEditorContext extends RidgeContext {
       this.editorComposite.unmount()
       this.editorComposite = null
       this.workspaceControl.disable()
-      this.Editor.togglePageClose()
+      // toggle editor
+      this.Editor.setPreview(true)
       this.loadPreview()
     } else if (this.previewComposite) {
+      this.Editor.setPreview(false)
       this.previewComposite.unmount()
       // this.setShowContainer(false)
       await this.loadPageInWorkspace(this.currentOpenPageId)
@@ -532,6 +531,7 @@ class RidgeEditorContext extends RidgeContext {
   closeCurrentPage (keep) {
     if (keep) {
       this.openedFileContentMap.set(this.currentOpenPageId, this.editorComposite.exportPageJSON())
+      this.pageTransformMap.set(this.currentOpenPageId, this.workspaceControl.getTransform())
     } else {
       this.openedFileContentMap.delete(this.currentOpenPageId)
     }
@@ -541,7 +541,11 @@ class RidgeEditorContext extends RidgeContext {
     this.currentOpenPageId = null
     this.editorComposite = null
     this.workspaceControl.disable()
-    this.Editor.togglePageClose()
+
+    if (this.openedFileContentMap.size === 0) {
+      this.Editor.setPageOpened(false)
+    }
+    // this.Editor.togglePageClose()
   }
 
   getOpenedFileMap () {

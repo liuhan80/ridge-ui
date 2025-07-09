@@ -8,8 +8,7 @@
   "dependencies": {
     "ridge-container": "1.0.2",
     "ridge-semi": "1.0.0",
-    "ridge-bootstrap": "1.0.0",
-    "ridge-effect-animejs": "^1.0.0"
+    "ridge-bootstrap": "1.0.0"
   },
   "ridgeServerUrl": "",
   "ridgeUserId": "15011245191",

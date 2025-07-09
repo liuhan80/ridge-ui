@@ -47,35 +47,60 @@ html, body {
   align-items: stretch;
   height: 100%;
   .root-nav {
-    width: 300px;
-    border-right: 1px solid var(--semi-color-border);
+    // transition: width .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    // border-right: 1px solid var(--semi-color-border);
     >.semi-tabs-bar {
       width: 56px;
-      background-color: var( --semi-color-fill-1);
+      background-color: var( --semi-color-fill-0);
+      .semi-icon {
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
       .semi-tabs-tab-button.semi-tabs-tab {
-        padding: 4px;
-        height: 38px;
+        padding-left: 8px;
+        height: 46px;
+        padding-top: 10px;
+        margin-bottom: 1px;
         .semi-icon {
           margin-left: 8px;
         }
       }
       >.semi-tabs-bar-extra {
-        padding: 0;
+        padding: 10px 0;
         display: flex;
         flex: 1;
         flex-direction: column;
         justify-content: flex-end;
+        align-items: center;
+        .semi-button svg {
+          width: 20px;
+          height: 20px;
+          color: var(--semi-color-text-2);
+        }
       }
     }
-    
-    .semi-icon {
-      svg {
-        width: 24px;
-        height: 24px;
+    >.semi-tabs-content {
+      flex: 1;
+      overflow: hidden;
+      &.semi-tabs-content-left {
+        padding-right: 0;
+      }
+      >.semi-tabs-pane {
+        height: 100%;
+        .semi-tabs-pane-motion-overlay {
+          height: 100%;
+        }
       }
     }
   }
 
+  .left-resizer {
+    width: 6px;
+    cursor: e-resize;
+    border-right: 1px solid var(--semi-color-border);
+  }
   >.editor-content {
     flex: 1;
     display: flex;
@@ -96,11 +121,21 @@ html, body {
   }
 }
 
+
+.preview-root {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: 100%;
+  >.preview-container {
+    flex: 1;
+  }
+}
 .workspace {
   flex: 1;
   position: relative;
   background: var( --semi-color-fill-0);
-  overflow: hidden;
+  overflow: auto;
   &.preview {
     overflow: auto;
   }

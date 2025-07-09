@@ -1,5 +1,6 @@
 import NeCollection from './NeCollection.js'
 import debug from 'debug'
+import once from 'lodash/once.js'
 // import LowCollection from './LowCollection.js'
 import Localforge from 'localforage'
 import BackUpService from './BackUpService.js'
@@ -25,13 +26,15 @@ export default class ApplicationService {
     this.dataUrls = {}
     this.fileTree = null
 
+    this.init = once(this._init)
+
     // this.updateAppFileTree()
   }
 
   /**
    * 初始化动作： 初始化应用树信息
    */
-  async init () {
+  async _init () {
     const files = await this.collection.find({})
 
     if (files.length === 0) {
@@ -366,6 +369,10 @@ export default class ApplicationService {
   }
 
   async getPackageJSONObject () {
+    if (!this.fileTree) {
+      await this.init()
+    }
+
     const file = this.getFileByPath('/package.json')
     if (file == null) {
       return null

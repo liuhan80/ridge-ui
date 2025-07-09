@@ -29,13 +29,19 @@ export default {
 
   actions: {
     openUserProfileModal () { // 打开用户配置
-      this.userProfileModalVisible = true
+      if (this.userId) {
+        this.userProfileModalVisible = true
+      } else {
+        this.openLoginModal()
+      }
     },
     openLoginModal () { // 打开登录框
       this.loginUserModalVisible = true
     },
 
     async checkLoginStatus () { // 检查用户登录状态
+      this.userId = ''
+      this.userAvatar = '/avatar.svg'
       const user = await getUserStatus()
       if (user === 'disconnected') {
         this.displayState = 'community'
@@ -52,6 +58,7 @@ export default {
     },
 
     async logout () { // 退出登录
+      debugger
       if (await logout()) {
         this.userProfileModalVisible = false
         await this.checkLoginStatus()

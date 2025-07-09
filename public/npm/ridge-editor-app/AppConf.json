@@ -1313,8 +1313,8 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 978,
-        "y": 412,
+        "x": 1540,
+        "y": 36,
         "width": 752,
         "height": 501,
         "portalled": true
@@ -2130,10 +2130,7 @@
         "padding": 8,
         "hoverable": false,
         "classList": [
-          "ridge-bootstrap/rounded-2",
-          "ridge-bootstrap/border-primary-emphasis",
-          "ridge-bootstrap/border-1",
-          "ridge-bootstrap/border"
+          "ridge-bootstrap/rounded-2"
         ]
       },
       "propEx": {},

@@ -1,12 +1,26 @@
 .component-panel {
+  height: 100%;
   .semi-tabs-tab-active {
     .package-icon {
       color: var(--semi-color-secondary);
     }
   }
-  .semi-tabs-tab {
-    padding: 4px;
+  .semi-tabs {
+    height: 100%;
+    >.semi-tabs-bar {
+      border-bottom: 1px solid var(--semi-color-border);
+      padding: 4px;
+      .semi-tabs-tab {
+        padding: 4px;
+        margin-right: 4px!important;
+      }
+    }
+    >.semi-tabs-content {
+      overflow-y: auto;
+      height: calc(100% - 50px);
+    }
   }
+
   .semi-spin-block.semi-spin {
     min-height: 320px;
   }

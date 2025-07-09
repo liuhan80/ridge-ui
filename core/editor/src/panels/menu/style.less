@@ -1,12 +1,16 @@
 
 .menu-bar {
-    display: flex;
+    height: 44px;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0 8px;
     border-bottom: 1px solid var(--semi-color-border);
     .page-tabs {
         flex: 1;
+        >.semi-tabs-bar {
+            padding: 5px 0 0 5px;
+        }
         >.semi-tabs-content {
             padding: 0;
         }
@@ -22,6 +26,13 @@
 
         .semi-tabs-tab-single.semi-tabs-tab .semi-icon:not(.semi-icon-checkbox_tick,.semi-icon-radio,.semi-icon-checkbox_indeterminate) {
             top: 0;
+        }
+    }
+
+    .semi-button {
+        svg {
+            width: 18px;
+            height: 18px;
         }
     }
     .bar-content {

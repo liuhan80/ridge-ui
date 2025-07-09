@@ -18,7 +18,7 @@ export default {
     packageListData: [],
     packageKeywords: [],
     packageHomePage: '',
-    publishOnSave: [],    // 选择保存同时发布
+    publishOnSave: false,    // 选择保存同时发布
     collectRequest: [],   // 选择发布并收录
     publishErrorMsg: '',
     publishDisabled: true,
@@ -119,9 +119,10 @@ export default {
     },
 
     async publishApp () { // 发布应用
+      debugger
       const cancel = fullscreenLoading()
       const appService = this.composite.context.services.appService
-      const result = await uploadAppPackage(await this.getPackageObject(), await appService.getAppFileBlob(), this.publishOnSave.length > 0, this.collectRequest.length > 0)
+      const result = await uploadAppPackage(await this.getPackageObject(), await appService.getAppFileBlob(), this.publishOnSave, this.collectRequest.length > 0)
       cancel()
       if (result === '1') {
         showMessage('应用包上传到云端成功')

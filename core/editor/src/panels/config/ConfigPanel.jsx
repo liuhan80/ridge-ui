@@ -398,7 +398,7 @@ export default class ComponentPanel extends React.Component {
       <div className='config-panel'>
         <Tabs
           className='on-title'
-          type='line'
+          type='card'
           style={{
             display: configPage ? 'none' : 'block'
           }}
