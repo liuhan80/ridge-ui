@@ -1,9 +1,11 @@
 {
   "version": "1.4.0",
   "style": {
-    "width": 600,
-    "height": 480,
-    "classNames": []
+    "width": 32,
+    "height": 32,
+    "classNames": [],
+    "heightFix": true,
+    "widthFix": true
   },
   "properties": {},
   "cssFiles": [],
@@ -18,10 +20,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 16,
-        "y": 53,
+        "x": 0,
+        "y": 0,
         "width": 578,
-        "height": 419
+        "height": 470
       },
       "styleEx": {},
       "props": {
@@ -49,10 +51,15 @@
           {
             "label": "备份文件名",
             "value": "backUpName"
+          },
+          {
+            "label": "版本",
+            "value": "version"
           }
         ],
         "size": "small",
-        "rowKey": "backUpName"
+        "rowKey": "backUpName",
+        "pagination": true
       },
       "propEx": {
         "dataSource": "LocalHistory.state.historyList"
@@ -87,7 +94,7 @@
         "visible": true,
         "x": 15,
         "y": 12,
-        "width": 108,
+        "width": 81,
         "height": 32
       },
       "styleEx": {},
@@ -98,7 +105,7 @@
         "disabled": false,
         "iconSize": 18,
         "loading": false,
-        "text": "恢复选中"
+        "text": "恢复"
       },
       "propEx": {},
       "events": {
@@ -122,9 +129,9 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 137,
+        "x": 113,
         "y": 12,
-        "width": 111,
+        "width": 85,
         "height": 32
       },
       "styleEx": {},
@@ -135,7 +142,7 @@
         "disabled": false,
         "iconSize": 18,
         "loading": false,
-        "text": "删除选中",
+        "text": "删除",
         "type": "danger"
       },
       "propEx": {},
@@ -152,12 +159,153 @@
       "locked": false,
       "full": false,
       "slots": []
+    },
+    {
+      "title": "按钮_2",
+      "path": "ridge-semi/button",
+      "id": "pubjba5yx1",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": -1,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "styleEx": {},
+      "props": {
+        "icon": "IconHistory",
+        "size": "default",
+        "theme": "borderless",
+        "disabled": false,
+        "iconSize": 18,
+        "loading": false,
+        "type": "tertiary"
+      },
+      "propEx": {},
+      "events": {
+        "onClick": [
+          {
+            "store": "LocalHistory",
+            "method": "openDialogHistroy",
+            "payload": ""
+          }
+        ]
+      },
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "对话框",
+      "path": "ridge-semi/modal",
+      "id": "26y9v3qu9a",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 98,
+        "y": 7,
+        "width": 695,
+        "height": 620,
+        "portalled": true
+      },
+      "styleEx": {},
+      "props": {
+        "value": false,
+        "textContent": "默认对话框文本内容",
+        "children": [
+          "hu29vnuu6p"
+        ],
+        "showHeader": true,
+        "showFooter": false,
+        "mask": false,
+        "confirmLoading": false,
+        "title": "应用历史和恢复"
+      },
+      "propEx": {
+        "value": "LocalHistory.state.dialogHistroyShow"
+      },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器",
+      "path": "ridge-container/flex",
+      "id": "hu29vnuu6p",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 659,
+        "y": 68,
+        "width": 360,
+        "height": 240
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "stretch",
+        "flexWrap": false,
+        "children": [
+          "k9ocyjffa5",
+          "srfbgrllqy"
+        ],
+        "gap": 8,
+        "padding": 8,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_1",
+      "path": "ridge-container/flex",
+      "id": "k9ocyjffa5",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 360,
+        "height": 34
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "flex-start",
+        "alignItems": "flex-start",
+        "flexWrap": false,
+        "children": [
+          "rjj0umaii8",
+          "shbf06ra4f"
+        ],
+        "gap": 8,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
     }
   ],
   "name": "History",
   "children": [
-    "srfbgrllqy",
-    "rjj0umaii8",
-    "shbf06ra4f"
+    "pubjba5yx1",
+    "26y9v3qu9a"
   ]
 }

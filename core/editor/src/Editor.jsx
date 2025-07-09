@@ -39,15 +39,6 @@ class Editor extends React.Component {
       leftResizing: false,
       isPreview: false,
       leftReisizeWidth: 300,
-      // panel visibles
-      // componentPanelVisible: true, // 组件面板可见性
-      // propPanelVisible: false, // 属性面板可见性
-      // outlinePanelVisible: false, // 大纲面板可见性
-      // appFilePanelVisible: true, // 应用资源面板可见性
-      // editMenuBarVisible: true, // 编辑菜单栏可见性
-      // previewMenuBarVisible: false, // 预览菜单栏可见性
-      // noOpenFileVisible: true, // 无打开文件时的提示可见性
-      // image preview
       editPreview: false,
 
       imagePreviewSrc: null,
@@ -68,9 +59,11 @@ class Editor extends React.Component {
   handleLeftResize () {
     document.addEventListener('mousemove', ev => {
       if (this.state.leftResizing) {
-        this.setState({
-          leftReisizeWidth: ev.clientX
-        })
+        if (ev.clientX > 250) {
+          this.setState({
+            leftReisizeWidth: ev.clientX
+          })
+        }
       }
     })
     document.addEventListener('mouseup', ev => {

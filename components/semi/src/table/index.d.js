@@ -1,4 +1,4 @@
-import { json, optionConfig, radiogroup, string } from 'ridge-build/src/props.js'
+import { boolean, json, optionConfig, radiogroup, string } from 'ridge-build/src/props.js'
 import Table from './Table.jsx'
 export default {
   name: 'Table',
@@ -50,6 +50,7 @@ export default {
       label: '小',
       value: 'small'
     }]),
+    boolean('pagination', '分页', true),
     string('rowKey', '行键', 'value')
   ],
   events: [{

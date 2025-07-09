@@ -3,20 +3,38 @@ import { getStoreStatus, fullscreenLoading, showAlert, showConfirm, showMessage,
 export default {
   name: 'RidgeAppShare',
   state: {
-    packageName: '',
-    publishOnSave: [],    // 选择保存同时发布
-    collectRequest: [],   // 选择发布并收录
-    publishErrorMsg: '',
-    publishDisabled: true,
-    userAppTree: [], // 用户应用列表树
+    packageName: '', // 应用名称
+    usageText: '', // 应用使用情况
+    publishOnSave: false,    // 选择保存同时发布
+    publishedUrl: '', // 发布后应用访问地址
+    publishErrorMsg: '', // 发布异常信息
     appPublishing: false, // 应用发布中
     openAppName: '', // 当前打开应用名称
-    cloudEnabled: false, // 启用云功能    
+    openingApp: false, // 打开应用中
+    cloudDisabled: false, // 禁用云功能    
   },
-  
+  computed: {
+    collectionDisabled () {
+      return this.publishOnSave.length === 0
+    },
+    scopedPackageIcon (scoped) { // Scope-组件包-图标
+      return this.composite.context.baseUrl + '/' + scoped.item.name + '/' + scoped.item.logo
+    },
+    scopedPackageName: scoped => { // Scope-组件包-名称
+      return scoped.item.name
+    },
+    scopedPackageDesc: scoped => { // Scope-组件包-描述
+      return scoped.item.description
+    },
+    scopedPackageVersion: scoped => { // Scope-组件包-版本
+      return scoped.item.version
+    }
+  },
+
   async setup () {
     this.appService = this.composite.context.services.appService
-    this.updateState()
+    this.initShare()
+    this.initUserStore()
   },
 
   destory () {
@@ -29,22 +47,31 @@ export default {
     async initUserStore () {
       this.userStoreStatus = await getStoreStatus()
       if (this.userStoreStatus == null) {
-        this.cloudEnabled = false
+        this.cloudDisabled = true
       } else {
-        this.cloudEnabled = true
-        this.publishDisabled = !this.userStoreStatus.allowPublish
-        this.userAppTree = this.userStoreStatus.userAppTree
+        this.usageText = '应用限额：' + this.userStoreStatus.quotaText
+        if (this.userStoreStatus.quotaTextL >= 100 && !this.userStoreStatus.userAppTree.find(app => app.key === this.packageName)) { 
+          this.cloudDisabled = true
+        } else {
+          this.cloudDisabled = false
+        }
       }
+    },
+
+    async initShare () {
+      const packageObject = await this.appService.getPackageJSONObject()
+      this.packageObject = packageObject
+      this.state.packageName = packageObject.name ?? ''
+      this.publishedUrl = `https://ridgeui.com/npm/${packageObject.name}/`
     },
 
     async publishApp () { // 发布应用
       const cancel = fullscreenLoading()
       const appService = this.composite.context.services.appService
-      const result = await uploadAppPackage(await this.getPackageObject(), await appService.getAppFileBlob(), this.publishOnSave.length > 0, this.collectRequest.length > 0)
+      const result = await uploadAppPackage(await this.getPackageObject(), await appService.getAppFileBlob(), this.publishOnSave)
       cancel()
       if (result === '1') {
         showMessage('应用包上传到云端成功')
-        this.dialogAppPublish = false
       } else {
         this.publishErrorMsg = result
       }
@@ -65,42 +92,8 @@ export default {
       await this.appService.exportAppArchive()
     },
 
-    openConfigDialog () {
-      this.state.dialogAppConfig = true
-      this.initUserStore()
-    },
-
- 
-
-    async openPublishDialog () { // 保存并发布到云
-      if (!this.userStoreStatus.id) {
-        showAlert('您需要成为注册用户才能保存到云端，要保存工作可以导入/导出应用') 
-        return
-      }
-      await this.save()
-      this.publishErrorMsg = ''
-      this.dialogAppPublish = true
-    },
-
-    async deleteDependency (scope) { // 删除依赖
-      delete this.packageObject.dependencies[scope.item.name]
-
-      this.state.packageListData = this.state.packageListData.filter(p => p.name !== scope.item.name)
-    },
-
-    openBilibili() {
-      window.open('https://space.bilibili.com/621457166', '_blank')
-    },
-    openHelpDoc() {
-      window.open('https://ridgeui.com/#/pages/document', '_blank')
-    },
-
-    openHistoryDialog() { // 打开本地历史对话框
-      this.showLocalRecoverDialog = true
-    },
-
-    closeConfigDialog () {
-      this.state.dialogAppConfig = false
+    async getPackageObject () {
+      return await this.appService.getPackageJSONObject()
     }
   }
 }

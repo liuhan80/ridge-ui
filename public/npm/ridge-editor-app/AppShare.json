@@ -2,7 +2,7 @@
   "version": "1.4.0",
   "style": {
     "width": 400,
-    "height": 400,
+    "height": 320,
     "classNames": [],
     "widthFix": true,
     "heightFix": true
@@ -10,7 +10,7 @@
   "properties": {},
   "cssFiles": [],
   "jsFiles": [
-    "composite:///js/appConfig.js"
+    "composite:///js/appShare.js"
   ],
   "elements": [
     {
@@ -59,7 +59,7 @@
         "x": 0,
         "y": 0,
         "width": 360,
-        "height": 38
+        "height": 42
       },
       "styleEx": {},
       "props": {
@@ -91,7 +91,7 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 300,
+        "width": 318,
         "height": 24
       },
       "styleEx": {},
@@ -162,7 +162,7 @@
         "type": "primary",
         "link": "",
         "classList": [],
-        "text": "导出整个应用包，也可以导入已有应用"
+        "text": "导出/导入整个应用包"
       },
       "propEx": {},
       "events": {},
@@ -197,7 +197,7 @@
       "events": {
         "onClick": [
           {
-            "store": "RidgeAppConfig",
+            "store": "RidgeAppShare",
             "method": "exportAppZip",
             "payload": ""
           }
@@ -269,7 +269,7 @@
       "events": {
         "onClick": [
           {
-            "store": "RidgeAppConfig",
+            "store": "RidgeAppShare",
             "method": "importAppZip",
             "payload": ""
           }
@@ -352,9 +352,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 0,
-        "width": 251,
-        "height": 32
+        "y": 47,
+        "width": 101,
+        "height": 35
       },
       "styleEx": {},
       "props": {
@@ -367,12 +367,12 @@
         "text": "上传"
       },
       "propEx": {
-        "disabled": "RidgeAppConfig.state.cloudEnabled"
+        "disabled": "RidgeAppShare.state.cloudDisabled"
       },
       "events": {
         "onClick": [
           {
-            "store": "RidgeAppConfig",
+            "store": "RidgeAppShare",
             "method": "publishApp",
             "payload": ""
           }
@@ -428,7 +428,7 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 300,
+        "width": 329,
         "height": 28
       },
       "styleEx": {},
@@ -442,7 +442,7 @@
         "classList": []
       },
       "propEx": {
-        "text": "RidgeAppConfig.state.cloudEnabled"
+        "text": "RidgeAppShare.state.publishedUrl"
       },
       "events": {},
       "visible": true,
@@ -460,20 +460,20 @@
         "x": 0,
         "y": 0,
         "width": 351,
-        "height": 33
+        "height": 39
       },
       "styleEx": {},
       "props": {
         "direction": "row",
-        "justify": "space-between",
+        "justify": "flex-start",
         "alignItems": "center",
         "flexWrap": false,
         "children": [
-          "3g689f0n64",
+          "n25rc3fo1s",
           "b9if24132s",
           "j0o5idnk3a"
         ],
-        "gap": 8,
+        "gap": 7,
         "padding": 0,
         "hoverable": false,
         "rectStyle": {},
@@ -493,8 +493,8 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 0,
+        "x": 16,
+        "y": 186.5,
         "width": 21,
         "height": 20
       },
@@ -508,7 +508,8 @@
         "uncheckedText": ""
       },
       "propEx": {
-        "value": "RidgeAppConfig.state.publishOnSave"
+        "value": "RidgeAppShare.state.publishOnSave",
+        "disabled": "RidgeAppShare.state.cloudDisabled"
       },
       "events": {
         "onChange": []
@@ -526,9 +527,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": -70,
+        "y": -28,
         "width": 56,
-        "height": 23
+        "height": 26
       },
       "styleEx": {},
       "props": {
@@ -570,6 +571,72 @@
         "classList": []
       },
       "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_6",
+      "path": "ridge-container/flex",
+      "id": "n25rc3fo1s",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 107,
+        "y": 182.5,
+        "width": 260,
+        "height": 34
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "flex-start",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "3g689f0n64",
+          "ms0drd77ea"
+        ],
+        "gap": 8,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_5",
+      "path": "ridge-semi/text",
+      "id": "ms0drd77ea",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 140,
+        "height": 25
+      },
+      "styleEx": {},
+      "props": {
+        "text": "文本",
+        "size": "normal",
+        "copyable": false,
+        "ellipsis": false,
+        "type": "success",
+        "link": "",
+        "classList": []
+      },
+      "propEx": {
+        "text": "RidgeAppShare.state.usageText"
+      },
       "events": {},
       "visible": true,
       "locked": false,

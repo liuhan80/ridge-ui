@@ -243,6 +243,8 @@ class OutLineTree extends React.Component {
       <Tree
         className='outline-tree'
         autoExpandWhenDragEnter
+        showFilteredOnly
+        filterTreeNode
         draggable
         renderLabel={renderFullLabel}
         onDrop={onTreeDrop.bind(this)}

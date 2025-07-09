@@ -21,9 +21,7 @@
     "ridgeCloudUrl": ""
   },
   "cover": "",
-  "ridgeEntries": {
-    "mobile": "mobile"
-  },
+  "ridgeEntries": {},
   "ridgeHome": {
     "default": "index",
     "mobileEnabled": false,

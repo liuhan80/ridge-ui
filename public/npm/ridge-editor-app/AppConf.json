@@ -33,10 +33,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
+        "x": 4,
         "y": 37,
         "width": 958,
-        "height": 660,
+        "height": 676,
         "portalled": true
       },
       "styleEx": {},
@@ -50,14 +50,23 @@
         "closeOnEsc": false,
         "title": "应用配置",
         "content": "dqtg9ilpw2",
-        "showHeader": false,
-        "showFooter": false,
-        "maskClosable": false
+        "showHeader": true,
+        "showFooter": true,
+        "maskClosable": false,
+        "mask": false
       },
       "propEx": {
         "value": "RidgeAppConfig.state.dialogAppConfig"
       },
-      "events": {},
+      "events": {
+        "onOk": [
+          {
+            "store": "RidgeAppConfig",
+            "method": "save",
+            "payload": ""
+          }
+        ]
+      },
       "visible": true,
       "locked": false,
       "full": false,
@@ -85,7 +94,6 @@
         "alignItems": "stretch",
         "flexWrap": false,
         "children": [
-          "rm3n2tzo32",
           "3hrueb2rll",
           "cysjr3tpi0",
           "l0cap6e0r8",
@@ -103,72 +111,6 @@
       "$id": "https://ridge-ui.com/schemas/element",
       "slots": [],
       "slot": true
-    },
-    {
-      "title": "标题",
-      "path": "ridge-semi/title",
-      "id": "g2i7bm0vtu",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 443,
-        "height": 27,
-        "flex": "1"
-      },
-      "styleEx": {},
-      "props": {
-        "heading": 6,
-        "text": "应用配置"
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "弹性容器",
-      "path": "ridge-container/flex",
-      "id": "rm3n2tzo32",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 360,
-        "height": 62
-      },
-      "styleEx": {},
-      "props": {
-        "direction": "row",
-        "justify": "flex-start",
-        "alignItems": "flex-end",
-        "flexWrap": false,
-        "children": [
-          "g2i7bm0vtu",
-          "8tlocdm1pu",
-          "9k5tegnha8",
-          "5xte90sd01",
-          "5y687lk181",
-          "vkpas23eq1",
-          "phftju1nu2",
-          "gn105cg5xc"
-        ],
-        "gap": 12,
-        "padding": 8,
-        "classList": []
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
     },
     {
       "title": "文本",
@@ -259,9 +201,9 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 33,
-        "y": 170,
-        "width": 179,
+        "x": 0,
+        "y": 0,
+        "width": 191,
         "height": 31
       },
       "styleEx": {},
@@ -495,43 +437,6 @@
       "$id": "https://ridge-ui.com/schemas/element"
     },
     {
-      "title": "按钮_1",
-      "path": "ridge-semi/button",
-      "id": "gn105cg5xc",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 451,
-        "y": 61,
-        "width": 29,
-        "height": 32
-      },
-      "styleEx": {},
-      "props": {
-        "type": "primary",
-        "size": "default",
-        "theme": "borderless",
-        "disabled": false,
-        "loading": false,
-        "icon": "IconClose"
-      },
-      "propEx": {},
-      "events": {
-        "onClick": [
-          {
-            "store": "RidgeAppConfig",
-            "method": "closeConfigDialog",
-            "payload": ""
-          }
-        ]
-      },
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
       "title": "按钮_2",
       "path": "ridge-semi/button",
       "id": "16q5hl7gz4",
@@ -557,7 +462,7 @@
         "onClick": [
           {
             "store": "RidgeAppConfig",
-            "method": "openConfigDialog",
+            "method": "openDialogAppConfig",
             "payload": ""
           }
         ]
@@ -608,7 +513,8 @@
         "x": 0,
         "y": 0,
         "width": 425,
-        "height": 359
+        "height": 324,
+        "flex": "1"
       },
       "styleEx": {},
       "props": {
@@ -804,52 +710,6 @@
       "full": false,
       "$id": "https://ridge-ui.com/schemas/element",
       "slots": []
-    },
-    {
-      "title": "对话框_1",
-      "path": "ridge-semi/modal",
-      "id": "nos8ix35zk",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 980,
-        "y": 37,
-        "width": 541,
-        "height": 357,
-        "portalled": true
-      },
-      "styleEx": {},
-      "props": {
-        "value": false,
-        "textContent": "默认对话框文本内容",
-        "showHeader": true,
-        "showFooter": true,
-        "closeOnEsc": false,
-        "mask": true,
-        "maskClosable": false,
-        "title": "保存应用到云端",
-        "content": "chu2a8c4mq"
-      },
-      "propEx": {
-        "value": "RidgeAppConfig.state.dialogAppPublish",
-        "confirmLoading": "RidgeAppConfig.state.appPublishing"
-      },
-      "events": {
-        "onOk": [
-          {
-            "store": "RidgeAppConfig",
-            "method": "publishApp",
-            "payload": ""
-          }
-        ]
-      },
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": [
-        "chu2a8c4mq"
-      ]
     },
     {
       "title": "发布对话框内容_模板",
@@ -1186,43 +1046,6 @@
       "slots": []
     },
     {
-      "title": "按钮",
-      "path": "ridge-semi/button",
-      "id": "8tlocdm1pu",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": -21,
-        "y": 0,
-        "width": 73,
-        "height": 31
-      },
-      "styleEx": {},
-      "props": {
-        "size": "default",
-        "theme": "solid",
-        "disabled": false,
-        "loading": false,
-        "text": "保存",
-        "icon": "IconSaveStroked"
-      },
-      "propEx": {},
-      "events": {
-        "onClick": [
-          {
-            "store": "RidgeAppConfig",
-            "method": "save",
-            "payload": ""
-          }
-        ]
-      },
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
       "title": "文本",
       "path": "ridge-semi/text",
       "id": "opzon68zfv",
@@ -1305,51 +1128,6 @@
       "full": false,
       "$id": "https://ridge-ui.com/schemas/element",
       "slots": []
-    },
-    {
-      "title": "对话框_2",
-      "path": "ridge-semi/modal",
-      "id": "d8bxkbczt0",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 1540,
-        "y": 36,
-        "width": 752,
-        "height": 501,
-        "portalled": true
-      },
-      "styleEx": {},
-      "props": {
-        "value": false,
-        "textContent": "默认对话框文本内容",
-        "showHeader": true,
-        "showFooter": false,
-        "closeOnEsc": false,
-        "mask": false,
-        "maskClosable": false,
-        "title": "打开我的应用",
-        "content": "c1q6880mzi"
-      },
-      "propEx": {
-        "value": "RidgeAppConfig.state.dialogOpenApp"
-      },
-      "events": {
-        "onOk": [
-          {
-            "store": "RidgeAppConfig",
-            "method": "doOpenApp",
-            "payload": ""
-          }
-        ]
-      },
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": [
-        "c1q6880mzi"
-      ]
     },
     {
       "title": "打开应用_模板",
@@ -1552,7 +1330,7 @@
         "x": 0,
         "y": 0,
         "width": 425,
-        "height": 402,
+        "height": 338,
         "hoverVisible": false
       },
       "styleEx": {},
@@ -2035,7 +1813,7 @@
         "x": 0,
         "y": 0,
         "width": 360,
-        "height": 442
+        "height": 390
       },
       "styleEx": {},
       "props": {
@@ -2071,7 +1849,7 @@
         "x": 0,
         "y": 0,
         "width": 360,
-        "height": 418,
+        "height": 440,
         "flex": "1"
       },
       "styleEx": {},
@@ -2135,120 +1913,6 @@
       },
       "propEx": {},
       "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "按钮",
-      "path": "ridge-semi/button",
-      "id": "5xte90sd01",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 1728,
-        "y": 0,
-        "width": 70,
-        "height": 31
-      },
-      "styleEx": {},
-      "props": {
-        "size": "default",
-        "theme": "light",
-        "disabled": false,
-        "loading": false,
-        "icon": "IconExport",
-        "text": "导出"
-      },
-      "propEx": {},
-      "events": {
-        "onClick": [
-          {
-            "store": "RidgeAppConfig",
-            "method": "exportAppZip",
-            "payload": ""
-          }
-        ]
-      },
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "按钮",
-      "path": "ridge-semi/button",
-      "id": "5y687lk181",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 74,
-        "height": 31
-      },
-      "styleEx": {},
-      "props": {
-        "text": "导入",
-        "size": "default",
-        "theme": "light",
-        "disabled": false,
-        "loading": false,
-        "icon": "IconImport"
-      },
-      "propEx": {},
-      "events": {
-        "onClick": [
-          {
-            "store": "RidgeAppConfig",
-            "method": "importAppZip",
-            "payload": ""
-          }
-        ]
-      },
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "按钮",
-      "path": "ridge-semi/button",
-      "id": "phftju1nu2",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": -66,
-        "y": 0,
-        "width": 77,
-        "height": 31
-      },
-      "styleEx": {
-        "visible": "RidgeAppConfig.state.cloudEnabled"
-      },
-      "props": {
-        "size": "default",
-        "theme": "light",
-        "disabled": false,
-        "loading": false,
-        "icon": "IconCloudUploadStroked",
-        "type": "primary",
-        "text": "上传"
-      },
-      "propEx": {},
-      "events": {
-        "onClick": [
-          {
-            "store": "RidgeAppConfig",
-            "method": "openPublishDialog",
-            "payload": ""
-          }
-        ]
-      },
       "visible": true,
       "locked": false,
       "full": false,
@@ -2440,46 +2104,6 @@
       "$id": "https://ridge-ui.com/schemas/element"
     },
     {
-      "title": "按钮",
-      "path": "ridge-semi/button",
-      "id": "vkpas23eq1",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 635,
-        "y": 0,
-        "width": 70,
-        "height": 31
-      },
-      "styleEx": {
-        "visible": "RidgeAppConfig.state.cloudEnabled"
-      },
-      "props": {
-        "size": "default",
-        "theme": "light",
-        "disabled": false,
-        "loading": false,
-        "icon": "IconCloudStroked",
-        "type": "primary",
-        "text": "打开"
-      },
-      "propEx": {},
-      "events": {
-        "onClick": [
-          {
-            "store": "RidgeAppConfig",
-            "method": "openOpenAppDialog",
-            "payload": ""
-          }
-        ]
-      },
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
       "title": "AppList",
       "path": "ridge-container/composite",
       "id": "pd5zpcgsei",
@@ -2611,111 +2235,11 @@
       "full": false,
       "$id": "https://ridge-ui.com/schemas/element",
       "slots": []
-    },
-    {
-      "title": "按钮_3",
-      "path": "ridge-semi/button",
-      "id": "9k5tegnha8",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 57,
-        "y": -27,
-        "width": 78,
-        "height": 31
-      },
-      "styleEx": {},
-      "props": {
-        "text": "历史",
-        "icon": "IconHistory",
-        "size": "default",
-        "theme": "light",
-        "disabled": false,
-        "iconSize": 18,
-        "loading": false
-      },
-      "propEx": {},
-      "events": {
-        "onClick": [
-          {
-            "store": "RidgeAppConfig",
-            "method": "openHistoryDialog",
-            "payload": ""
-          }
-        ]
-      },
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "slots": []
-    },
-    {
-      "title": "对话框_3",
-      "path": "ridge-semi/modal",
-      "id": "1vu4nufesc",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 977,
-        "y": 948,
-        "width": 753,
-        "height": 598,
-        "portalled": true
-      },
-      "styleEx": {},
-      "props": {
-        "value": false,
-        "textContent": "默认对话框文本内容",
-        "children": [
-          "m5iysl599u"
-        ],
-        "showHeader": true,
-        "showFooter": false,
-        "mask": false,
-        "confirmLoading": false,
-        "title": "从本地历史恢复"
-      },
-      "propEx": {
-        "value": "RidgeAppConfig.state.showLocalRecoverDialog"
-      },
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "slots": []
-    },
-    {
-      "title": "History",
-      "path": "ridge-container/composite",
-      "id": "m5iysl599u",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 432,
-        "y": 801,
-        "width": 600,
-        "height": 480
-      },
-      "styleEx": {},
-      "props": {
-        "pagePath": "/user/History",
-        "packageName": "",
-        "classList": []
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "slots": []
     }
   ],
   "name": "AppConf",
   "children": [
     "h1n1smb50c",
-    "16q5hl7gz4",
-    "nos8ix35zk",
-    "d8bxkbczt0",
-    "1vu4nufesc"
+    "16q5hl7gz4"
   ]
 }

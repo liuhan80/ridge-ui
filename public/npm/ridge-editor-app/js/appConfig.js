@@ -2,9 +2,6 @@ import { getStoreStatus, fullscreenLoading, showAlert, showConfirm, showMessage,
 
 export default {
   name: 'RidgeAppConfig',
-  externals: {
-    axios: 'axios/dist/axios.min.js'
-  },
   state: {
     packageName: '',
     packageIcon: '',
@@ -18,20 +15,10 @@ export default {
     packageListData: [],
     packageKeywords: [],
     packageHomePage: '',
-    publishOnSave: false,    // 选择保存同时发布
-    collectRequest: [],   // 选择发布并收录
-    publishErrorMsg: '',
-    publishDisabled: true,
-    dialogAppConfig: false,
+    dialogAppConfig: false, // 应用配置对话框
     dialogAppPublish: false,
-    userStoreStatus: {},
     showLocalRecoverDialog: false, // 显示恢复本地地址对话框
     userAppTree: [], // 用户应用列表树
-    appPublishing: false, // 应用发布中
-    dialogOpenApp: false, // 打开应用对话框
-    openAppName: '', // 当前打开应用名称
-    openingApp: false, // 打开应用中
-    cloudEnabled: false, // 启用云功能    
     homePages: { // 首页支持
       mobileEnabled: false,
       desktopEnabled: false,
@@ -71,16 +58,21 @@ export default {
   },
 
   actions: {
+    openDialogAppConfig () {
+      this.dialogAppConfig = true
+    },
     async initUserStore () {
       this.userStoreStatus = await getStoreStatus()
       if (this.userStoreStatus == null) {
-        this.cloudEnabled = false
+        this.cloudDisabled = true
       } else {
-        this.cloudEnabled = true
+        this.cloudDisabled = true
         this.publishDisabled = !this.userStoreStatus.allowPublish
         this.userAppTree = this.userStoreStatus.userAppTree
       }
     },
+
+    
 
     async updateState () {
       const packageObject = await this.appService.getPackageJSONObject()
@@ -110,41 +102,6 @@ export default {
           this.state.packageListData.push(object)
         }
       }
-    },
-
-    async resetApp () {
-      if (await showConfirm('重置应用会覆盖现有工作区内容，请提前做好备份。是否继续?')) {
-        this.appService.reset()
-      }
-    },
-
-    async publishApp () { // 发布应用
-      debugger
-      const cancel = fullscreenLoading()
-      const appService = this.composite.context.services.appService
-      const result = await uploadAppPackage(await this.getPackageObject(), await appService.getAppFileBlob(), this.publishOnSave, this.collectRequest.length > 0)
-      cancel()
-      if (result === '1') {
-        showMessage('应用包上传到云端成功')
-        this.dialogAppPublish = false
-      } else {
-        this.publishErrorMsg = result
-      }
-    },
-
-    async importAppZip () { // 导入应用
-      if (await showConfirm('导入应用将会覆盖现有工作区内容，请提前做好备份。是否继续?')) {
-        const file = await selectFile()
-        if (file) {
-          await this.appService.importAppArchive(file)
-          await showAlert('导入完成，点击确认刷新页面')
-          location.reload()   
-        }
-      }
-    },
-
-    async exportAppZip () { // 导出应用
-      await this.appService.exportAppArchive()
     },
 
     async getPackageObject () {
@@ -179,29 +136,6 @@ export default {
     async save () { // 保存到浏览器存储
       await this.appService.savePackageJSONObject(await this.getPackageObject())
       showMessage('应用配置已经保存到浏览器本地存储')
-    },
-
-    openConfigDialog () {
-      this.state.dialogAppConfig = true
-      this.initUserStore()
-    },
-
-    async openOpenAppDialog () { // 打开选择应用对话框
-      if (!this.userStoreStatus.id) {
-        showAlert('您需要成为注册用户')
-        return
-      }
-      this.dialogOpenApp = true
-    },
-
-    async openPublishDialog () { // 保存并发布到云
-      if (!this.userStoreStatus.id) {
-        showAlert('您需要成为注册用户才能保存到云端，要保存工作可以导入/导出应用') 
-        return
-      }
-      await this.save()
-      this.publishErrorMsg = ''
-      this.dialogAppPublish = true
     },
 
     async deleteDependency (scope) { // 删除依赖

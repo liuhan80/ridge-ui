@@ -3,18 +3,21 @@ import  { showConfirm, showMessage } from '/npm/ridge-common/js/utils.js'
 export default {
   name: 'LocalHistory',
   state: {
+    dialogHistroyShow: false, // 显示历史对话框
     selectedKeys: [], // 选中
     historyList: []
   },
-  
 
   async setup () {
-    if (this.context.services.appService) {  
+    if (this.context.services.appService) { 
       this.historyList = await this.context.services.appService.getAllBackups()
     }
   },
 
   actions: {
+    openDialogHistroy() { // 打开历史对话框
+      this.dialogHistroyShow = true
+    },
     onSelectionChange (keys) { // 选中
       this.selectedKeys = keys
     },

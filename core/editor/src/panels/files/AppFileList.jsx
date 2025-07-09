@@ -394,6 +394,7 @@ class AppFileList extends React.Component {
   RenderAppDropDown = () => {
     return (
       <div className='action-btn-appConfig'>
+        <ReactComposite app='ridge-editor-app' path='user/History' />
         <ReactComposite app='ridge-editor-app' path='AppConf' />
       </div>
     )
@@ -472,6 +473,8 @@ class AppFileList extends React.Component {
         {treeData &&
           <Tree
             className='file-tree'
+            showFilteredOnly
+            filterTreeNode
             draggable
             renderLabel={renderFullLabel}
             treeData={treeData}
