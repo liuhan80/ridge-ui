@@ -141,8 +141,6 @@ class CloudNPMService {
     result.localNpm = true
     debug('local npm ready')
 
-    // result.globalNpm = await this.publichLocalNpmToGloabl(packageNpmFolder, token)
-
     return result
   }
 

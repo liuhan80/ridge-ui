@@ -328,6 +328,15 @@ const uploadAppPackage = async (packageJSON, blob, publish, collect) => {
 
   if (fetchResult.code === '100401') {
     return '请登录后再保存'
+  } else {
+    if (fetchResult.data.error) {
+      return fetchResult.data.error
+    }
+    if (publish && fetchResult.data.publishQueue) {
+      if (fetchResult.data.publishQueue.onwerShip === false) {
+        return '同名应用已经发布，请更改应用名'
+      }
+    }
   }
   return '1'
 }

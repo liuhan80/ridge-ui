@@ -324,12 +324,12 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 208,
+        "width": 179,
         "height": 27
       },
       "styleEx": {},
       "props": {
-        "text": "上传到RidgeCloud （需要登录）",
+        "text": "上传到RidgeCloud ",
         "size": "normal",
         "copyable": false,
         "ellipsis": false,
@@ -352,9 +352,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 47,
-        "width": 101,
-        "height": 35
+        "y": -9,
+        "width": 80,
+        "height": 33
       },
       "styleEx": {},
       "props": {
@@ -367,7 +367,8 @@
         "text": "上传"
       },
       "propEx": {
-        "disabled": "RidgeAppShare.state.cloudDisabled"
+        "disabled": "RidgeAppShare.state.cloudDisabled",
+        "loading": "RidgeAppShare.state.appPublishing"
       },
       "events": {
         "onClick": [
@@ -403,7 +404,7 @@
         "flexWrap": false,
         "children": [
           "oak3run7n2",
-          "xmggmj1gum",
+          "mk1u2eyskc",
           "fnso842k0s"
         ],
         "gap": 8,
@@ -469,9 +470,7 @@
         "alignItems": "center",
         "flexWrap": false,
         "children": [
-          "n25rc3fo1s",
-          "b9if24132s",
-          "j0o5idnk3a"
+          "n25rc3fo1s"
         ],
         "gap": 7,
         "padding": 0,
@@ -493,10 +492,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 16,
-        "y": 186.5,
-        "width": 21,
-        "height": 20
+        "x": 273,
+        "y": 190.5,
+        "width": 27,
+        "height": 18
       },
       "styleEx": {},
       "props": {
@@ -509,7 +508,7 @@
       },
       "propEx": {
         "value": "RidgeAppShare.state.publishOnSave",
-        "disabled": "RidgeAppShare.state.cloudDisabled"
+        "disabled": "RidgeAppShare.state.publishDisabled"
       },
       "events": {
         "onChange": []
@@ -527,13 +526,13 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": -28,
-        "width": 56,
-        "height": 26
+        "y": 0,
+        "width": 29,
+        "height": 24
       },
       "styleEx": {},
       "props": {
-        "text": "同时发布",
+        "text": "发布",
         "size": "normal",
         "copyable": false,
         "ellipsis": false,
@@ -557,12 +556,12 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 300,
+        "width": 231,
         "height": 25
       },
       "styleEx": {},
       "props": {
-        "text": "上传并发布后，可以通过以下地址直接访问",
+        "text": "发布后，可以通过以下地址直接访问",
         "size": "normal",
         "copyable": false,
         "ellipsis": false,
@@ -584,9 +583,9 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 107,
-        "y": 182.5,
-        "width": 260,
+        "x": 0,
+        "y": 0,
+        "width": 250,
         "height": 34
       },
       "styleEx": {},
@@ -621,7 +620,7 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 140,
+        "width": 175,
         "height": 25
       },
       "styleEx": {},
@@ -637,6 +636,69 @@
       "propEx": {
         "text": "RidgeAppShare.state.usageText"
       },
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_7",
+      "path": "ridge-container/flex",
+      "id": "mk1u2eyskc",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 351,
+        "height": 42
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "flex-start",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "b9if24132s",
+          "j0o5idnk3a",
+          "pqr90weuw0",
+          "xmggmj1gum"
+        ],
+        "gap": 8,
+        "padding": 8,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "气泡提示",
+      "path": "ridge-semi/popover",
+      "id": "pqr90weuw0",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 20,
+        "height": 26
+      },
+      "styleEx": {},
+      "props": {
+        "icon": "IconCrown",
+        "color": "orange",
+        "size": 14,
+        "text": "限VIP用户"
+      },
+      "propEx": {},
       "events": {},
       "visible": true,
       "locked": false,

@@ -7,11 +7,9 @@ export default {
     usageText: '', // 应用使用情况
     publishOnSave: false,    // 选择保存同时发布
     publishedUrl: '', // 发布后应用访问地址
-    publishErrorMsg: '', // 发布异常信息
     appPublishing: false, // 应用发布中
-    openAppName: '', // 当前打开应用名称
-    openingApp: false, // 打开应用中
-    cloudDisabled: false, // 禁用云功能    
+    cloudDisabled: true, // 禁用云功能    
+    publishDisabled: true // 禁止发布
   },
   computed: {
     collectionDisabled () {
@@ -55,6 +53,9 @@ export default {
         } else {
           this.cloudDisabled = false
         }
+        if (this.userStoreStatus.rule.npm) {
+          this.publishDisabled = false
+        }
       }
     },
 
@@ -73,7 +74,7 @@ export default {
       if (result === '1') {
         showMessage('应用包上传到云端成功')
       } else {
-        this.publishErrorMsg = result
+        showAlert(result)
       }
     },
 
