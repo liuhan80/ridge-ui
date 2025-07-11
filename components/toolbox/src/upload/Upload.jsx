@@ -1,5 +1,5 @@
 import React from 'react'
-import { Upload, Button } from '@douyinfe/semi-ui'
+import { Upload } from '@douyinfe/semi-ui'
 import './style.css'
 export default ({
   btnText = '点击上传',
@@ -34,6 +34,7 @@ export default ({
     draggable,
     maxSize: maxSize * 1024,
     multiple,
+    dragMainText: btnText,
     uploadTrigger: 'custom',
     showUploadList: false,
     directory,
@@ -48,12 +49,18 @@ export default ({
     return (
       <div style={{ width: '100%', height: '100%' }}>
         {renderContent && renderContent(config)}
-        {!renderContent && <Button>{btnText}</Button>}
+        {!renderContent && btnText}
       </div>
     )
   } else {
-    return (
-      <Upload {...config} style={{ width: '100%', height: '100%' }} />
-    )
+    if (!renderContent) {
+      return (
+        <Upload {...config} style={{ width: '100%', height: '100%' }} />
+      )
+    } else {
+      <Upload {...config} style={{ width: '100%', height: '100%' }}>
+        {renderContent(config)}
+      </Upload>
+    }
   }
 }

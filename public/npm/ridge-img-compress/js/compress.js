@@ -1,5 +1,6 @@
 export default {
   name: 'ImageCompress',
+  externals: ['jszip/dist/jszip.min.js'],
   state: {
     inputFiles: [], // 用户选择的原始文件列表
     inputFileDetail: [], // 原始文件详细信息（会包含处理后的数据）
@@ -13,8 +14,35 @@ export default {
       fixedWidth: 800, // 固定宽度
       fixedHeight: 600 // 固定高度
     },
+    scaleModes: [{
+      label: '按比例',
+      value: 'ratio'
+    }, {
+      label: '按尺寸',
+      value: 'dimension'
+    }],
+    dimensionModes: [{
+      label: '指定宽高',
+      value: 'fixed'
+    }, {
+      label: '宽度固定',
+      value: 'width'
+    }, {
+      label: '高度固定',
+      value: 'height'
+    }],
     processProgress: 0, // 整体处理进度百分比
     currentProcessing: -1 // 当前正在处理的文件索引
+  },
+
+  computed : {
+    fileName: scope => scope.item.name,  // 文件名称
+    originalSize: scope => scope.item.formattedSize, // 原始大小
+    originalPx: scope => scope.item.width + 'x' + scope.item.height, // 原始像素
+    compressedPx: scope => scope.item.compressed ? (scope.item.compressedWidth + 'x' + scope.item.compressedHeight) : '', // 压缩后像素
+    compressionRatio: scope => scope.item.compressed ? scope.item.compressionRatio * 100 : '', // 压缩百分比
+    compressionRatioText: scope => scope.item.compressed ? (Math.floor(scope.item.compressionRatio * 100) + '%') : '', // 压缩百分比文本
+    compressedFormattedSize: scope => scope.item.compressedFormattedSize // 压缩后大小
   },
   actions: {
     // 格式化文件大小（转换为B/K/M/G）
@@ -231,6 +259,105 @@ export default {
           })
           .catch(err => reject(err))
       })
+    },
+
+
+    /**
+     * 1. 单独下载压缩后的图片
+     * @param {number} index - 图片在inputFileDetail中的索引
+     */
+    downloadCompressedImage(scope) {
+      const index = scope.i
+      return new Promise((resolve, reject) => {
+        const detail = this.state.inputFileDetail[index];
+        if (!detail || !detail.compressed) {
+          reject(new Error('图片未压缩或索引不存在'));
+          return;
+        }
+
+        // 创建下载链接
+        const link = document.createElement('a');
+        link.href = detail.compressedPreviewUrl;
+        link.download = detail.name; // 使用原始文件名下载
+
+        // 模拟点击下载
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // 释放URL对象（可选，根据需求决定是否立即释放）
+        // URL.revokeObjectURL(link.href);
+
+        resolve({
+          success: true,
+          filename: detail.name,
+          size: detail.compressedSize
+        });
+      });
+    },
+
+    /**
+     * 批量打包下载所有压缩后的图片（ZIP格式）
+     * 注意：需通过构建工具的externals配置引入JSZip
+     */
+    batchDownloadCompressedImages() {
+      return new Promise((resolve, reject) => {
+        const compressedFiles = this.state.inputFileDetail.filter(d => d.compressed);
+        if (compressedFiles.length === 0) {
+          reject(new Error('没有可下载的压缩文件'));
+          return;
+        }
+
+        // 从全局环境中获取JSZip（通过externals引入）
+        const JSZip = window.JSZip;
+        if (!JSZip) {
+          reject(new Error('JSZip库未加载，请确保通过externals配置正确引入'));
+          return;
+        }
+
+        const zip = new JSZip();
+        const imageFolder = zip.folder('compressed-images');
+
+        // 逐个添加文件到ZIP
+        compressedFiles.forEach((detail, idx) => {
+          fetch(detail.compressedPreviewUrl)
+            .then(response => response.blob())
+            .then(blob => {
+              return new Promise((res) => {
+                const reader = new FileReader();
+                reader.onload = () => res(reader.result);
+                reader.readAsArrayBuffer(blob);
+              });
+            })
+            .then(arrayBuffer => {
+              imageFolder.file(detail.name, arrayBuffer);
+              
+              if (idx === compressedFiles.length - 1) {
+                zip.generateAsync({ type: 'blob' }, (metadata) => {
+                  console.log(`打包进度：${metadata.percent.toFixed(0)}%`);
+                })
+                .then(content => {
+                  const link = document.createElement('a');
+                  link.href = URL.createObjectURL(content);
+                  link.download = `compressed-images-${new Date().getTime()}.zip`;
+                  
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                  URL.revokeObjectURL(link.href);
+                  
+                  resolve({
+                    success: true,
+                    fileCount: compressedFiles.length,
+                    zipSize: this.formatFileSize(content.size)
+                  });
+                })
+                .catch(err => reject(err));
+              }
+            })
+            .catch(err => reject(err));
+        });
+      });
     }
   }
 }
