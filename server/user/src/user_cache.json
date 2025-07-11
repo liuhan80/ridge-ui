@@ -49,5 +49,22 @@
       "registered": "2024-11-15T07:59:12.705Z"
     },
     "expire": 1754617827939
+  },
+  {
+    "sess": "b9da11b9fec8b0e0db3d9404f8030774485161ea9b53fa9a4df9a722498a1a6d",
+    "user": {
+      "id": "15011245191",
+      "store": "1000",
+      "type": "admin",
+      "profile": {
+        "userId": "15011245191",
+        "avatar": "/avatar/15011245191.webp",
+        "_id": "QLZCxTxrWSxYBaN8",
+        "createdAt": "2024-12-30T03:31:03.370Z",
+        "updatedAt": "2025-07-08T08:42:56.663Z"
+      },
+      "registered": "2024-11-15T07:59:12.705Z"
+    },
+    "expire": 1754806222902
   }
 ]
