@@ -5,6 +5,8 @@ export default ({
   btnText = '点击上传',
   draggable = false,
   fileLimit,
+  __isEdit,
+  outputUrl = true,
   directory = false,
   maxSize = 10,
   renderContent,
@@ -15,12 +17,17 @@ export default ({
   const fileChange = (fileList) => {
     const newFileList = [...fileList] // spread to get new array
 
-    let outputValue = newFileList.map(item => URL.createObjectURL(item))
-    if (!multiple) {
-      outputValue = outputValue[0]
+    if (outputUrl) {
+      let outputValue = newFileList.map(item => URL.createObjectURL(item))
+      if (!multiple) {
+        outputValue = outputValue[0]
+      }
+      input && input(outputValue)
+      onChange && onChange(outputValue)
+    } else {
+      input && input(newFileList)
+      onChange && onChange(newFileList)
     }
-    input && input(outputValue)
-    onChange && onChange(outputValue)
   }
 
   const config = {
@@ -37,10 +44,16 @@ export default ({
     config.accept = fileLimit
   }
 
-  return (
-    <Upload {...config}>
-      {renderContent && renderContent(config)}
-      {!renderContent && <Button>{btnText}</Button>}
-    </Upload>
-  )
+  if (__isEdit) {
+    return (
+      <div style={{ width: '100%', height: '100%' }}>
+        {renderContent && renderContent(config)}
+        {!renderContent && <Button>{btnText}</Button>}
+      </div>
+    )
+  } else {
+    return (
+      <Upload {...config} style={{ width: '100%', height: '100%' }} />
+    )
+  }
 }

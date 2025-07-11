@@ -1,8 +1,8 @@
 {
   "name": "ridge-json-tree",
   "version": "1.0.0",
-  "icon": "icons/icon.png",
-  "logo": "icons/icon.png",
+  "icon": "icons/icon.svg",
+  "logo": "icons/icon.svg",
   "description": "Ridge调试工具箱",
   "author": {
     "name": "Ridge System"

@@ -14,7 +14,8 @@ export default {
     number('maxSize', '最大(MB)', 10),
     boolean('multiple', '可多选', true),
     slot('renderContent', '自定义内容'),
-    boolean('directory', '上传文件夹', false)
+    boolean('directory', '上传文件夹', false, false),
+    boolean('outputUrl', '输出URL', true)
   ],
   events: [onChange],
   width: 300,

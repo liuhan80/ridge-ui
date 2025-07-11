@@ -196,6 +196,13 @@ export default class FlexBoxContainer extends BaseContainer {
     // 主轴方向长度
     if (configStyle.flex) { // 设置主轴方向长度 flex -动态
       style.flex = configStyle.flex
+      if (configStyle.flex === 'auto') {
+        if (this.props.direction === 'row') {
+          style.width = toCSSLength(configStyle.width)
+        } else {
+          style.height = toCSSLength(configStyle.height)
+        }
+      }
       if (this.props.direction === 'row') { // hidden避免内容拉长内容
         style.overflowX = 'hidden'
       } else {

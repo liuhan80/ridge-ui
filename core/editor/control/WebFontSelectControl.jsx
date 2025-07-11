@@ -9,7 +9,7 @@ export default ({
   const [options, setOptions] = useState([])
 
   useEffect(() => {
-    setOptions(context.editorComposite.fontList ?? [])
+    setOptions(context.editorComposite?.fontList ?? [])
   })
   return (
     <Select
