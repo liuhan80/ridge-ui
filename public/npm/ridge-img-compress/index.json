@@ -146,7 +146,7 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 652,
+        "width": 739,
         "height": 619,
         "flex": "1"
       },
@@ -165,11 +165,7 @@
         "verticalDivide": 3,
         "sortable": false,
         "gap": 4,
-        "classNames": [
-          "ridge-bootstrap/border-1",
-          "ridge-bootstrap/border",
-          "ridge-bootstrap/border-body-tertiary"
-        ]
+        "classNames": []
       },
       "propEx": {
         "dataSource": "ImageCompress.state.inputFileDetail"
@@ -189,7 +185,7 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 673,
+        "width": 736,
         "height": 61
       },
       "styleEx": {},
@@ -202,8 +198,7 @@
           "g6mbliec3a",
           "my2l1xh0vs",
           "t3rrpmg4yl",
-          "j1oywx9gm5",
-          "wb22mkst7g",
+          "ghstpit7fe",
           "25lptsigkf"
         ],
         "gap": 8,
@@ -267,10 +262,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 720,
-        "y": 387,
+        "x": 0,
+        "y": 5,
         "width": 92,
-        "height": 22
+        "height": 19
       },
       "styleEx": {},
       "props": {
@@ -303,9 +298,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 0,
+        "y": -9,
         "width": 87,
-        "height": 22
+        "height": 18
       },
       "styleEx": {},
       "props": {
@@ -375,9 +370,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 0,
+        "y": -41,
         "width": 179,
-        "height": 22
+        "height": 19
       },
       "styleEx": {},
       "props": {
@@ -410,9 +405,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 0,
+        "y": 27,
         "width": 92,
-        "height": 58
+        "height": 46
       },
       "styleEx": {},
       "props": {
@@ -447,7 +442,7 @@
         "x": 0,
         "y": 0,
         "width": 442,
-        "height": 49,
+        "height": 42,
         "alignSelfStretch": true
       },
       "styleEx": {},
@@ -458,6 +453,7 @@
         "flexWrap": false,
         "children": [
           "nkgbgqqxy5",
+          "ctwuuwzz9m",
           "4hrpikpjue"
         ],
         "gap": 8,
@@ -481,8 +477,8 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 29,
-        "width": 73,
+        "y": 89,
+        "width": 80,
         "height": 10
       },
       "styleEx": {},
@@ -509,9 +505,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 0,
+        "y": -8,
         "width": 259,
-        "height": 22
+        "height": 19
       },
       "styleEx": {},
       "props": {
@@ -545,8 +541,8 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 0,
+        "x": 859,
+        "y": 411.5,
         "width": 55,
         "height": 20
       },
@@ -983,7 +979,6 @@
         "flexWrap": false,
         "children": [
           "t6v58bgyeg",
-          "b2q1zc11lm",
           "p723qble75",
           "5zw36ud5lq",
           "1p2p6hghga"
@@ -999,39 +994,6 @@
           "ridge-bootstrap/border"
         ],
         "padding": 18
-      },
-      "propEx": {},
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "slots": []
-    },
-    {
-      "title": "文本_7",
-      "path": "ridge-bootstrap/typography",
-      "id": "b2q1zc11lm",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 24,
-        "y": 100,
-        "width": 100,
-        "height": 22
-      },
-      "styleEx": {},
-      "props": {
-        "text": "文本",
-        "color": "",
-        "bgcolor": "",
-        "fontSize": 14,
-        "autoFontSize": false,
-        "fontFamily": "",
-        "ellipsis": true,
-        "clamp": 1,
-        "center": false,
-        "effect": "",
-        "classList": []
       },
       "propEx": {},
       "events": {},
@@ -1111,10 +1073,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 736,
-        "y": 1001,
-        "width": 1200.0000000000002,
-        "height": 819.9999854678201
+        "x": 308.999979271079,
+        "y": 7.999999568147479,
+        "width": 1200,
+        "height": 730.9999861807192
       },
       "styleEx": {},
       "props": {
@@ -1303,8 +1265,8 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 101,
-        "width": 293,
+        "y": 0,
+        "width": 274,
         "height": 318
       },
       "styleEx": {},
@@ -1409,6 +1371,145 @@
         "classList": []
       },
       "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_10",
+      "path": "ridge-container/flex",
+      "id": "ghstpit7fe",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 264,
+        "width": 164,
+        "height": 58
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "column",
+        "justify": "flex-start",
+        "alignItems": "flex-start",
+        "flexWrap": false,
+        "children": [
+          "ezxrexestr",
+          "jf6s1nlhex"
+        ],
+        "gap": 2,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_9",
+      "path": "ridge-bootstrap/typography",
+      "id": "ezxrexestr",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 100,
+        "height": 23
+      },
+      "styleEx": {},
+      "props": {
+        "text": "压缩比",
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 14,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": true,
+        "clamp": 1,
+        "center": false,
+        "effect": "",
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "弹性容器_11",
+      "path": "ridge-container/flex",
+      "id": "jf6s1nlhex",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": 0,
+        "width": 164,
+        "height": 19
+      },
+      "styleEx": {},
+      "props": {
+        "direction": "row",
+        "justify": "flex-start",
+        "alignItems": "center",
+        "flexWrap": false,
+        "children": [
+          "j1oywx9gm5",
+          "wb22mkst7g"
+        ],
+        "gap": 8,
+        "padding": 0,
+        "hoverable": false,
+        "rectStyle": {},
+        "classList": []
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "文本_7",
+      "path": "ridge-bootstrap/typography",
+      "id": "ctwuuwzz9m",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 0,
+        "y": -3,
+        "width": 535,
+        "height": 22,
+        "flex": "1"
+      },
+      "styleEx": {},
+      "props": {
+        "text": "文本",
+        "color": "",
+        "bgcolor": "",
+        "fontSize": 14,
+        "autoFontSize": false,
+        "fontFamily": "",
+        "ellipsis": true,
+        "clamp": 1,
+        "center": false,
+        "effect": "",
+        "classList": []
+      },
+      "propEx": {
+        "text": "ImageCompress.state.globalStatus.message"
+      },
       "events": {},
       "visible": true,
       "locked": false,
