@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunkridge_modernize=globalThis.webpackChunkridge_modernize||[]).push([[247],{247:(e,i,n)=>{n.r(i),n.d(i,{default:()=>o});var t=n(677),a=n.n(t);const o=({value:e,onChange:i})=>{const{ReactComposite:n}=window.ridgejs;return a().createElement(n,{app:"ridge-editor-app",path:"field/options/OptionListEdit",value:e,onChange:i})}}}]);

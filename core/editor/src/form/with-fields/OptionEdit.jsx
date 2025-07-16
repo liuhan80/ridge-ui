@@ -263,15 +263,9 @@ const OptionsEdit = ({
 
   // 渲染Popover内容
   const renderPopoverContent = () => (
-    <div className='semi-p-4' style={{ minWidth: popoverWidth }}>
+    <div className='semi-p-4' style={{ minWidth: popoverWidth, padding: 10 }}>
       <div className='semi-flex semi-justify-between semi-items-center semi-mb-4'>
-        <h3 className='semi-text-lg semi-font-medium'>{title}</h3>
-        <Button
-          size='small'
-          onClick={() => setIsPopoverOpen(false)}
-        >
-          关闭
-        </Button>
+        <h6 className='semi-text-lg semi-font-medium'>{title}</h6>
       </div>
 
       {/* 表格展示选项 */}
@@ -280,6 +274,7 @@ const OptionsEdit = ({
           <Table
             dataSource={options}
             columns={columns}
+            size='small'
             pagination={false}
             bordered
           />
@@ -291,6 +286,7 @@ const OptionsEdit = ({
       {/* 添加按钮 */}
       <div className='semi-mt-4'>
         <Button
+          size='small'
           type='primary'
           onClick={() => {
             handleAddOption()
@@ -316,6 +312,7 @@ const OptionsEdit = ({
       style={{ width: popoverWidth }}
     >
       <Button
+        size='small'
         {...buttonProps}
       >
         {buttonText}
