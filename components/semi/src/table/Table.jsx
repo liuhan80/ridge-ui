@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Table } from '@douyinfe/semi-ui'
 
 export default ({
@@ -7,6 +7,8 @@ export default ({
   size,
   rowKey,
   selectionChanged,
+  onRowClicked,
+  onRowDblClicked,
   pagination = false
 }) => {
   const [selectedRows, setSelectedRows] = React.useState([])
@@ -30,5 +32,24 @@ export default ({
       selectionChanged && selectionChanged(selectedRowKeys, selectedRows)
     }
   }
-  return <Table rowKey={rowKey} selectedRows={selectedRows} size={size} rowSelection={rowSelection} columns={columns.map(convertOptionItemToSemiCol)} dataSource={dataSource} pagination={pagination} />
+
+  useEffect(() => {
+    setSelectedRows([])
+    selectionChanged && selectionChanged([], selectedRows)
+  }, [dataSource])
+
+  const onRow = (record, index) => {
+    return {
+      onClick: event => {
+        onRowClicked && onRowClicked(record, index)
+      }, // 点击行
+      onDoubleClick: event => {
+        onRowDblClicked && onRowDblClicked(record, index)
+      },
+      onMouseEnter: event => {}, // 鼠标移入行
+      onMouseLeave: event => {}, // 鼠标移出行
+      className: ''
+    }
+  }
+  return <Table rowKey={rowKey} onRow={onRow} selectedRows={selectedRows} size={size} rowSelection={rowSelection} columns={columns.map(convertOptionItemToSemiCol)} dataSource={dataSource} pagination={pagination} />
 }

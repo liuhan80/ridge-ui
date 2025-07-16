@@ -14,5 +14,9 @@ module.exports = {
       debug('using Database: NeDB')
       app.dataBaseProducer.setDatabaseImpl(NeDB, app.config.nedb)
     }
+  },
+
+  async ready () {
+
   }
 }

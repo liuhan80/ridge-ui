@@ -1210,7 +1210,7 @@
         "x": 0,
         "y": 0,
         "width": 324,
-        "height": 20
+        "height": 26
       },
       "styleEx": {},
       "props": {
@@ -1301,7 +1301,7 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 171,
+        "width": 173,
         "height": 29
       },
       "styleEx": {},

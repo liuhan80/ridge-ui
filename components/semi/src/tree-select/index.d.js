@@ -19,6 +19,7 @@ export default {
     boolean('multiple', '多选', false),
     boolean('leafOnly', '仅子节点', false),
     boolean('filterTreeNode', '可过滤', true),
+    boolean('defaultExpandAll', '默认展开', true),
     radiogroup('checkRelation', '选择关系', [{
       label: '关联',
       value: 'related'
@@ -29,7 +30,10 @@ export default {
     ], 'unRelated')
   ],
   events: [
-    onChange
+    onChange, {
+      name: 'onLoadData',
+      label: '加载子节点'
+    }
   ],
   width: 300,
   height: 52

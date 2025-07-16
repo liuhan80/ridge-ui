@@ -6,7 +6,7 @@ const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 10)
 
 const formateDate = (mill, format) => {
   const m = mill || new Date().getTime()
-  return dayjs(m).format(format || 'YYYY-MM-DD HH:mm:ss')
+  return dayjs(m).format(format || 'YYYY-MM-DD-HH-mm-ss')
 }
 
 const dirname = (path) => {

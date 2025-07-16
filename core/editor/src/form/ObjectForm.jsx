@@ -19,6 +19,7 @@ import EffectEdit from './with-fields/EffectEdit.jsx'
 import StringEdit from './with-fields/StringEdit.jsx'
 import WithFieldEdit from './with-fields/WithFieldEdit.jsx'
 import ColorPicker from './with-fields/ColorPicker.jsx'
+import OptionEdit from './with-fields/OptionEdit.jsx'
 const {
   InputNumber,
   Select,
@@ -79,7 +80,8 @@ class ObjectForm extends React.Component {
       color: col => <ColorPicker label={col.label} field={col.field} options={col} />,
       strings: col => <TagInput size='small' label={col.label} field={col.field} />,
       datetime: col => <DatePicker size='small' label={col.label} field={col.field} type='dateTime' />,
-      effect: col => <EffectEdit label={col.label} field={col.field} />
+      effect: col => <EffectEdit label={col.label} field={col.field} />,
+      options: col => <OptionEdit label={col.label} field={col.field} />
       // icon: col => <FontIconEdit label={col.label} field={col.field} options={col} />
     }
   }

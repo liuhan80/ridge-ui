@@ -56,6 +56,12 @@ export default {
   events: [{
     name: 'selectionChanged',
     label: '选择变化'
+  }, {
+    name: 'onRowClicked',
+    label: '单击行'
+  }, {
+    name: 'onRowDblClicked',
+    label: '双击行'
   }],
   width: 300,
   height: 52

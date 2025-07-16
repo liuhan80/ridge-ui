@@ -5,17 +5,22 @@ export default ({
   value = '',
   multiple,
   leafOnly,
+  defaultExpandAll,
   treeData = [],
   checkRelation,
   filterTreeNode,
   disabled,
   size,
   input,
+  onLoadData,
   onChange
 }) => {
   return (
     <TreeSelect
       value={value}
+      loadData={async (node) => {
+        return onLoadData(node)
+      }}
       treeData={mapOptionToTree(treeData)}
       size={size}
       multiple={multiple}
@@ -24,8 +29,7 @@ export default ({
       filterTreeNode={filterTreeNode}
       searchPosition='trigger'
       disabled={disabled}
-      expandAll
-      defaultExpandAll
+      defaultExpandAll={defaultExpandAll}
       onChange={(selectedKey, selected) => {
         if (!multiple && leafOnly) {
           if (!selected.children) {

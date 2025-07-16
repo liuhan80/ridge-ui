@@ -16,6 +16,7 @@ import icon from './src/icon/index.d.js'
 import image from './src/image/index.d.js'
 import input from './src/input/index.d.js'
 import inputnumber from './src/inputnumber/index.d.js'
+import jsonEdit from './src/json-edit/index.d.js'
 import modal from './src/modal/index.d.js'
 import navigation from './src/navigation/index.d.js'
 import notification from './src/notification/index.d.js'
@@ -46,4 +47,4 @@ import toast from './src/toast/index.d.js'
 import treeSelect from './src/tree-select/index.d.js'
 import tree from './src/tree/index.d.js'
 import upload from './src/upload/index.d.js'
-export { autoComplete, avatar, badge, banner, breadcrumb, buttonToggle, button, buttonsplit, cascader, checkbox, cropper, datepicker, dropdown, highlight, icon, image, input, inputnumber, modal, navigation, notification, onoff, pagination, pincode, popconfirm, popover, progress, radiogroup, rating, select, sidesheet, slider, slidesheet, spin, steps, table, tabs, tag, taginput, text, textarea, timeline, timepicker, title, toast, treeSelect, tree, upload }
+export { autoComplete, avatar, badge, banner, breadcrumb, buttonToggle, button, buttonsplit, cascader, checkbox, cropper, datepicker, dropdown, highlight, icon, image, input, inputnumber, jsonEdit, modal, navigation, notification, onoff, pagination, pincode, popconfirm, popover, progress, radiogroup, rating, select, sidesheet, slider, slidesheet, spin, steps, table, tabs, tag, taginput, text, textarea, timeline, timepicker, title, toast, treeSelect, tree, upload }

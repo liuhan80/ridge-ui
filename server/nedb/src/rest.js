@@ -1,7 +1,3 @@
-const fsp = require('fs').promises
-const os = require('os')
-const path = require('path')
-
 /**
  * 实现database相关Rest接口服务
  */
@@ -12,36 +8,49 @@ module.exports = class DBRestify {
   }
 
   async initRoute (app) {
-    this.rootPath = path.resolve(app.config.dbDataDir, '../')
     const { router, logger } = app
+
     this.logger = logger
 
-    router.get(this.prefix + '/list', async (ctx, next) => {
-      await ctx.app.checkManage()
-      await this.handleBackUpList(ctx)
+    // 获取数据库列表
+    router.get(this.prefix + '/:path+', async (ctx, next) => {
+      ctx.app.checkManage(ctx)
+      await next()
+    })
+
+    // 获取数据库下的coll列表
+    router.get(this.prefix + '/db/:dbname/collections', async (ctx, next) => {
+      const dbname = ctx.params.dbname
+
+      ctx.body = await this.getCollections(dbname)
       await next()
     })
 
     // 获取coll下文档列表
-    router.get(this.prefix + '/documents', async (ctx, next) => {
-      await ctx.app.checkManage()
+    router.get(this.prefix + '/documents/:dbName/:collName', async (ctx, next) => {
+      const { dbName, collName } = ctx.params
       const query = ctx.request.query
-      const { dbPath, collName } = query
-      const dbQuery = Object.assign({}, query)
-      delete dbQuery.dbPath
-      delete dbQuery.collName
-      ctx.body = await this.getCollectionDocs(dbPath, collName, dbQuery)
+
+      ctx.body = await this.getCollectionDocs(dbName, collName, query)
       await next()
     })
 
     // 删除文档
-    router.delete(this.prefix + '/document', async (ctx, next) => {
-      await ctx.app.checkManage()
-      const query = ctx.request.query
-      const { dbName, collName, id } = query
+    router.delete(this.prefix + '/document/:dbName/:collName/:id', async (ctx, next) => {
+      const { dbName, collName, id } = ctx.params
 
       ctx.body = {
         removed: await this.removeCollectionDoc(dbName, collName, id)
+      }
+    })
+
+    // 删除数据库
+    router.delete(this.prefix + '/dbs/:dbPath+', async (ctx, next) => {
+      const { dbPath } = ctx.params
+
+      await this.provider.dropDb(this.store + '/' + dbPath)
+      ctx.body = {
+        completed: true
       }
       await next()
     })
@@ -92,16 +101,11 @@ module.exports = class DBRestify {
   }
 
   async getCollectionDocs (dbPath, collName, options) {
-    const db = await this.provider.getDb(path.resolve(this.rootPath, dbPath))
+    const db = await this.provider.getDb(dbPath)
     const coll = await db.getCollection(collName, false)
 
     const query = options
 
-    const result = {
-      list: [],
-      total: 0,
-      query: Object.assign({}, query)
-    }
     const opts = {}
 
     if (query.skip) {
@@ -115,49 +119,9 @@ module.exports = class DBRestify {
     }
 
     if (coll) {
-      result.list = await coll.find(query, opts)
-      result.total = await coll.count(query)
-    }
-    return result
-  }
-
-  async handleBackUpList (ctx) {
-    const resolvedPath = ctx.query.dir || ''
-    const finalPath = path.resolve(this.rootPath, resolvedPath)
-    try {
-      // 读取目录内容
-      const entries = await fsp.readdir(finalPath, { withFileTypes: true })
-
-      // 获取每个文件的详细信息
-      const files = await Promise.all(entries.map(async entry => {
-        const entryPath = path.join(finalPath, entry.name)
-        const stat = await fsp.stat(entryPath)
-
-        // 获取文件所有者信息（在POSIX系统上）
-        let owner = 'unknown'
-        try {
-          if (process.platform !== 'win32') {
-            const userInfo = await os.userInfo()
-            owner = userInfo.username
-          }
-        } catch (err) {
-          // console.error('获取文件所有者失败:', err);
-        }
-
-        return {
-          name: entry.name,
-          isDirectory: entry.isDirectory(),
-          size: entry.isFile() ? stat.size : 0,
-          modifiedAt: stat.mtime.toISOString(),
-          owner
-        }
-      }))
-
-      ctx.body = { files }
-    } catch (err) {
-      console.error('handleBackUpList', err)
-      ctx.status = 500
-      ctx.body = { error: '读取目录失败' }
+      return coll.find(query, opts)
+    } else {
+      return []
     }
   }
 

@@ -17,7 +17,7 @@ export default class BackUpService {
     this.appService = appService
     this.coll = appService.collection
 
-    this.backUpStorage = Localforge.createInstance({ name: 'ridge-store' })
+    this.backUpStorage = Localforge.createInstance({ name: 'ridgeui-hisgtory-store' })
 
     this.store = appService.store
     this.archiveColl = new NeCollection('ridge.backup.db')
@@ -37,6 +37,7 @@ export default class BackUpService {
       const historyObject = {
         backUpName,
         name: appPackageObject.name,
+        d: date,
         version: appPackageObject.version
       }
       await this.archiveColl.insert(historyObject)

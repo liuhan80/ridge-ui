@@ -12,6 +12,7 @@ class DatabaseProducer {
       store: app.config.dbDataDir || path.resolve(app.config.bootPath, './data/database')
     }
     this.instances = {}
+    this.instancesByFilePath = {}
   }
 
   /**
@@ -63,6 +64,8 @@ class DatabaseProducer {
 
     if (this.instances[name]) {
       return this.instances[name]
+    } else if (this.instancesByFilePath[name]) {
+      return this.instancesByFilePath[name]
     } else {
       const dbPath = this.getDbPathByName(name)
 
@@ -70,6 +73,7 @@ class DatabaseProducer {
       if (this.instances[name].connect) {
         await this.instances[name].connect()
       }
+      this.instancesByFilePath[dbPath] = this.instances[name]
       return this.instances[name]
     }
   }

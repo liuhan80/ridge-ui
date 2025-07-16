@@ -1,6 +1,6 @@
 import Navigation from './Navigation.jsx'
 import { direction, icon } from '../props.js'
-import { boolean, json, string } from 'ridge-build/src/props.js'
+import { boolean, json, string, optionConfig } from 'ridge-build/src/props.js'
 export default {
   name: 'navigation',
   title: '菜单导航',
@@ -8,7 +8,7 @@ export default {
   icon: 'icons/navigation.svg',
   type: 'react',
   props: [
-    json('items', '菜单项', []),
+    optionConfig('items', '菜单项', []),
     direction,
     string('defaultSelected', '默认选择'),
     boolean('showHeader', '显示头部', true),
