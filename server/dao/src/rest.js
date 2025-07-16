@@ -34,37 +34,23 @@ module.exports = class DBRestify {
       await next()
     })
 
+    router.post(this.prefix + '/document', async (ctx, next) => {
+      await ctx.app.checkManage()
+      const { dbPath, collName } = ctx.request.query
+      const body = ctx.request.body
+
+      ctx.body = await this.updateCollectionDoc(dbPath, collName, body)
+      await next()
+    })
+
     // 删除文档
     router.delete(this.prefix + '/document', async (ctx, next) => {
       await ctx.app.checkManage()
       const query = ctx.request.query
-      const { dbName, collName, id } = query
+      const { dbPath, collName, id } = query
 
       ctx.body = {
-        removed: await this.removeCollectionDoc(dbName, collName, id)
-      }
-      await next()
-    })
-
-    // 导出数据库
-    router.post(this.prefix + '/dbs/export', async (ctx, next) => {
-      const dbPath = ctx.query.path
-
-      ctx.type = 'tar'
-      ctx.attachment('db-export.tar')
-      ctx.body = await this.provider.exportDb(this.store + '/' + dbPath)
-      await next()
-    })
-
-    // 导入数据库
-    router.post(this.prefix + '/dbs/import', async (ctx, next) => {
-      const { path, overwrite } = ctx.query
-      const { file } = ctx.request.files
-
-      await this.provider.importDb(this.store + '/' + path, file.path, overwrite)
-
-      ctx.body = {
-        completed: true
+        removed: await this.removeCollectionDoc(dbPath, collName, id)
       }
       await next()
     })
@@ -86,7 +72,7 @@ module.exports = class DBRestify {
   }
 
   async getCollection (dbName, collName) {
-    const db = await this.provider.getDb(dbName)
+    const db = await this.provider.getDb(path.resolve(this.rootPath, dbName))
     const coll = await db.getCollection(collName, false)
     return coll
   }
@@ -119,6 +105,12 @@ module.exports = class DBRestify {
       result.total = await coll.count(query)
     }
     return result
+  }
+
+  async updateCollectionDoc (dbPath, collName, doc) {
+    const db = await this.provider.getDb(path.resolve(this.rootPath, dbPath))
+    const coll = await db.getCollection(collName, false)
+    return await coll.update({ _id: doc._id }, doc)
   }
 
   async handleBackUpList (ctx) {
