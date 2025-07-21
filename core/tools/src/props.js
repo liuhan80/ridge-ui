@@ -260,4 +260,8 @@ const effect = (name = 'effect', label = '效果', value = '') => {
   }
 }
 
-export { boolean, image, number, value, string, file, json, select, array, icon, color, children, classList, radiogroup, optionConfig, slot, onClick, onChange, event, objectFit, effect }
+const divider = {
+  type: 'divider'
+}
+
+export { boolean, divider, image, number, value, string, file, json, select, array, icon, color, children, classList, radiogroup, optionConfig, slot, onClick, onChange, event, objectFit, effect }

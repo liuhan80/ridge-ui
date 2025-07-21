@@ -9,8 +9,9 @@ export default ({
   copyable,
   link,
   ellipsis,
+  rows = 1,
   onClick,
   classList = []
 }) => {
-  return <Text onClick={() => { onClick && onClick() }} link={link ? { href: link, target: '_blank' } : false} ellipsis={ellipsis ? { showTooltip: true } : false} copyable={copyable} size={size} type={type} className={classList.join(' ')}>{text || ''}</Text>
+  return <Text onClick={() => { onClick && onClick() }} link={link ? { href: link, target: '_blank' } : false} ellipsis={ellipsis ? { showTooltip: true, rows } : false} copyable={copyable} size={size} type={type} className={classList.join(' ')}>{text || ''}</Text>
 }

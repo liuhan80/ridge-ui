@@ -85,7 +85,7 @@ class AppStorageService {
         user,
         rule,
         publish: ctx.request.body.publish,
-        collect: ctx.request.body.collect,
+        collect: ctx.request.body.publish,
         npmPackage: packageObject
       })
       await next()
