@@ -2,6 +2,10 @@ import { getStoreStatus, fullscreenLoading, showAlert, showConfirm, showMessage,
 
 export default {
   name: 'RidgeAppConfig',
+  events: [{
+    label: '配置保存',
+    value: 'saved'
+  }],
   state: {
     packageName: '',
     packageIcon: '',
@@ -47,8 +51,7 @@ export default {
   },
 
   async setup () {
-    this.appService = this.composite.context.services.appService
-    this.updateState()
+      this.appService = this.composite.context.services.appService
   },
 
   destory () {
@@ -59,6 +62,7 @@ export default {
 
   actions: {
     openDialogAppConfig () {
+      this.updateState()
       this.dialogAppConfig = true
     },
     async initUserStore () {
@@ -135,7 +139,9 @@ export default {
 
     async save () { // 保存到浏览器存储
       await this.appService.savePackageJSONObject(await this.getPackageObject())
-      showMessage('应用配置已经保存到浏览器本地存储')
+      this.dialogAppConfig = false
+      this.emit('saved')
+      showMessage('应用配置已经保存')
     },
 
     async deleteDependency (scope) { // 删除依赖

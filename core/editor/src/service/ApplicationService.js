@@ -583,6 +583,7 @@ export default class ApplicationService {
   }
 
   async reset () {
+    await this.backupCurrentApp()
     await this.collection.clean()
     await this.store.clear()
 

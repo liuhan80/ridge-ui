@@ -19,7 +19,7 @@ class ComponentListing extends React.Component {
       loadedPackages: [],
       loadedComponents: [],
       currentPackage: '',
-      fullLoading: true,
+      fullLoading: false,
       popComponent: {},
       componentPopOver: false
     }
@@ -93,18 +93,22 @@ class ComponentListing extends React.Component {
     this.ensurePackageComponents(pkg)
   }
 
+  async reload () {
+    this.loadPackages()
+  }
+
   /**
    * 加载/更新应用的所有包
    */
   async loadPackages () {
-    this.setState({
-      fullLoading: true
-    })
+    // this.setState({
+    //   fullLoading: true
+    // })
     const { loadedPackages, appPackageObject } = await context.loadAppPackages()
 
     if (loadedPackages.length) {
       this.setState({
-        fullLoading: false,
+        // fullLoading: false,
         appPackageObject,
         loadedPackages
       })
@@ -263,7 +267,7 @@ class ComponentListing extends React.Component {
 
   render () {
     const { fullLoading, loadedPackages, currentPackage, appPackageObject } = this.state
-    const { dragStart, renderDescription, changePackageTheme, renderComponentItem } = this
+    const { dragStart, renderDescription, changePackageTheme, renderComponentItem, reload } = this
 
     const tabChange = this.tabChange.bind(this)
     return (
@@ -276,7 +280,11 @@ class ComponentListing extends React.Component {
             size='small'
             tabPosition='top'
             tabBarExtraContent={
-              <ReactComposite app='ridge-editor-app' path='DialogRepoApp' />
+              <ReactComposite
+                app='ridge-editor-app' path='DialogRepoApp' y9h91th74b-packageAppended={() => {
+                  this.reload()
+                }}
+              />
             }
             activeKey={currentPackage}
             onChange={key => tabChange(key)}

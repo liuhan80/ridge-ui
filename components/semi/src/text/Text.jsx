@@ -13,5 +13,13 @@ export default ({
   onClick,
   classList = []
 }) => {
-  return <Text onClick={() => { onClick && onClick() }} link={link ? { href: link, target: '_blank' } : false} ellipsis={ellipsis ? { showTooltip: true, rows } : false} copyable={copyable} size={size} type={type} className={classList.join(' ')}>{text || ''}</Text>
+  return (
+    <Text
+      style={{
+        'word-break': 'break-all',
+        'white-space': 'break-spaces'
+      }} onClick={() => { onClick && onClick() }} link={link ? { href: link, target: '_blank' } : false} ellipsis={ellipsis ? { showTooltip: true, rows } : false} copyable={copyable} size={size} type={type} className={classList.join(' ')}
+    >{text || ''}
+    </Text>
+  )
 }

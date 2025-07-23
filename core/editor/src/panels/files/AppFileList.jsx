@@ -8,6 +8,7 @@ import DialogRename from './DialogRename.jsx'
 import DialogCreate from './DialogCreate.jsx'
 import { stringToBlob } from '../../utils/blob.js'
 import IconFileCode from '../../icons/IconFileCode.jsx'
+import IconNewTab from '../../icons/IconoirNewTab.svg'
 import IconFolderAdd from '../../icons/IconFolderAdd.jsx'
 import IconPageAdd from '../../icons/IconPageAdd.jsx'
 import IconUpload from '../../icons/IconUpload.jsx'
@@ -298,6 +299,41 @@ class AppFileList extends React.Component {
     appService.exportFileArchive(data.key)
   }
 
+  async exportApp () {
+    if (this.state.exportToastId) {
+      return
+    }
+    const id = Toast.info({
+      content: '正在导出应用，请稍侯...',
+      duration: 0,
+      onClose: () => {
+        this.setState({
+          exportToastId: null
+        })
+      }
+    })
+    this.setState({
+      exportToastId: id
+    })
+    const { appService } = context.services
+    await appService.exportAppArchive()
+    Toast.close(id)
+    this.setState({
+      exportToastId: null
+    })
+  }
+
+  newEmptyApp = () => {
+    Modal.confirm({
+      title: '新增应用',
+      content: '确认新增应用？ 现有工作区间内容将会被清除。如果需要内容，您可以先整体导出应用内容',
+      onOk: () => {
+        const { appService } = context.services
+        appService.reset()
+      }
+    })
+  }
+
   renderFullLabel = (label, data) => {
     const { currentOpenId } = this.state
     const MORE_MENUS = []
@@ -367,41 +403,21 @@ class AppFileList extends React.Component {
     )
   }
 
-  async exportApp () {
-    if (this.state.exportToastId) {
-      return
-    }
-    const id = Toast.info({
-      content: '正在导出应用，请稍侯...',
-      duration: 0,
-      onClose: () => {
-        this.setState({
-          exportToastId: null
-        })
-      }
-    })
-    this.setState({
-      exportToastId: id
-    })
-    const { appService } = context.services
-    await appService.exportAppArchive()
-    Toast.close(id)
-    this.setState({
-      exportToastId: null
-    })
-  }
-
   RenderAppDropDown = () => {
     return (
       <div className='action-btn-appConfig'>
         <ReactComposite app='ridge-editor-app' path='user/History' />
-        <ReactComposite app='ridge-editor-app' path='AppConf' />
+        <ReactComposite
+          app='ridge-editor-app' path='AppConf' saved={() => {
+            context.services.componentListPanel.reload()
+          }}
+        />
       </div>
     )
   }
 
   RenderCreateDropDown = () => {
-    const { showCreateDialog } = this
+    const { showCreateDialog, newEmptyApp } = this
     return (
       <Dropdown
         trigger='click'
@@ -424,6 +440,7 @@ class AppFileList extends React.Component {
                 上传文件
               </Upload>
             </Dropdown.Item>
+            <Dropdown.Item icon={<IconNewTab color='red' />} onClick={() => newEmptyApp()}> <Text type='danger'>新增空白应用</Text></Dropdown.Item>
           </Dropdown.Menu>
             }
       >

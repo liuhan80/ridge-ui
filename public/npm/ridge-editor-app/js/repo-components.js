@@ -2,6 +2,10 @@ import { fetchRidgeCloudAPI } from '/npm/ridge-common/js/utils.js'
 
 export default {
   name: 'RepoComponents',
+  events: [{
+    name: 'packageAppended',
+    label: '点击安装'
+  }],
   state: {
     type: 'component', // 组件类型
     packageList: [], // 组件包列表
@@ -77,6 +81,8 @@ export default {
       await this.appService.savePackageJSONObject(packageJSONObject)
 
       this.fetchComponentPackages()
+
+      this.emit('packageAppended')
     },
     changeName () { // 改名
       this.state.name = 'VisionFlow'

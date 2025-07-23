@@ -213,12 +213,13 @@ const getCompositePropertiesDef = (composite) => {
       if (typeof value === 'string' && value.startsWith(STORE + '.' + PROP)) {
         const [store, prop, label] = value.split('.')
 
-        if (getNodePropDefination(node, key) == null) {
+        const propDef = getNodePropDefination(node, key)
+        if (propDef) {
+          propertiesDefinations.push(cloneDeep(Object.assign(getNodePropDefination(node, key), {
+            label,
+            field: 'properties.' + label
+          })))
         }
-        propertiesDefinations.push(cloneDeep(Object.assign(getNodePropDefination(node, key), {
-          label,
-          field: 'properties.' + label
-        })))
       }
     }
   }
@@ -232,6 +233,7 @@ const getCompositePropertiesDef = (composite) => {
 const getCompositeEventsDef = composite => {
   const eventDefinations = []
 
+  // 页面脚本库中声明的事件列表
   for (const storeModule of composite.jsModules ?? []) {
     eventDefinations.push(...(storeModule.events ?? []).map(event => {
       return Object.assign({}, event, {
@@ -245,7 +247,7 @@ const getCompositeEventsDef = composite => {
   for (const node of composite.getNodes()) {
     Object.entries(node.config.events).forEach(([key, value]) => {
       if (value === 'promoted') {
-        const eventName = node.componentDefinition ? node.componentDefinition.events.find(ev => ev.name === key)?.label : key
+        const eventName = (node.componentDefinition ? node.componentDefinition.events.find(ev => ev.name === key)?.label : key) ?? key
 
         eventDefinations.push({
           label: node.config.title + '-' + eventName,

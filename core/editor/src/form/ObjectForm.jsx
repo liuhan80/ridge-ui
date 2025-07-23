@@ -64,7 +64,7 @@ class ObjectForm extends React.Component {
         return <Select size='small' allowCreate={col.allowCreate} filter={col.filter} label={col.label} showClear={col.required === false} field={col.field} placeholder={col.placeholder} multiple={col.multiple} optionList={optionList} disabled={readonly} />
       },
       radiogroup: (col, readonly) => <RadioGroupEdit label={col.label} field={col.field} options={col.optionList || col.options} disabled={readonly} />, // 单选框组
-      event: (col, readonly, options) => <EventEdit className='event-field' noLabel field={col.field} options={{ label: col.label, ...options }} />,
+      event: (col, readonly, options) => <EventEdit className='event-field' noLabel field={col.field} options={{ label: col.label, ...options, fieldId: col.field }} />,
       image: (col, readonly) => <ImageSelect label={col.label} field={col.field} disabled={readonly} options={col} />, // 图片选择
       page: (col, readonly) => <ImageEdit label={col.label} field={col.field} disabled={readonly} options={col} />, // 页面选择
       audio: (col, readonly) => <AudioEdit label={col.label} field={col.field} disabled={readonly} />,

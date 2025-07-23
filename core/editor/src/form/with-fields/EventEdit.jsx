@@ -48,7 +48,13 @@ const EventEdit = withField(({
         {data.root &&
           <>
             <Text className='label-content'>
-              <Tag color='green'>{label}</Tag>
+              <Tag
+                onClick={() => {
+                  const [, name] = options.fieldId.split('.')
+                  console.log(name + ' Added')
+                }} color='green'
+              >{label}
+              </Tag>
             </Text>
             <Space className='action'>
               {context.getSelectedNode() && <Button

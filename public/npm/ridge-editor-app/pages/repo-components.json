@@ -499,5 +499,8 @@
   "name": "repo-components",
   "children": [
     "x5ysk0pt51"
-  ]
+  ],
+  "events": {
+    "packageAppended": []
+  }
 }
