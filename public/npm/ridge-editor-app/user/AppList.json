@@ -543,7 +543,7 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 81,
+        "width": 105,
         "height": 27
       },
       "styleEx": {},
@@ -754,10 +754,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 257,
-        "y": 57,
-        "width": 81,
-        "height": 25.671875
+        "x": 0,
+        "y": -2.2967,
+        "width": 102,
+        "height": 26
       },
       "styleEx": {},
       "props": {
