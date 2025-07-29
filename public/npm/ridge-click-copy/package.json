@@ -8,6 +8,7 @@
   "dependencies": {
     "ridge-container": "1.0.2",
     "ridge-bootstrap": "1.0.0",
+    "ridge-tdesign": "1.0.0",
     "ridge-semi": "^1.2.0"
   },
   "ridgeServerUrl": "",

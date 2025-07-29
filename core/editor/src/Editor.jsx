@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Spin, ImagePreview, Modal, Toast, Tabs, TabPane, Icon, Button } from '@douyinfe/semi-ui'
+import { Spin, ImagePreview, Modal, Toast, Tabs, TabPane, Icon, Button, Tooltip } from '@douyinfe/semi-ui'
 
 import ConfigPanel from './panels/config/ConfigPanel.jsx'
 import ComponentListing from './panels/component/ComponentListing.jsx'
@@ -188,13 +188,13 @@ class Editor extends React.Component {
               </>
               }
           >
-            <TabPane tab={<Icon size='default' svg={<IconMultiFile />} />} itemKey='components'>
+            <TabPane tab={<Tooltip content='应用文件管理' position='rightTop'> <Icon size='default' svg={<IconMultiFile />} /></Tooltip>} itemKey='components'>
               <AppFileList />
             </TabPane>
-            <TabPane tab={<Icon svg={<FluentAppsAddIn28Filled />} />} itemKey='app'>
+            <TabPane tab={<Tooltip content='组件面板' position='rightTop'> <Icon svg={<FluentAppsAddIn28Filled />} /></Tooltip>} itemKey='app'>
               <ComponentListing />
             </TabPane>
-            <TabPane tab={<Icon svg={<IconClist />} />} itemKey='outline'>
+            <TabPane tab={<Tooltip content='页面大纲视图' position='rightTop'><Icon svg={<IconClist />} /> </Tooltip>} itemKey='outline'>
               <OutLineTree />
             </TabPane>
           </Tabs>

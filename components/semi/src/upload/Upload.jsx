@@ -1,5 +1,7 @@
 import React from 'react'
 import { Upload, Button } from '@douyinfe/semi-ui'
+import * as SemiIcons from '@douyinfe/semi-icons'
+
 import './style.css'
 export default ({
   btnText = '点击上传',
@@ -11,6 +13,12 @@ export default ({
   maxSize = 10,
   renderContent,
   multiple = true,
+  size = '',
+  iconSize,
+  type,
+  theme,
+  icon,
+  disabled,
   input,
   onChange
 }) => {
@@ -40,7 +48,7 @@ export default ({
     directory,
     onFileChange: fileChange
   }
-
+  const IconComponent = SemiIcons[icon]
   if (fileLimit) {
     config.accept = fileLimit
   }
@@ -55,8 +63,21 @@ export default ({
   } else {
     if (!renderContent) {
       return (
-        <Upload {...config} style={{ width: '100%', height: '100%' }} >
-          <Button>{btnText}</Button>
+        <Upload {...config} style={{ width: '100%', height: '100%' }}>
+          <Button
+            type={type}
+            theme={theme}
+            icon={IconComponent
+              ? <IconComponent
+                  style={{
+                    fontSize: iconSize + 'px'
+                  }} size='inherit'
+                />
+              : null}
+            disabled={disabled}
+            size={size}
+          >{btnText}
+          </Button>
         </Upload>
       )
     } else {

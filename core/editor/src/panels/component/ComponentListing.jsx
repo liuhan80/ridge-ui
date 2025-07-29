@@ -219,6 +219,19 @@ class ComponentListing extends React.Component {
       itemObject = loadedComponents.filter(component => component.packageName === pkg.name && component.componentName === item)[0]
     }
 
+    let content = null
+
+    if (itemObject.cover) {
+      content = (<div className='cover-icon'> <img src={context.baseUrl + '/' + pkg.name + '/' + itemObject.cover} /> </div>)
+    } else if (itemObject.icon) {
+      content = (
+        <div className='image-icon'>
+          {renderComponentIcon(context.baseUrl + '/' + pkg.name + '/', itemObject.icon)}
+          {itemObject.title && <Text>{itemObject.title} </Text>}
+        </div>
+      )
+    }
+
     if (itemObject) {
       return (
         <List.Item>
@@ -227,29 +240,12 @@ class ComponentListing extends React.Component {
               color: pkg.iconFill ?? ''
             }}
             draggable
-            // onMouseOver={() => {
-            //   if (itemObject.description) {
-            //     this.setState({
-            //       componentPopOver: true,
-            //       popComponent: itemObject
-            //     })
-            //   }
-            // }}
-            // onMouseOut={() => {
-            //   this.setState({
-            //     componentPopOver: false
-            //   })
-            // }}
             onDragStart={ev => dragStart(ev, Object.assign(itemObject, {
               componentPath: (pkg.name + '/' + itemObject.path).replace(/\/+/g, '/')
             }))}
             className='component-container'
           >
-            {itemObject.icon &&
-              <div className='image-icon'>
-                {renderComponentIcon(context.baseUrl + '/' + pkg.name + '/', itemObject.icon)}
-                {itemObject.title && <Text>{itemObject.title} </Text>}
-              </div>}
+            {content}
             {/* {renderComponentIcon(itemObject.icon, itemObject.title, itemObject)} */}
           </div>
         </List.Item>

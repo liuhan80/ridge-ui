@@ -1,4 +1,5 @@
 import Upload from './Upload.jsx'
+import { size, disabled, icon, btnTheme, btnType } from '../props'
 import { boolean, string, number, value, onChange, slot, children, divider } from 'ridge-build/src/props.js'
 export default {
   name: 'upload',
@@ -16,7 +17,13 @@ export default {
     boolean('directory', '上传文件夹', false, false),
     boolean('outputUrl', '输出URL', true),
     divider,
-    string('btnText', '按钮文本', '点击上传')
+    string('btnText', '按钮文本', '点击上传'),
+    icon,
+    btnType,
+    size,
+    btnTheme,
+    disabled,
+    number('iconSize', '大小', 18),
   ],
   events: [onChange],
   width: 300,

@@ -35,7 +35,9 @@ const doCopyToNpm = async (packagePath, ridgeConfig) => {
         fs.removeSync(path.resolve(packagePath, ridgeConfig.localNpmDir, packageJson.name))
         if (packageJson.files && Array.isArray(packageJson.files)) {
           for (const dir of [...packageJson.files, 'package.json']) {
-            fs.copySync(path.resolve(packagePath, dir), path.resolve(packagePath, ridgeConfig.localNpmDir, packageJson.name, dir))
+            if (fs.existsSync(path.resolve(packagePath, dir))) {
+              fs.copySync(path.resolve(packagePath, dir), path.resolve(packagePath, ridgeConfig.localNpmDir, packageJson.name, dir))
+            }
           }
         } else {
           fs.copySync(packagePath, path.resolve(packagePath, ridgeConfig.localNpmDir, packageJson.name))
