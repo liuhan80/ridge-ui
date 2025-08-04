@@ -7,5 +7,6 @@ import layers from './src/layers/index.d.js'
 import list from './src/list/index.d.js'
 import pages from './src/pages/index.d.js'
 import relative from './src/relative/index.d.js'
+import scatter from './src/scatter/index.d.js'
 import stack from './src/stack/index.d.js'
-export { composite, fixed, flex, flow, html, layers, list, pages, relative, stack }
+export { composite, fixed, flex, flow, html, layers, list, pages, relative, scatter, stack }
