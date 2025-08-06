@@ -18,7 +18,7 @@ const checkLogin = (id, password, captcha) => {
   return true
 }
 
-const checkRegister = (id, password, passwordCfm, agreed, captcha) => {
+const checkRegister = (id, password, agreed, captcha) => {
   // 验证手机号码
   if (!accountRegex.test(id)) {
     return '注意：用户账号 4-20位数字+字母组合'
@@ -27,10 +27,6 @@ const checkRegister = (id, password, passwordCfm, agreed, captcha) => {
   // 验证密码
   if (!/^(?=.*[a-zA-Z])(?=.*\d).{8,}$/.test(password)) {
     return '注意：用户密码为数字+字母组合,至少8位'
-  }
-
-  if (password !== passwordCfm) {
-    return '2次输入密码必须一致'
   }
 
   if (agreed.length === 0) {
@@ -148,7 +144,7 @@ export default {
     },
 
     async registerUser () { // 用户注册
-      const checked = checkRegister(this.register.id, this.register.password, this.register.passwordConfirm, this.register.agreed, this.captcha)
+      const checked = checkRegister(this.register.id, this.register.password, this.register.agreed, this.captcha)
       if (checked !== true) {
         this.register.resultMessage = checked
         return

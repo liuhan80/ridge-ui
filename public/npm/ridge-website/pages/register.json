@@ -36,7 +36,7 @@
         "fill": false,
         "children": [
           "z8p42a53yi",
-          "fpoy5g1obh",
+          "9s8bxkkgx9",
           "4k6sxb1k4o"
         ],
         "gap": 8,
@@ -58,10 +58,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 1200,
-        "height": 821
+        "x": 380.0000000000004,
+        "y": 1117.999945746529,
+        "width": 1440.999891493057,
+        "height": 558.9999728732645
       },
       "styleEx": {},
       "props": {
@@ -74,7 +74,7 @@
           "sb6vs6grwc"
         ],
         "gap": 8,
-        "padding": 8,
+        "padding": 28,
         "classList": []
       },
       "propEx": {},
@@ -142,10 +142,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": -46461,
+        "x": 0,
         "y": 0,
-        "height": 628,
-        "width": 426
+        "height": 512,
+        "width": 464
       },
       "styleEx": {},
       "props": {
@@ -161,15 +161,16 @@
           "2fpaftzfzi",
           "eugo0w2i64"
         ],
-        "gap": 8,
+        "gap": 0,
         "padding": 8,
         "classList": [
           "ridge-bootstrap/border",
           "ridge-bootstrap/border-1",
           "ridge-bootstrap/border-primary-emphasis",
-          "ridge-bootstrap/rounded-3",
           "ridge-bootstrap/p-2",
-          "ridge-bootstrap/shadow-sm"
+          "ridge-bootstrap/shadow-sm",
+          "ridge-bootstrap/bg-body",
+          "ridge-bootstrap/rounded-4"
         ]
       },
       "propEx": {},
@@ -188,9 +189,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": -119,
-        "width": 244,
-        "height": 41
+        "y": 0,
+        "width": 247,
+        "height": 47
       },
       "styleEx": {},
       "props": {
@@ -198,7 +199,7 @@
           "ridge-bootstrap/fs-3",
           "ridge-bootstrap/fw-medium"
         ],
-        "text": "欢迎您注册账号"
+        "text": "注册RidgeUI账号"
       },
       "propEx": {},
       "events": {},
@@ -216,9 +217,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": -3,
+        "y": 0,
         "width": 370,
-        "height": 26
+        "height": 21
       },
       "styleEx": {},
       "props": {
@@ -244,7 +245,7 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 314,
+        "width": 348,
         "height": 45
       },
       "styleEx": {},
@@ -276,7 +277,7 @@
         "visible": true,
         "x": 0,
         "y": 0,
-        "width": 314,
+        "width": 346,
         "height": 45
       },
       "styleEx": {},
@@ -307,9 +308,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 3021,
-        "width": 388,
-        "height": 401
+        "y": 0,
+        "width": 389,
+        "height": 324
       },
       "styleEx": {},
       "props": {
@@ -323,8 +324,6 @@
           "1pgdmvp3m3",
           "a82xlmlz9x",
           "ocy3z5fdhk",
-          "4pwlnr72a7",
-          "k6en6gh1jq",
           "3iqmcr2rn1",
           "tu78eswjef",
           "catlnrxni0"
@@ -385,16 +384,16 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 39,
-        "width": 355,
+        "x": -647,
+        "y": 0,
+        "width": 277,
         "height": 50
       },
       "styleEx": {},
       "props": {
         "type": "primary",
         "src": "",
-        "icon": "question-circle",
+        "icon": "key",
         "size": "lg",
         "style": "general",
         "rounded": false,
@@ -430,14 +429,14 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": -15,
-        "width": 164,
+        "y": 0,
+        "width": 321,
         "height": 32
       },
       "styleEx": {},
       "props": {
         "classList": [],
-        "text": "请输入手机号码"
+        "text": "请输入账号： (4-20位英文字母+数字组合)"
       },
       "propEx": {},
       "events": {},
@@ -455,13 +454,13 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": -58,
-        "width": 99,
+        "y": 0,
+        "width": 344,
         "height": 32
       },
       "styleEx": {},
       "props": {
-        "text": "请输入密码",
+        "text": "请输入密码 （至少8位且同时包含字母和数字）",
         "classList": []
       },
       "propEx": {},
@@ -480,9 +479,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": -820,
+        "y": 0,
         "width": 359,
-        "height": 51
+        "height": 55
       },
       "styleEx": {},
       "props": {
@@ -515,9 +514,9 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 0,
+        "y": 21,
         "width": 50,
-        "height": 52
+        "height": 46
       },
       "styleEx": {},
       "props": {
@@ -788,60 +787,57 @@
       "slots": []
     },
     {
-      "title": "单行输入_1",
-      "path": "ridge-bootstrap/input",
-      "id": "k6en6gh1jq",
+      "title": "多层容器",
+      "path": "ridge-container/stack",
+      "id": "9s8bxkkgx9",
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 774.0000107709099,
-        "y": 646.4999928193934,
-        "width": 314,
-        "height": 45
+        "x": 380,
+        "y": 1118,
+        "width": 1441,
+        "height": 559,
+        "flex": "1"
       },
       "styleEx": {},
       "props": {
-        "value": "",
-        "label": "请输入密码",
-        "validState": "",
-        "disabled": false,
-        "size": "normal",
-        "type": "password",
-        "classList": []
-      },
-      "propEx": {
-        "value": "RidgeUser.state.register.passwordConfirm"
-      },
-      "events": {},
-      "visible": true,
-      "locked": false,
-      "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
-      "slots": []
-    },
-    {
-      "title": "文本_3",
-      "path": "ridge-bootstrap/typography",
-      "id": "4pwlnr72a7",
-      "style": {
-        "position": "absolute",
-        "visible": true,
-        "x": 774.0000107709099,
-        "y": 675.499994614545,
-        "width": 99,
-        "height": 32
-      },
-      "styleEx": {},
-      "props": {
-        "text": "再次输入密码",
-        "classList": []
+        "classList": [],
+        "children": [
+          "j558r68qsw",
+          "fpoy5g1obh"
+        ]
       },
       "propEx": {},
       "events": {},
       "visible": true,
       "locked": false,
       "full": false,
-      "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    },
+    {
+      "title": "图片",
+      "path": "ridge-bootstrap/image",
+      "id": "j558r68qsw",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 868,
+        "y": 1330,
+        "width": 120,
+        "height": 36
+      },
+      "styleEx": {},
+      "props": {
+        "fitPosition": "left",
+        "src": "composite:///back.svg",
+        "classList": [],
+        "objectFit": "object-fit-cover"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
       "slots": []
     }
   ],

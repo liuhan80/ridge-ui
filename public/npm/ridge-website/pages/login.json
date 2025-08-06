@@ -20,10 +20,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 551,
-        "y": 285,
-        "width": 359,
-        "height": 240
+        "x": 374,
+        "y": 358,
+        "width": 1137,
+        "height": 847
       },
       "styleEx": {},
       "props": {
@@ -34,7 +34,7 @@
         "fill": false,
         "children": [
           "z8p42a53yi",
-          "fpoy5g1obh",
+          "jtg45cgwqw",
           "4k6sxb1k4o"
         ],
         "gap": 8,
@@ -56,10 +56,10 @@
       "style": {
         "position": "absolute",
         "visible": true,
-        "x": 0,
-        "y": 0,
-        "width": 1440,
-        "height": 897
+        "x": -35.00001695421008,
+        "y": 82.00000127156578,
+        "width": 1294.9999491373703,
+        "height": 786.0000610351565
       },
       "styleEx": {},
       "props": {
@@ -116,8 +116,8 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": -6524,
-        "width": 1440,
+        "y": 68.00000932481557,
+        "width": 1920.0000339084208,
         "height": 91
       },
       "styleEx": {},
@@ -164,9 +164,10 @@
           "ridge-bootstrap/border",
           "ridge-bootstrap/border-1",
           "ridge-bootstrap/border-primary-emphasis",
-          "ridge-bootstrap/rounded-3",
           "ridge-bootstrap/p-2",
-          "ridge-bootstrap/shadow-sm"
+          "ridge-bootstrap/shadow-sm",
+          "ridge-bootstrap/bg-body",
+          "ridge-bootstrap/rounded-4"
         ]
       },
       "propEx": {},
@@ -367,7 +368,7 @@
       "styleEx": {},
       "props": {
         "classList": [],
-        "text": "请输入手机号码"
+        "text": "请输入账号"
       },
       "propEx": {},
       "events": {},
@@ -683,6 +684,60 @@
       "locked": false,
       "full": false,
       "$id": "https://ridge-ui.com/schemas/element",
+      "slots": []
+    },
+    {
+      "title": "多层容器",
+      "path": "ridge-container/stack",
+      "id": "jtg45cgwqw",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": -35,
+        "y": 82,
+        "width": 1295,
+        "height": 786,
+        "flex": "1"
+      },
+      "styleEx": {},
+      "props": {
+        "classList": [],
+        "children": [
+          "ahh8sujqhq",
+          "fpoy5g1obh"
+        ]
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
+      "slots": []
+    },
+    {
+      "title": "图片",
+      "path": "ridge-bootstrap/image",
+      "id": "ahh8sujqhq",
+      "style": {
+        "position": "absolute",
+        "visible": true,
+        "x": 213,
+        "y": 284,
+        "width": 120,
+        "height": 36
+      },
+      "styleEx": {},
+      "props": {
+        "fitPosition": "left",
+        "src": "composite:///back.svg",
+        "classList": [],
+        "objectFit": "object-fit-cover"
+      },
+      "propEx": {},
+      "events": {},
+      "visible": true,
+      "locked": false,
+      "full": false,
       "slots": []
     }
   ],

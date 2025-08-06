@@ -209,7 +209,7 @@
           "ridge-bootstrap/fw-semibold"
         ],
         "href": "#/pages/repo",
-        "text": "应用市场"
+        "text": "应用展示"
       },
       "propEx": {},
       "events": {},
@@ -281,7 +281,7 @@
           "ridge-bootstrap/fw-semibold"
         ],
         "href": "#/pages/document",
-        "text": "开发人员"
+        "text": "学习资源"
       },
       "propEx": {},
       "events": {
@@ -515,7 +515,7 @@
           "ridge-bootstrap/fw-semibold"
         ],
         "href": "#/pages/download",
-        "text": "下载"
+        "text": "社区版本"
       },
       "propEx": {},
       "events": {
