@@ -3,13 +3,13 @@ module.exports = {
     {
       module: 'react',
       root: 'React',
-      dist: 'react@18.2.0/umd/react.production.min.js'
+      dist: 'react@18.3.1/umd/react.production.min.js'
     },
     {
       module: 'react-dom',
       dependencies: ['react'],
       root: 'ReactDOM',
-      dist: 'react-dom@18.2.0/umd/react-dom.production.min.js'
+      dist: 'react-dom@18.3.1/umd/react-dom.production.min.js'
     },
     {
       module: 'vue',

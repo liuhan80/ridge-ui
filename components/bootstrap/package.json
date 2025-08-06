@@ -12,6 +12,7 @@
   "main": "index.js",
   "scripts": {
     "build": "ridge",
+    "build-src": "ridge -s",
     "postbuild-1": "npm version patch && npm publish",
     "watch": "ridge -w -s",
     "help": "ridge --help",

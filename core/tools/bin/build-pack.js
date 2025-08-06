@@ -185,7 +185,7 @@ const build = async function (packagePath) {
     merge({
       entry,
       output,
-      // externals,
+      externals,
       plugins: [
         new CleanWebpackPlugin()
       ]
@@ -223,7 +223,7 @@ const build = async function (packagePath) {
         experiments: {
           outputModule: true
         },
-        // externals,
+        externals,
         plugins: [
           new CleanWebpackPlugin()
         ]
