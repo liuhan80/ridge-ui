@@ -1,9 +1,10 @@
 import { getUserStatus, getCapchaUrl, logout, login, register, fullscreenLoading, showMessage, showError } from './utils.js'
+const accountRegex = /^[A-Za-z0-9]{4,20}$/
 
 const checkLogin = (id, password, captcha) => {
   // 验证手机号码
-  if (!/^1[3-9]\d{9}$/.test(id)) {
-    return '注意：用户账号为手机号码'
+  if (!accountRegex.test(id)) {
+    return '注意：用户账号 4-20位数字+字母组合'
   }
 
   // 验证密码
@@ -19,8 +20,8 @@ const checkLogin = (id, password, captcha) => {
 
 const checkRegister = (id, password, passwordCfm, agreed, captcha) => {
   // 验证手机号码
-  if (!/^1[3-9]\d{9}$/.test(id)) {
-    return '注意：用户账号为手机号码'
+  if (!accountRegex.test(id)) {
+    return '注意：用户账号 4-20位数字+字母组合'
   }
 
   // 验证密码

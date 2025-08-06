@@ -329,8 +329,10 @@ class UserService {
    * @returns
    */
   async registerUser (user) {
-    if (!isPhoneNumber(user.id)) {
-      throw new BadRequestError('错误的手机号码')
+    const accountRegex = /^[A-Za-z0-9]{4,20}$/
+    // 验证手机号码
+    if (!accountRegex.test(user.id)) {
+      return '注意：用户账号 4-20位数字+字母组合'
     }
 
     if (!validatePassword(user.password)) {
