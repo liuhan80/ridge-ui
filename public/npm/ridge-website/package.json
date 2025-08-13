@@ -7,13 +7,8 @@
   "dependencies": {
     "ridge-container": "1.0.0",
     "ridge-semi": "1.0.0",
-    "ridge-highcharts": "1.0.0",
     "ridge-bootstrap": "1.1.0",
-    "ridge-material": "1.9.0",
-    "ridge-antd": "1.1.0",
-    "ridge-cropperjs": "1.0.0",
-    "monitoring-x1": "1.0.0",
-    "ridge-marked": "1.0.0"
+    "ridge-cropperjs": "1.0.0"
   },
   "themes": {
     "ridge-bootstrap": "bootstrap/dist/css/bootstrap.min.css"

@@ -103,9 +103,7 @@ export default {
     },
 
     async openPreviewDesktop(scope) { // 打开桌面预览
-      this.showPreviewPadDialog = true
-      this.padCurrentApp = scope.item.name
-      this.padCurrentPage = scope.item.ridgeEntries?.desktop
+      window.open('/npm/' + scope.item.name + '/')
     },
 
     async openPreviewMobile(scope) { // 打开移动预览

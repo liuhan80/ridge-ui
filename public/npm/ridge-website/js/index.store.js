@@ -22,9 +22,11 @@ export default {
     },
 
     openTabletPreview (payload) { // 打开平板预览
-      this.tabletPreviewVisible = true
-      this.tabletPreviewApp = payload.app
-      this.tabletPreviewPage = payload.page
+      if (payload.page) {
+        window.open('/npm/' + payload.app + '/' + payload.page)  
+      } else {
+        window.open('/npm/' + payload.app + '/')  
+      }
     }
   }
 }

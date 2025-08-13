@@ -126,6 +126,7 @@ class MenuBar extends React.Component {
         currentPageId: null,
         currentPageName: ''
       })
+      context.services.outlinePanel.updateOutline(true)
     }
 
     this.setState({

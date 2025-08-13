@@ -35,6 +35,10 @@ class OutLineTree extends React.Component {
       this.setState({
         componentTreeData
       })
+    } else {
+      this.setState({
+        componentTreeData: []
+      })
     }
   }
 
@@ -246,6 +250,7 @@ class OutLineTree extends React.Component {
         showFilteredOnly
         filterTreeNode
         draggable
+        emptyContent='暂无打开的页面'
         renderLabel={renderFullLabel}
         onDrop={onTreeDrop.bind(this)}
         onChange={(value, node) => {
