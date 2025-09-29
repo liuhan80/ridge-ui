@@ -46,6 +46,10 @@ class PreviewMenuBar extends React.Component {
     context.toggleMode()
   }
 
+  exportRunablePage = () => {
+    context.distributeCurrentPage()
+  }
+
   changeViewPort = (width, height) => {
     this.setState({
       width,
@@ -55,13 +59,17 @@ class PreviewMenuBar extends React.Component {
   }
 
   render () {
-    const { toggoleRunMode } = this
+    const { toggoleRunMode, exportRunablePage } = this
     return (
       <div className='menu-bar'>
         <Button
           type='primary'
           onClick={toggoleRunMode}
         >返回
+        </Button>
+
+        <Button onClick={exportRunablePage}>
+          导出为单运行页面
         </Button>
       </div>
     )

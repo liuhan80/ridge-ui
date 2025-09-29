@@ -10,6 +10,7 @@ import { cloneDeep, isEqual } from 'lodash'
 import { getNodeListConfig } from '../workspace/editorUtils.js'
 import EditorComposite from '../workspace/EditorComposite.js'
 import { ensureLeading } from '../utils/string.js'
+import DistributionService from './DistributionService.js'
 // import PreviewComposite from '../workspace/PreviewComposite.js'
 
 const debug = Debug('ridge:editor')
@@ -34,6 +35,7 @@ class RidgeEditorContext extends RidgeContext {
     this.isLight = localStorage.getItem('ridge-is-light') || true
 
     this.services.appService = new ApplicationService(this.loader)
+    this.services.distributeService = new DistributionService(this)
     this.services.npmService = new NpmService()
     window.ridge = this
 
@@ -695,6 +697,14 @@ class RidgeEditorContext extends RidgeContext {
         els.push(element.el)
       }
       this.workspaceControl.selectElements(els)
+    }
+  }
+
+  // 发布当前的页面
+  distributeCurrentPage () {
+    // this.services.appService
+    if (this.currentOpenPageId) {
+      this.services.distributeService.distributePage(this.currentOpenPageId)
     }
   }
 

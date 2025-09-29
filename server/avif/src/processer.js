@@ -36,7 +36,7 @@ proc({
   overwrite: false, // 覆盖
   fullScope: false, // 全目标路径搜索
   remove: false, // 处理后删除
-  maxVideoSize: 480, // 最大视频宽度 480 即480p视频
+  maxVideoSize: 640, // 最大视频宽度 640 即480p视频
   maxImageLength: 4000, // 最大图片宽度（长度）4000 一般足够
   each: ({ i, targetList, pair }) => {
     console.log('Processing ' + i + '/' + targetList.length, pair[0], '->' + pair[1])

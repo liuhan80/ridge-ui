@@ -5,7 +5,7 @@ import ridgeExternals from 'ridge-externals'
 import { loadRemoteJsModule, loadLocalJsModule, loadCss, loadWebFont, loadScript } from '../utils/load'
 const log = debug('ridge:loader')
 
-const showError = window.showError || function () {}
+const trace = window.showError || function () {}
 /**
  * 组件定义（js及其依赖）加载服务类
  * @class
@@ -249,7 +249,7 @@ class Loader {
       // 拼接npm cdn地址
       const finalUrl = this.baseUrl + loadUrl
 
-      showError('Load:' + finalUrl)
+      trace('Load:' + finalUrl)
       if (finalUrl.endsWith('.css')) {
         await loadCss(finalUrl)
       } else {
@@ -363,7 +363,7 @@ class Loader {
   }
 
   async fetchJSON (url) {
-    showError('Fetch:' + url)
+    trace('Fetch:' + url)
     const response = await window.fetch(url, {
       mode: 'cors',
       credentials: 'include'
@@ -377,7 +377,7 @@ class Loader {
 
   async loadTextContent (url) {
     const loadPath = this.getURIPath(url)
-    showError('Fetch:' + loadPath)
+    trace('Fetch:' + loadPath)
     const fetched = await window.fetch(loadPath, {
       mode: 'cors',
       credentials: 'include'
@@ -390,6 +390,14 @@ class Loader {
     }
   }
 
+  getJSONCache (jsonUrl) {
+    if (globalThis && globalThis['json://' + jsonUrl]) {
+      return globalThis['json://' + jsonUrl]
+    } else {
+      return this.jsonCache.get(jsonUrl)
+    }
+  }
+
   setJSONCache (url, jsonObject) {
     const jsonUrl = this.getURIPath(url)
     this.jsonCache.set(jsonUrl, jsonObject)
@@ -398,13 +406,17 @@ class Loader {
   async loadJSON (path) {
     const jsonUrl = this.getURIPath(path)
 
-    if (!this.jsonCache.get(jsonUrl)) {
+    const jsonCache = this.getJSONCache(jsonUrl)
+    if (!jsonCache) {
       const jsonObject = await this.fetchJSON(jsonUrl)
       if (jsonObject) {
         this.jsonCache.set(jsonUrl, jsonObject)
+        return jsonObject
       }
+    } else {
+      log('Load json in cache: ', path, jsonUrl)
+      return jsonCache
     }
-    return this.jsonCache.get(jsonUrl)
   }
 }
 
