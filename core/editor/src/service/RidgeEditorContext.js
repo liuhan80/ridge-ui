@@ -703,6 +703,7 @@ class RidgeEditorContext extends RidgeContext {
   // 发布当前的页面
   distributeCurrentPage () {
     // this.services.appService
+
     if (this.currentOpenPageId) {
       this.services.distributeService.distributePage(this.currentOpenPageId)
     }

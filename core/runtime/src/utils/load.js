@@ -1,4 +1,4 @@
-import { generateUrlFontName } from './string'
+import { convertToValidVariableName, generateUrlFontName } from './string'
 import { resolve } from './path'
 import memoize from 'lodash/memoize'
 
@@ -138,7 +138,14 @@ const cleanImports = sourceCode => {
  */
 const loadRemoteJsModule = memoize(async (modulePath) => {
   showError('load Remote:', modulePath)
-  if (globalThis.appModules[modulePath]) {
+
+  // 处理外部加载情况
+  const moduleVariableName = convertToValidVariableName(modulePath)
+  if (globalThis[moduleVariableName]) {
+    return globalThis[moduleVariableName]
+  }
+
+  if (globalThis[modulePath]) {
     return globalThis.appModules[modulePath]
   }
 

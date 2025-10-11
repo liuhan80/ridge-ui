@@ -106,4 +106,7 @@ const start = async () => {
     showError(`发生未知错误: ${error.message}  堆栈跟踪： ${error} ${error.stack}`)
   }
 }
-start()
+
+window.addEventListener('load', function () {
+  start()
+})

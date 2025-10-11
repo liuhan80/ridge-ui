@@ -45,7 +45,20 @@ const ensureLeading = (str, slash = '/') => {
   return str.startsWith(slash) ? str : (slash + str)
 }
 
+const convertToValidVariableName = str => {
+  // 1. 移除所有非字母数字的字符，并用空字符串替换
+  // 2. 确保变量名不以数字开头（如果以数字开头，前面添加下划线）
+  let variableName = str.replace(/[^a-zA-Z0-9]/g, '_')
+
+  // 检查是否以数字开头
+  if (/^\d/.test(variableName)) {
+    variableName = '_' + variableName
+  }
+  return variableName
+}
+
 export {
+  convertToValidVariableName,
   filename,
   camelCase,
   trim,

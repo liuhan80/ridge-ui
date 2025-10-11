@@ -85,6 +85,13 @@ class Loader {
         path = paths.join('/')
       }
     }
+    // globalThis方式
+    if (window[packageName] && window[packageName][path]) {
+      return window[packageName][path]
+    }
+    if (window[`${packageName}/${path}`]) {
+      return window[`${packageName}/${path}`].default
+    }
     const doLoaded = await this.doLoadComponent({ packageName, path })
     if (doLoaded) {
       doLoaded.componentPath = componentPath
@@ -277,6 +284,7 @@ class Loader {
    */
   async _confirmPackageDependencies (packageName) {
     log('_confirmPackageDependencies', packageName)
+    if (window[packageName]) return
     const packageJSONObject = await this.getPackageJSON(packageName)
     if (packageJSONObject == null) return
 

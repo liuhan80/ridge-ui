@@ -21,10 +21,6 @@ module.exports = {
       root: 'RidgeCore'
     },
     {
-      module: 'debug',
-      root: 'createDebug'
-    },
-    {
       module: 'ridgejs-editor',
       root: 'RidgeEditor'
     }
