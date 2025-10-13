@@ -29,8 +29,8 @@ const proc = async opts => {
 console.log(process.argv)
 
 proc({
-  from: process.argv[2] || 'E:\\2025',
-  to: process.argv[3] || 'E:\\2025-proc',
+  from: process.argv[2] || 'D:\\2025',
+  to: process.argv[3] || 'D:\\Photos\\2025',
   prepare: false,
   processor: ['video', 'image'],
   overwrite: false, // 覆盖

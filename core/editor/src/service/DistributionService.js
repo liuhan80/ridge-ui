@@ -26,6 +26,7 @@ export default class DistributionService {
       filePath: `npm/${packageJSONObjct.name}/package.json`,
       textContent: JSON.stringify(packageJSONObjct, null, 2)
     })
+
     const file = await this.appService.getFile(id)
     const path = await this.appService.getFilePath(file)
 
@@ -33,6 +34,14 @@ export default class DistributionService {
 
     includeFilesAndContents.push(...compositeFiles)
 
+    if (packageJSONObjct.themes) {
+      for (const key in packageJSONObjct.themes) {
+        if (!Object.hasOwn(packageJSONObjct.themes, key)) continue
+        const themeUrl = packageJSONObjct.themes[key]
+
+        includeFilesAndContents.push(await this.fetchUrlFile('npm/' + themeUrl))
+      }
+    }
     // await this.fetchUrlFileIntoZip('npm/ridgejs/build/webstart.min.js', zip)
 
     let html = `<!DOCTYPE html>
@@ -160,7 +169,7 @@ export default class DistributionService {
   }
 
   // 将 基于baseUrl 的 baseUrl+path路径的web资源，压缩到 zip的 path路径上， zip为  new JSZip()实例 下载使用axios
-  async fetchUrlFile (url, zip) {
+  async fetchUrlFile (url) {
     try {
       // 构建完整的URL
       const fullUrl = '/' + url

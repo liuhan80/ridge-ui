@@ -36,7 +36,9 @@
   },
   "externals": [
     "/bootstrap/dist/js/bootstrap.bundle.min.js",
-    "/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    "/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css",
+    "/bootstrap-icons@1.11.3/font/fonts/bootstrap-icons.woff2",
+    "/bootstrap-icons@1.11.3/font/fonts/bootstrap-icons.woff"
   ],
   "ridgePlugins": [],
   "devExternals": [

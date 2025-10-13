@@ -12568,6 +12568,11 @@ readdirp@~3.6.0:
   dependencies:
     picomatch "^2.2.1"
 
+readline@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npmmirror.com/readline/-/readline-1.3.0.tgz"
+  integrity sha512-k2d6ACCkiNYz222Fs/iNze30rRJ1iIicW7JuX/7/cozvih6YCkFZH+J6mAFDVgv0dRBaAyr4jDqC95R2y4IADg==
+
 rechoir@^0.8.0:
   version "0.8.0"
   resolved "https://registry.npmmirror.com/rechoir/-/rechoir-0.8.0.tgz"
@@ -13032,6 +13037,7 @@ ridge-build@^1.1.0, "ridge-build@file:C:\\Work\\ridge\\core\\tools":
     "@codemirror/lang-markdown" "^6.3.1"
     "@codemirror/lint" "^6.8.3"
     "@douyinfe/semi-ui" "^2.55.1"
+    "@rollup/browser" "^4.52.2"
     bootstrap-icons "^1.11.3"
     codemirror "^6.0.1"
     dayjs "^1.11.10"
@@ -13212,6 +13218,7 @@ ridgejs-editor@^1.0.0:
     "@codemirror/lang-markdown" "^6.3.1"
     "@codemirror/lint" "^6.8.3"
     "@douyinfe/semi-ui" "^2.55.1"
+    "@rollup/browser" "^4.52.2"
     bootstrap-icons "^1.11.3"
     codemirror "^6.0.1"
     dayjs "^1.11.10"

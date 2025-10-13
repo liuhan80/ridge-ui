@@ -259,7 +259,7 @@ class Loader {
       trace('Load:' + finalUrl)
       if (finalUrl.endsWith('.css')) {
         await loadCss(finalUrl)
-      } else {
+      } else if (finalUrl.endsWith('.js')) {
         await loadScript(finalUrl)
       }
       return loadUrl

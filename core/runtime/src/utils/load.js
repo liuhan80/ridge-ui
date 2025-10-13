@@ -168,7 +168,11 @@ const loadRemoteJsModule = memoize(async (modulePath) => {
     try {
       globalThis.appModulesNotifier[moduleUrl] = Module => {
         showError('Callback:', moduleUrl)
-        resolve(Module)
+        if (Module) {
+          resolve(Module.default || Module)
+        } else {
+          resolve(null)
+        }
       }
       scriptEl.textContent = textContent
       document.head.append(scriptEl)

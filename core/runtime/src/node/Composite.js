@@ -340,8 +340,8 @@ class Composite extends BaseNode {
     for (const filePath of jsFiles ?? []) {
       try {
         const JsModule = await this.context.loadModule(this.packageName, filePath)
-        if (JsModule && JsModule.default) {
-          const JSStoreModule = JsModule.default
+        if (JsModule) {
+          const JSStoreModule = JsModule
           JSStoreModule.filePath = filePath
           if (JsModule.jsContent) {
             JSStoreModule.jsContent = JsModule.jsContent
