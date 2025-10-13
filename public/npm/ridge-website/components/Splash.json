@@ -215,13 +215,13 @@
         "position": "absolute",
         "visible": true,
         "x": 0,
-        "y": 143,
-        "width": 570,
+        "y": 0,
+        "width": 458,
         "height": 57
       },
       "styleEx": {},
       "props": {
-        "text": "更高效的方式开发用户界面与交互",
+        "text": "AI+时代的页面制作工具",
         "classList": [
           "ridge-bootstrap/fw-semibold",
           "ridge-bootstrap/fs-2"
