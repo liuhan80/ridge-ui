@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Spin, ImagePreview, Modal, Toast, Tabs, TabPane, Icon, Button, Tooltip } from '@douyinfe/semi-ui'
+import { Dropdown, ImagePreview, Modal, Toast, Tabs, TabPane, Icon, Button, Tooltip, Space } from '@douyinfe/semi-ui'
 
 import ConfigPanel from './panels/config/ConfigPanel.jsx'
 import ComponentListing from './panels/component/ComponentListing.jsx'
@@ -19,7 +19,25 @@ import { ReactComposite } from 'ridgejs'
 
 import './editor.less'
 import PreviewMenuBar from './panels/menu/PreviewMenuBar.jsx'
-
+const THEMES = [{
+  label: '默认',
+  value: '@douyinfe/semi-ui/dist/css/semi.min.css'
+}, {
+  label: '抖音',
+  value: '@semi-bot/semi-theme-doucreator/semi.min.css'
+}, {
+  label: '飞书',
+  value: '@semi-bot/semi-theme-universedesign/semi.min.css'
+}, {
+  label: 'Strapi',
+  value: '@semi-bot/semi-theme-strapi/semi.min.css'
+}, {
+  label: '深蓝',
+  value: '@semi-bot/semi-theme-ultim-dark-blue/semi.min.css'
+}, {
+  label: '剪映',
+  value: '@semi-bot/semi-theme-jianying/semi.min.css'
+}]
 // 公用错误提示方法
 globalThis.msgerror = msg => {
   Toast.error(msg)
@@ -34,6 +52,7 @@ class Editor extends React.Component {
     this.codeEditorRef = React.createRef()
 
     this.state = {
+      isLight: window.localStorage.getItem('ridge-is-light') !== 'false',
       pageOpened: false,
       collapseLeft: false,
       leftResizing: false,
@@ -50,6 +69,8 @@ class Editor extends React.Component {
       codeEditVisible: false,
       codeEditType: ''
     }
+
+    context.setLight(this.state.isLight)
   }
 
   componentDidMount () {
@@ -142,6 +163,12 @@ class Editor extends React.Component {
     })
   }
 
+  setIsLight (isLight) {
+    this.setState({
+      isLight
+    })
+  }
+
   render () {
     const {
       state,
@@ -151,6 +178,7 @@ class Editor extends React.Component {
     } = this
 
     const {
+      isLight,
       isPreview,
       collapseLeft,
       pageOpened,
@@ -177,7 +205,39 @@ class Editor extends React.Component {
               })
             }}
             tabPosition='left' type='button' tabBarExtraContent={
-              <>
+              <Space vertical>
+                <Tooltip content='夜间/日间模式'>
+                  <Button
+                    type='tertiary'
+                    theme='borderless'
+                    icon={isLight ? <i className='bi bi-moon-stars-fill' /> : <i className='bi bi-sun' />}
+                    onClick={() => {
+                      this.setState({
+                        isLight: !isLight
+                      })
+                      context.setLight(!isLight)
+                    }}
+                  />
+                </Tooltip>
+
+                <Dropdown
+                  trigger='click'
+                  position='right'
+                  render={
+                    <Dropdown.Menu>
+                      {THEMES.map(theme =>
+                        <Dropdown.Item
+                          key={theme.value}
+                          onClick={() => {
+                            context.setTheme(theme.value)
+                          }}
+                        >{theme.label}
+                        </Dropdown.Item>)}
+                    </Dropdown.Menu>
+            }
+                >
+                  <Button icon={<i className='bi bi-palette2' />} theme='borderless' size='small' type='tertiary' />
+                </Dropdown>
                 <Button
                   icon={<IconSidePanelClose />} onClick={() => {
                     this.setState({
@@ -185,7 +245,7 @@ class Editor extends React.Component {
                     })
                   }}
                 />
-              </>
+              </Space>
               }
           >
             <TabPane tab={<Tooltip content='应用文件管理' position='rightTop'> <Icon size='default' svg={<IconMultiFile />} /></Tooltip>} itemKey='components'>

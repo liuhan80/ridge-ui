@@ -42,7 +42,6 @@ class RidgeEditorContext extends RidgeContext {
     // 存放配置性数据例如类样式列表等，供配置过程使用
     this.pluginData = []
 
-    this.setLight(this.isLight)
     this.setTheme(this.theme)
 
     // 保存工作区间打开过的页面列表

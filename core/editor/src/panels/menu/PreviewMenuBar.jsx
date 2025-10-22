@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Space, InputNumber, Typography } from '@douyinfe/semi-ui'
+import { Button } from '@douyinfe/semi-ui'
 import context from '../../service/RidgeEditorContext.js'
 
 /*

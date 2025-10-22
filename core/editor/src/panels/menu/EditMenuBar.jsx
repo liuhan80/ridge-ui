@@ -2,28 +2,7 @@ import React from 'react'
 import { Button, Divider, Badge, Space, ButtonGroup, Modal, Dropdown, InputNumber, Tooltip, Tabs, TabPane, Popover } from '@douyinfe/semi-ui'
 import { ReactComposite } from 'ridgejs'
 import context from '../../service/RidgeEditorContext.js'
-import HumbleiconsShare from '../../icons/HumbleiconsShare.svg'
 import './style.less'
-
-const THEMES = [{
-  label: '默认',
-  value: '@douyinfe/semi-ui/dist/css/semi.min.css'
-}, {
-  label: '抖音',
-  value: '@semi-bot/semi-theme-doucreator/semi.min.css'
-}, {
-  label: '飞书',
-  value: '@semi-bot/semi-theme-universedesign/semi.min.css'
-}, {
-  label: 'Strapi',
-  value: '@semi-bot/semi-theme-strapi/semi.min.css'
-}, {
-  label: '深蓝',
-  value: '@semi-bot/semi-theme-ultim-dark-blue/semi.min.css'
-}, {
-  label: '剪映',
-  value: '@semi-bot/semi-theme-jianying/semi.min.css'
-}]
 
 class MenuBar extends React.Component {
   constructor () {
@@ -198,8 +177,8 @@ class MenuBar extends React.Component {
   }
 
   render () {
-    const { zoomChange, savePage, state, props, switchToPage, onTabClose } = this
-    const { zoom, pageChanged, isLight, currentPageName, currentPageId, showContainer, openedPageList } = state
+    const { zoomChange, savePage, state, switchToPage, onTabClose } = this
+    const { zoom, pageChanged, currentPageName, currentPageId, showContainer, openedPageList } = state
     return (
       <div
         className='menu-bar'
@@ -218,35 +197,13 @@ class MenuBar extends React.Component {
               type='tertiary' icon={<i className='bi bi-floppy' />} theme='borderless' onClick={savePage}
             />
           </Badge>
-          <Tooltip content='预览页面'>
-            <Button
-              disabled={!currentPageName}
-              type='tertiary'
-              theme='borderless'
-              icon={<i className='bi bi-play-fill' />} onClick={() => { context.toggleMode() }}
-            >预览
-            </Button>
-          </Tooltip>
           <InputNumber
             disabled={!currentPageName} style={{ width: '96px', background: 'transparent' }} value={zoom} suffix='%' onChange={val => {
               zoomChange(val)
             }}
           />
           <Divider layout='vertical' />
-          <Tooltip content='夜间/日间模式'>
-            <Button
-              type='tertiary'
-              theme='borderless'
-              icon={isLight ? <i className='bi bi-moon-stars-fill' /> : <i className='bi bi-sun' />}
-              onClick={() => {
-                this.setState({
-                  isLight: !isLight
-                })
-                context.setLight(!isLight)
-              }}
-            />
-          </Tooltip>
-          <Tooltip content='切换显示容器轮廓'>
+          {/* <Tooltip content='切换显示容器轮廓'>
             <Button
               type={showContainer ? 'primary' : 'tertiary'}
               theme={showContainer ? 'solid' : 'borderless'}
@@ -258,30 +215,22 @@ class MenuBar extends React.Component {
                 context.setShowContainer(!showContainer)
               }}
             />
-          </Tooltip>
-          <Dropdown
-            trigger='click'
-            position='top'
-            render={
-              <Dropdown.Menu>
-                {THEMES.map(theme =>
-                  <Dropdown.Item
-                    key={theme.value}
-                    onClick={() => {
-                      context.setTheme(theme.value)
-                    }}
-                  >{theme.label}
-                  </Dropdown.Item>)}
-              </Dropdown.Menu>
-            }
-          >
-            <Button icon={<i className='bi bi-palette2' />} theme='borderless' size='small' type='tertiary' />
-          </Dropdown>
+          </Tooltip> */}
           <Divider layout='vertical' />
-          <ReactComposite app='ridge-editor-app' path='/user/UserPanel' />
-          <Popover trigger='click' position='topRight' showArrow content={<ReactComposite app='ridge-editor-app' path='/AppShare' />}>
+          {/* <ReactComposite app='ridge-editor-app' path='/user/UserPanel' /> */}
+          {/* <Popover trigger='click' position='topRight' showArrow content={<ReactComposite app='ridge-editor-app' path='/AppShare' />}>
             <Button icon={<HumbleiconsShare />}>导出</Button>
-          </Popover>
+          </Popover> */}
+
+          <Tooltip content='预览页面'>
+            <Button
+              disabled={!currentPageName}
+              type='tertiary'
+              theme='borderless'
+              icon={<i className='bi bi-play-fill' />} onClick={() => { context.toggleMode() }}
+            >预览
+            </Button>
+          </Tooltip>
         </Space>
       </div>
     )

@@ -173,15 +173,21 @@ html, body {
     margin-top: -250px;
   }
 
-  &.show-container {
-    .ridge-container {
-      background-color: rgba(var(--semi-light-blue-5), 0.02);
+  .view-port {
+    .ridge-element:has(.ridge-element:hover) {
+      outline: none;
     }
-    .ridge-droppable {
-      background-color: #97d5ff30;
+    .ridge-element:hover {
+      // cursor: pointer;
+       background-color: rgba(var(--semi-light-blue-5), 0.04);
+      // outline: 1px dashed rgba(var(--semi-light-blue-5), 0.5); /* dashed 虚线 / dotted 点线 */
+    }
+    .ridge-container:hover {
+      transition: background-color .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+      background-color: rgba(var(--semi-light-blue-5), 0.04);
+        // outline: 1px dashed rgba(var(--semi-light-blue-5), 0.3); /* dashed 虚线 / dotted 点线 */
     }
   }
-
   .ridge-element-edit:has(.ridge-element-edit:hover) {
     outline: none;
   }
