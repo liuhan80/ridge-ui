@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tabs, TabPane, Spin, List, Typography, Popover, Select, Space, Button, Image } from '@douyinfe/semi-ui'
+import { Tabs, TabPane, Spin, List, Typography, Select, Space, Image } from '@douyinfe/semi-ui'
 import context from '../../service/RidgeEditorContext.js'
 import { cloneDeep } from 'lodash'
 import SvgLoader from '../../utils/SVGFromSrc.js'
@@ -101,9 +101,6 @@ class ComponentListing extends React.Component {
    * 加载/更新应用的所有包
    */
   async loadPackages () {
-    // this.setState({
-    //   fullLoading: true
-    // })
     const { loadedPackages, appPackageObject } = await context.loadAppPackages()
 
     if (loadedPackages.length) {

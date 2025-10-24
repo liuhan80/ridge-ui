@@ -406,7 +406,7 @@ class AppFileList extends React.Component {
   RenderAppDropDown = () => {
     return (
       <div className='action-btn-appConfig'>
-        <ReactComposite app='ridge-editor-app' path='user/History' />
+        {/* <ReactComposite app='ridge-editor-app' path='user/History' /> */}
         <ReactComposite
           app='ridge-editor-app' path='AppConf' saved={() => {
             context.services.componentListPanel.reload()

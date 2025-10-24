@@ -10,7 +10,7 @@ import DialogCodeEdit from './panels/files/DialogCodeEdit.jsx'
 import EditMenuBar from './panels/menu/EditMenuBar.jsx'
 import context from './service/RidgeEditorContext.js'
 
-import IconMultiFile from './icons/StreamlineMultipleFile2.svg'
+import BytesizeFolder from './icons/BytesizeFolder.svg'
 import FluentAppsAddIn28Filled from './icons/FluentAppsAddIn28Filled.svg'
 import IconClist from './icons/CilList.svg'
 import IconSidePanelClose from './icons/CarbonSidePanelClose.svg'
@@ -59,6 +59,8 @@ class Editor extends React.Component {
       isPreview: false,
       leftReisizeWidth: 300,
       editPreview: false,
+
+      currentTabKey: 'components',
 
       imagePreviewSrc: null,
       imagePreviewVisible: false,
@@ -185,6 +187,7 @@ class Editor extends React.Component {
       imagePreviewVisible,
       leftReisizeWidth,
       imagePreviewSrc,
+      currentTabKey,
       codeEditTitle
     } = state
     return (
@@ -196,12 +199,18 @@ class Editor extends React.Component {
         >
           <Tabs
             className='root-nav'
+            activeKey={currentTabKey}
             style={{
               width: collapseLeft ? '58px' : (leftReisizeWidth + 'px')
             }}
             onTabClick={(key, ev) => {
+              if (key === this.state.currentTabKey) {
+                this.setState({
+                  collapseLeft: !collapseLeft
+                })
+              }
               this.setState({
-                collapseLeft: false
+                currentTabKey: key
               })
             }}
             tabPosition='left' type='button' tabBarExtraContent={
@@ -238,17 +247,10 @@ class Editor extends React.Component {
                 >
                   <Button icon={<i className='bi bi-palette2' />} theme='borderless' size='small' type='tertiary' />
                 </Dropdown>
-                <Button
-                  icon={<IconSidePanelClose />} onClick={() => {
-                    this.setState({
-                      collapseLeft: !collapseLeft
-                    })
-                  }}
-                />
               </Space>
               }
           >
-            <TabPane tab={<Tooltip content='应用文件管理' position='rightTop'> <Icon size='default' svg={<IconMultiFile />} /></Tooltip>} itemKey='components'>
+            <TabPane tab={<Tooltip content='应用文件管理' position='rightTop'> <Icon svg={<BytesizeFolder />} size='default' /></Tooltip>} itemKey='components'>
               <AppFileList />
             </TabPane>
             <TabPane tab={<Tooltip content='组件面板' position='rightTop'> <Icon svg={<FluentAppsAddIn28Filled />} /></Tooltip>} itemKey='app'>
