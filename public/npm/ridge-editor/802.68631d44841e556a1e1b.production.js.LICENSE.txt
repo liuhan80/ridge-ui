@@ -1,3 +1,13 @@
+/*
+  @license
+	Rollup.js v4.52.2
+	Tue, 23 Sep 2025 08:19:16 GMT - commit fa2315c4a53670775dd1074af131873dd37f828c
+
+	https://github.com/rollup/rollup
+
+	Released under the MIT License.
+*/
+
 /*!
 	Copyright (c) 2018 Jed Watson.
 	Licensed under the MIT License (MIT), see
