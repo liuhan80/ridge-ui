@@ -8,9 +8,11 @@ import DialogRename from './DialogRename.jsx'
 import DialogCreate from './DialogCreate.jsx'
 import { stringToBlob } from '../../utils/blob.js'
 import IconFileCode from '../../icons/IconFileCode.jsx'
-import IconNewTab from '../../icons/IconoirNewTab.svg'
+import OuiImport from '../../icons/OuiImport.svg'
 import IconFolderAdd from '../../icons/IconFolderAdd.jsx'
 import IconPageAdd from '../../icons/IconPageAdd.jsx'
+import PajamasClearAll from '../../icons/PajamasClearAll.svg'
+import OuiExport from '../../icons/OuiExport.svg'
 import IconUpload from '../../icons/IconUpload.jsx'
 import { FILE_COMPOSITE, FILE_FOLDER, FILE_IMAGE, FILE_JS, FILE_JSON, FILE_MARKDOWN } from '../../icons/icons.js'
 import { STORE_TEMPLATE } from '../../utils/template.js'
@@ -294,6 +296,11 @@ class AppFileList extends React.Component {
     }
   }
 
+  onUploadAppArchive = async file => {
+    const { appService } = context.services
+    await appService.importAppArchive(file)
+  }
+
   onFileExportClick = data => {
     const { appService } = context.services
     appService.exportFileArchive(data.key)
@@ -405,14 +412,64 @@ class AppFileList extends React.Component {
 
   RenderAppDropDown = () => {
     return (
-      <div className='action-btn-appConfig'>
-        {/* <ReactComposite app='ridge-editor-app' path='user/History' /> */}
-        <ReactComposite
-          app='ridge-editor-app' path='AppConf' saved={() => {
-            context.services.componentListPanel.reload()
-          }}
-        />
-      </div>
+      <Dropdown
+        trigger='click'
+        closeOnEsc
+        clickToHide
+        keepDOM
+        position='bottomLeft'
+        render={
+          <Dropdown.Menu className='app-files-dropdown'>
+            <Dropdown.Item
+              icon={<OuiExport />} onClick={() => {
+                this.exportApp()
+              }}
+            > <Text>导出项目</Text>
+            </Dropdown.Item>
+            <Dropdown.Item icon={<OuiImport />}><Upload
+              action='none' showUploadList={false} uploadTrigger='custom' accept='.zip' onFileChange={async files => {
+                Modal.confirm(
+                  {
+                    zIndex: 10001,
+                    title: '导入确认',
+                    content: '导入项目会覆盖整体工作区内容，是否继续',
+                    onOk: async () => {
+                      await this.onUploadAppArchive(files[0])
+                      Modal.success({
+                        hasCancel: false,
+                        title: '成功',
+                        content: '项目导入完成，点击确认刷新工作区',
+                        onOk: async () => {
+                          location.href = location.href
+                        }
+                      })
+                    }
+                  }
+                )
+              }}
+                                                >
+              导入项目
+                                                </Upload>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+            }
+      >
+        <Button className='more-button' theme='borderless' type='tertiary' icon={<i class='bi bi-three-dots-vertical' />} />
+      </Dropdown>
+
+    // <div className='action-btn-appConfig'>
+    //   <Button
+    //     onClick={() => {
+    //       this.exportApp()
+    //     }} theme='borderless' type='tertiary' icon={<MdiApplicationExport />}
+    //   />
+    //   {/* <ReactComposite app='ridge-editor-app' path='user/History' /> */}
+    //   {/* <ReactComposite
+    //     app='ridge-editor-app' path='AppConf' saved={() => {
+    //       context.services.componentListPanel.reload()
+    //     }}
+    //   /> */}
+    // </div>
     )
   }
 
@@ -440,11 +497,11 @@ class AppFileList extends React.Component {
                 上传文件
               </Upload>
             </Dropdown.Item>
-            <Dropdown.Item icon={<IconNewTab color='red' />} onClick={() => newEmptyApp()}> <Text type='danger'>新增空白应用</Text></Dropdown.Item>
+            <Dropdown.Divider />
           </Dropdown.Menu>
             }
       >
-        <Button size='small' theme='borderless' type='tertiary' icon={<i class='bi bi-plus-lg' style={{ color: 'var(--semi-color-text-0)' }} />} />
+        <Button theme='borderless' type='tertiary' icon={<i class='bi bi-plus-lg' style={{ color: 'var(--semi-color-text-0)' }} />} />
       </Dropdown>
     )
   }

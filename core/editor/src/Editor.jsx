@@ -3,41 +3,15 @@ import React from 'react'
 import { Dropdown, ImagePreview, Modal, Toast, Tabs, TabPane, Icon, Button, Tooltip, Space } from '@douyinfe/semi-ui'
 
 import ConfigPanel from './panels/config/ConfigPanel.jsx'
-import ComponentListing from './panels/component/ComponentListing.jsx'
-import AppFileList from './panels/files/AppFileList.jsx'
-import OutLineTree from './panels/outline/OutLineTree.jsx'
 import DialogCodeEdit from './panels/files/DialogCodeEdit.jsx'
 import EditMenuBar from './panels/menu/EditMenuBar.jsx'
 import context from './service/RidgeEditorContext.js'
-
-import BytesizeFolder from './icons/BytesizeFolder.svg'
-import FluentAppsAddIn28Filled from './icons/FluentAppsAddIn28Filled.svg'
-import IconClist from './icons/CilList.svg'
-import IconSidePanelClose from './icons/CarbonSidePanelClose.svg'
 
 import { ReactComposite } from 'ridgejs'
 
 import './editor.less'
 import PreviewMenuBar from './panels/menu/PreviewMenuBar.jsx'
-const THEMES = [{
-  label: '默认',
-  value: '@douyinfe/semi-ui/dist/css/semi.min.css'
-}, {
-  label: '抖音',
-  value: '@semi-bot/semi-theme-doucreator/semi.min.css'
-}, {
-  label: '飞书',
-  value: '@semi-bot/semi-theme-universedesign/semi.min.css'
-}, {
-  label: 'Strapi',
-  value: '@semi-bot/semi-theme-strapi/semi.min.css'
-}, {
-  label: '深蓝',
-  value: '@semi-bot/semi-theme-ultim-dark-blue/semi.min.css'
-}, {
-  label: '剪映',
-  value: '@semi-bot/semi-theme-jianying/semi.min.css'
-}]
+import LayoutLeft from './LayoutLeft.jsx'
 // 公用错误提示方法
 globalThis.msgerror = msg => {
   Toast.error(msg)
@@ -57,10 +31,7 @@ class Editor extends React.Component {
       collapseLeft: false,
       leftResizing: false,
       isPreview: false,
-      leftReisizeWidth: 300,
       editPreview: false,
-
-      currentTabKey: 'components',
 
       imagePreviewSrc: null,
       imagePreviewVisible: false,
@@ -169,6 +140,7 @@ class Editor extends React.Component {
     this.setState({
       isLight
     })
+    context.setLight(isLight)
   }
 
   render () {
@@ -185,9 +157,7 @@ class Editor extends React.Component {
       collapseLeft,
       pageOpened,
       imagePreviewVisible,
-      leftReisizeWidth,
       imagePreviewSrc,
-      currentTabKey,
       codeEditTitle
     } = state
     return (
@@ -197,69 +167,11 @@ class Editor extends React.Component {
             display: isPreview ? 'none' : ''
           }}
         >
-          <Tabs
-            className='root-nav'
-            activeKey={currentTabKey}
-            style={{
-              width: collapseLeft ? '58px' : (leftReisizeWidth + 'px')
+          <LayoutLeft
+            isLight={isLight} toggleLight={lt => {
+              this.setIsLight(lt)
             }}
-            onTabClick={(key, ev) => {
-              if (key === this.state.currentTabKey) {
-                this.setState({
-                  collapseLeft: !collapseLeft
-                })
-              }
-              this.setState({
-                currentTabKey: key
-              })
-            }}
-            tabPosition='left' type='button' tabBarExtraContent={
-              <Space vertical>
-                <Tooltip content='夜间/日间模式'>
-                  <Button
-                    type='tertiary'
-                    theme='borderless'
-                    icon={isLight ? <i className='bi bi-moon-stars-fill' /> : <i className='bi bi-sun' />}
-                    onClick={() => {
-                      this.setState({
-                        isLight: !isLight
-                      })
-                      context.setLight(!isLight)
-                    }}
-                  />
-                </Tooltip>
-
-                <Dropdown
-                  trigger='click'
-                  position='right'
-                  render={
-                    <Dropdown.Menu>
-                      {THEMES.map(theme =>
-                        <Dropdown.Item
-                          key={theme.value}
-                          onClick={() => {
-                            context.setTheme(theme.value)
-                          }}
-                        >{theme.label}
-                        </Dropdown.Item>)}
-                    </Dropdown.Menu>
-            }
-                >
-                  <Button icon={<i className='bi bi-palette2' />} theme='borderless' size='small' type='tertiary' />
-                </Dropdown>
-              </Space>
-              }
-          >
-            <TabPane tab={<Tooltip content='应用文件管理' position='rightTop'> <Icon svg={<BytesizeFolder />} size='default' /></Tooltip>} itemKey='components'>
-              <AppFileList />
-            </TabPane>
-            <TabPane tab={<Tooltip content='组件面板' position='rightTop'> <Icon svg={<FluentAppsAddIn28Filled />} /></Tooltip>} itemKey='app'>
-              <ComponentListing />
-            </TabPane>
-            <TabPane tab={<Tooltip content='页面大纲视图' position='rightTop'><Icon svg={<IconClist />} /> </Tooltip>} itemKey='outline'>
-              <OutLineTree />
-            </TabPane>
-          </Tabs>
+          />
           {!collapseLeft &&
             <div
               className='left-resizer' onMouseDown={e => {

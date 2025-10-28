@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@douyinfe/semi-ui'
+import { Button, Space } from '@douyinfe/semi-ui'
 import context from '../../service/RidgeEditorContext.js'
 
 /*
@@ -62,15 +62,17 @@ class PreviewMenuBar extends React.Component {
     const { toggoleRunMode, exportRunablePage } = this
     return (
       <div className='menu-bar'>
-        <Button
-          type='primary'
-          onClick={toggoleRunMode}
-        >返回
-        </Button>
+        <Space>
+          <Button
+            type='primary'
+            onClick={toggoleRunMode}
+          >返回
+          </Button>
 
-        <Button onClick={exportRunablePage}>
-          导出为单运行页面
-        </Button>
+          <Button onClick={exportRunablePage}>
+            导出为独立页面
+          </Button>
+        </Space>
       </div>
     )
   }

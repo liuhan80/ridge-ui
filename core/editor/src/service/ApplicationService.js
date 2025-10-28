@@ -607,7 +607,7 @@ export default class ApplicationService {
 
   async importAppArchive (file) {
     await this.backupCurrentApp()
-    return await this.backUpService.importAppArchive(file, this.collection, this.store)
+    return await this.backUpService.importAppArchive(file)
   }
 
   async backUpAppArchive (tag) {

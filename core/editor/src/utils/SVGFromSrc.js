@@ -41,6 +41,8 @@ class SvgLoader extends Component {
     return (
       <div
         className='svg-container' style={{
+          display: 'flex',
+          justifyContent: 'center',
           width: width + 'px',
           height: height + 'px'
         }} dangerouslySetInnerHTML={{ __html: svgContent }}

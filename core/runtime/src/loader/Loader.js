@@ -317,6 +317,7 @@ class Loader {
       // 支持主题的包，加载指定主题
       this.loadPackageTheme(packageName, packageJSONObject.themes.default)
     }
+    return packageJSONObject
   }
 
   async loadPackageTheme (packageName, themeUrl) {
