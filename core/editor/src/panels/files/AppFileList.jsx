@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button, Tree, Dropdown, Typography, Toast, Upload, Spin, Modal } from '@douyinfe/semi-ui'
+import { Button, Tree, Dropdown, Typography, Toast, Upload, Spin, Modal, Space, Divider } from '@douyinfe/semi-ui'
 import { ReactComposite } from 'ridgejs'
 import context from '../../service/RidgeEditorContext.js'
 import { eachNode } from './buildFileTree.js'
@@ -18,7 +18,7 @@ import { FILE_COMPOSITE, FILE_FOLDER, FILE_IMAGE, FILE_JS, FILE_JSON, FILE_MARKD
 import { STORE_TEMPLATE } from '../../utils/template.js'
 import './file-list.less'
 
-const { Text } = Typography
+const { Text, Paragraph } = Typography
 
 const ACCEPT_FILES = '.svg,.png,.jpg,.json,.css,.js,.md,.webp,.zip,.gif'
 class AppFileList extends React.Component {
@@ -34,6 +34,8 @@ class AppFileList extends React.Component {
       dialogCreateTitle: '',
 
       dialogRenameShow: false,
+
+      dialogImportShow: false,
       valueRename: '',
 
       appJSONObject: null,
@@ -410,66 +412,59 @@ class AppFileList extends React.Component {
     )
   }
 
-  RenderAppDropDown = () => {
-    return (
-      <Dropdown
-        trigger='click'
-        closeOnEsc
-        clickToHide
-        keepDOM
-        position='bottomLeft'
-        render={
-          <Dropdown.Menu className='app-files-dropdown'>
-            <Dropdown.Item
-              icon={<OuiExport />} onClick={() => {
-                this.exportApp()
-              }}
-            > <Text>导出项目</Text>
-            </Dropdown.Item>
-            <Dropdown.Item icon={<OuiImport />}><Upload
-              action='none' showUploadList={false} uploadTrigger='custom' accept='.zip' onFileChange={async files => {
-                Modal.confirm(
-                  {
-                    zIndex: 10001,
-                    title: '导入确认',
-                    content: '导入项目会覆盖整体工作区内容，是否继续',
-                    onOk: async () => {
-                      await this.onUploadAppArchive(files[0])
-                      Modal.success({
-                        hasCancel: false,
-                        title: '成功',
-                        content: '项目导入完成，点击确认刷新工作区',
-                        onOk: async () => {
-                          location.href = location.href
-                        }
-                      })
-                    }
-                  }
-                )
-              }}
-                                                >
-              导入项目
-                                                </Upload>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-            }
-      >
-        <Button className='more-button' theme='borderless' type='tertiary' icon={<i class='bi bi-three-dots-vertical' />} />
-      </Dropdown>
 
-    // <div className='action-btn-appConfig'>
-    //   <Button
-    //     onClick={() => {
-    //       this.exportApp()
-    //     }} theme='borderless' type='tertiary' icon={<MdiApplicationExport />}
-    //   />
-    //   {/* <ReactComposite app='ridge-editor-app' path='user/History' /> */}
-    //   {/* <ReactComposite
-    //     app='ridge-editor-app' path='AppConf' saved={() => {
-    //       context.services.componentListPanel.reload()
-    //     }}
-    //   /> */}
-    // </div>
+  RenderAppImportDialog = () => {
+    const { dialogImportShow } = this.state
+    return (
+      <Modal
+        width={560}
+        title='导入/导出项目'
+        visible={dialogImportShow}
+        okText='关闭'
+        hasCancel={false}
+        onCancel={() => {
+          this.setState({
+            dialogImportShow: false
+          })
+        }}
+        onOk={() => {
+          this.setState({
+            dialogImportShow: false
+          })
+        }}
+      >
+        <Paragraph>项目整体导入</Paragraph>
+        <Text type='danger'>选择导入后，现有工作目录会被替换，建议先通过导出方式提前备份</Text>
+        <Space style={{
+          padding: '10px 0'
+        }}
+        >
+          <Upload
+            action='none' showUploadList={false} uploadTrigger='custom' accept='.zip' onFileChange={async files => {
+              await this.onUploadAppArchive(files[0])
+              window.location.reload()
+            }}
+          >
+            <Button theme='light'>
+              选择项目文件(zip)
+            </Button>
+          </Upload>
+        </Space>
+
+        <Paragraph>导出为压缩文件</Paragraph>
+        <Space style={{
+          padding: '10px 0'
+        }}
+        >
+          <Button
+            theme='light' onClick={() => {
+              this.exportApp()
+            }}
+          >
+            导出
+          </Button>
+        </Space>
+      </Modal>
     )
   }
 
@@ -507,14 +502,21 @@ class AppFileList extends React.Component {
   }
 
   render () {
-    const { renderFullLabel, state, RenderCreateDropDown, RenderAppDropDown } = this
+    const { renderFullLabel, state, RenderCreateDropDown, RenderAppImportDialog } = this
     const { treeData, dialogCreateShow, dialogCreateTitle, dialogRenameShow, valueRename } = state
 
     return (
       <>
         <div className='file-actions panel-actions'>
           <RenderCreateDropDown />
-          <RenderAppDropDown />
+          <Button onClick={() => {
+            this.setState({
+              dialogImportShow: true
+            })
+          }}
+          >导入/导出
+          </Button>
+          <RenderAppImportDialog />
         </div>
         <DialogCreate
           show={dialogCreateShow}
