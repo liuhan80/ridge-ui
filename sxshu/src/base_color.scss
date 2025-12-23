@@ -1,0 +1,18 @@
+$bgColor: #071f41;
+$bgColor2: #002140;
+$bgColor3: #003966;
+$bgColor4: #003159;
+$bgColor5: #00294d;
+$bgColor6: #001226;
+$borderColor: #01345c;
+$fontColor: #fff;
+$fontColor2: #619cc2;
+$fontColor3: #01b9b9;
+$hoverColor: #0075c2;
+
+.ant-message{
+  color: $fontColor;
+  .ant-message-notice-content{
+    background-color: $bgColor3;
+  }
+}
