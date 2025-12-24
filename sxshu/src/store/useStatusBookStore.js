@@ -16,61 +16,6 @@ const fetchTableDataApi = async (url, params = { pageSize: 10, current: 1 }, sig
     if (error.name !== 'AbortError') throw error
   }
 }
-
-const useStatusBookStore = create((set) => ({
-  tableState: {
-    list: [],
-    total: 0,
-    pageSize: 10,
-    current: 1,
-    loading: false,
-    error: null,
-    abortController: null
-  },
-  initTable: (pageSize = 10) => set((state) => ({
-    tableState: { ...state.tableState, pageSize, current: 1, list: [], total: 0 }
-  })),
-
-  fetchTableData: (url, queryParams = {}) => set(async (state) => {
-    if (state.tableState.abortController) state.tableState.abortController.abort()
-    const newAbortController = new AbortController()
-    set({
-      tableState: { ...state.tableState, loading: true, error: null, abortController: newAbortController }
-    })
-
-    const current = state.tableState.current
-    try {
-      const requestParams = {
-        pageSize: state.tableState.pageSize,
-        current: state.tableState.current,
-        ...queryParams
-      }
-      const data = await fetchTableDataApi(url, requestParams, newAbortController.signal)
-      if (!data) return
-
-      set({
-        tableState: { ...state.tableState, ...data, loading: false, abortController: null, current }
-      })
-    } catch (error) {
-      set({
-        tableState: { ...state.tableState, loading: false, error: error.message, abortController: null }
-      })
-    }
-  }),
-
-  changeTablePage: (page) => set((state) => ({
-    tableState: { ...state.tableState, current: page, error: null }
-  })),
-
-  changeTablePageSize: (pageSize) => set((state) => ({
-    tableState: { ...state.tableState, pageSize, current: 1, error: null }
-  })),
-
-  refreshTable: () => set((state) => ({
-    tableState: { ...state.tableState, error: null }
-  }))
-}))
-
 class TableStoreFactory {
   constructor () {
     this.tableStores = {}

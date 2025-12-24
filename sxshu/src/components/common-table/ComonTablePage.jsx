@@ -158,6 +158,7 @@ const CommonTablePage = ({
           <Table
             className='sx-table-normal'
             scroll={{
+              // y: tableScrollY
               y: tableScrollY
             }}
             loading={{

@@ -107,13 +107,15 @@ a {
     padding: 12px;
     box-sizing: border-box;
     overflow: hidden;
+    background: #001732;
+    width: 100%;
 }
 
 .table-page {
   background: #001732;
   width: 100%;
   flex: 1;
-  padding: 16px;
+  padding: 12px;
   overflow: hidden;
   box-sizing: border-box;
 }

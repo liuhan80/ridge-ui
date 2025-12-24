@@ -9,6 +9,7 @@ import Review from './review/ReviewTable.jsx'
 import BreakdownTable from './review/BreakdownTable.jsx'
 import Rule from './review/Rule.jsx'
 import StatusBookTablePage from './book/StatusBookTablePage.jsx'
+import SiteManagePage from './book/SiteManagePage.jsx'
 
 // 1. 导入图片，webpack会处理并返回构建后的路径
 import fakeHeadImg from './assets/image/fakehead.png'
@@ -45,6 +46,8 @@ const App = () => {
 
         {/* 台账 状态字典、故障字典、一次接线图 公用 */}
         <Route path='/book' element={<StatusBookTablePage />} />
+
+        <Route path='/site' element={<SiteManagePage />} />
       </Routes>
     </div>
   )
