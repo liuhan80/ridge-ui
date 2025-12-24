@@ -116,24 +116,26 @@ a {
   padding: 16px;
   overflow: hidden;
   box-sizing: border-box;
-  .content-container {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-  }
-  .action-bar {
+}
+
+.content-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+    .action-bar {
       display: flex;
       color: #FFFFFF;
       display: flex;
       gap: 6px;
       align-items: center;
-  }
-  .table-container {
+    }
+    .table-container {
       flex: 1;
       overflow: hidden;
-  }
+    }
 }
+
 
 
 /* 针对 Webkit 内核浏览器（Chrome、Edge、Safari 等） */
