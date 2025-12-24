@@ -1,5 +1,5 @@
 body {
- font-family: 'fzlthk', sans-serif;
+  font-family: "Microsoft YaHei", 微软雅黑;
 }
 
 button {
@@ -138,29 +138,27 @@ a {
     }
 }
 
-
-
-/* 针对 Webkit 内核浏览器（Chrome、Edge、Safari 等） */
-/* 滚动条整体容器 */
-::-webkit-scrollbar {
-  width: 4px; /* 垂直滚动条宽度 */
-  height: 4px; /* 水平滚动条高度，若不需要可删除 */
-}
-
-/* 滚动条轨道 */
-::-webkit-scrollbar-track {
-  background: #001732; /* 轨道背景色 */
+/* 第一步：重置全局滚动条基础样式（提升优先级，去掉不必要的 !important） */
+/* 针对所有可滚动容器的 Webkit 滚动条 */
+*::-webkit-scrollbar {
+  width: 6px; /* 垂直滚动条宽度 */
+  height: 6px; /* 水平滚动条高度 */
+  background-color: #093865; /* 轨道基础背景（去掉 !important） */
 }
 
 /* 滚动条滑块 */
-::-webkit-scrollbar-thumb {
-  background: #0C609E; /* 滑块颜色 */
-  border-radius: 0; /* 若需要圆角可修改，比如2px，这里保持默认直角 */
+*::-webkit-scrollbar-thumb {
+  background-color: #1C6199; /* 滑块颜色 */
+  border-radius: 3px; /* 可选：滑块圆角，更美观 */
 }
 
-/* 针对 Firefox 浏览器 */
-/* 隐藏Firefox默认的滚动条额外元素，仅保留核心轨道和滑块 */
-* {
-  scrollbar-width: thin; /* 滚动条宽度：thin对应4px左右，auto为默认，none为隐藏 */
-  scrollbar-color: #0C609E #001732; /* 第一个值：滑块颜色，第二个值：轨道颜色 */
+/* 滑块 hover 状态（可省略，因为和默认滑块颜色一致） */
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #1C6199;
+}
+
+/* 滚动条轨道 */
+*::-webkit-scrollbar-track {
+  background-color: #093865;
+  box-shadow: none;
 }

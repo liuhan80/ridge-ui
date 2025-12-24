@@ -43,10 +43,33 @@
             width: 419px;
             height: 100%;
             overflow: hidden;
-            border-radius: 18px;
-            border: 1px solid rgba(12, 93, 132, 1);
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
+            position: relative;
+            /* border: 1px solid rgba(12, 93, 132, 1); */
+
+            border-top: 1px solid rgba(12, 93, 132, 1);
+            /* 左边框渐变 */
+            &::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 1px; /* 边框宽度 */
+                height: 100%;
+                background: linear-gradient(180deg, rgba(12, 93, 132, 1), rgba(3, 21, 30, 1))
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 1px; /* 边框宽度 */
+                height: 100%;
+                background: linear-gradient(180deg, rgba(12, 93, 132, 1), rgba(3, 21, 30, 1))
+            }
             >.sx-section-box {
                 flex: 1;
                 overflow: hidden;
@@ -197,6 +220,10 @@
     overflow: hidden;
     height: 100%;
     box-sizing: border-box;
+    .position {
+        display: flex;
+        gap: 8px;
+    }
     .mom-table {
         flex: 1;
         overflow: hidden;

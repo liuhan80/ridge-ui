@@ -4,7 +4,7 @@ import Metric1 from '../components/metric1/Metric1'
 import AssetDistribution from '../components/asset/AssetDistribution'
 import DeviceSituation from './DeviceSituation'
 
-import leftImg from '../assets/image/left.png'
+import leftImg from '../assets/image/left.svg'
 import SectionBox from '../components/section/SectionBox'
 import RegionalDataQuality from './RegionalDataQuality'
 import TotalScoreRanking from './TotalScoreRanking'
@@ -44,12 +44,12 @@ const MainPage = () => {
         </div>
         <div className='toggle-button' onClick={onToggleLeftShow}>
           <div className='image-wrapper'>
-            <img src={leftImg} />
+            <img style={{ cursor: 'pointer'}} src={leftImg} />
           </div>
         </div>
         {leftShow && <div className='side'>
-          <TotalScoreRanking> </TotalScoreRanking>
-          <MoMComparison />
+            <TotalScoreRanking> </TotalScoreRanking>
+            <MoMComparison />
                      </div>}
       </div>
       {/* <Metric1 label="完整性" value='65.20%'></Metric1> */}

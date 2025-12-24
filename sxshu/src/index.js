@@ -35,10 +35,14 @@ ReactDOM.render(
 
             },
             Select: {
-              selectorBg: 'rgba(23,206,255,0.1)'
+              activeBorderColor: '#2AB4EB',
+              selectorBg: 'rgba(23,206,255,0.1)',
+              activeOutlineColor: 'none'
             },
             DatePicker: {
+              cellActiveWithRangeBg: 'rgba(21, 154, 255, 0.2)',
               activeBg: 'rgba(23,206,255,0.1)',
+              activeShadow: 'none',
               colorBgContainer: 'rgba(23,206,255,0.1)'
             /* 这里是你的组件 token */
             },

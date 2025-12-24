@@ -43,7 +43,7 @@ const FarmList = ({
 
 
 const TotalScoreRanking = () => {
-    return <SectionBox tilte='场站总得分排名' content={<FarmList list={scoreList}></FarmList>} contentStyle={{ padding: '20px 14px' }}></SectionBox>
+    return <SectionBox title='场站总得分排名' content={<FarmList list={scoreList}></FarmList>} contentStyle={{ padding: '20px 14px' }}></SectionBox>
 }
 
 export default TotalScoreRanking

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import SectionBox from '../components/section/SectionBox'
 import { Segmented, DatePicker, Table, Select } from 'antd'
 import homeStore from '../store/home'
 
-const { RangePicker } = DatePicker;
+import useTableScrollHeightRef from '../utils/useTableScrollHeight'
 
 const columns = [
   {
@@ -45,46 +45,22 @@ const columns = [
 ];
 
 
-
 const Content = () => {
   // 1. 定义状态：存储Table的scroll.y像素值
-  const [tableScrollY, setTableScrollY] = useState(0);
-
-  // 3. useEffect：计算高度（组件挂载+窗口大小变化时触发）
-  useEffect(() => {
-    // 定义计算高度的函数
-    const calculateTableHeight = () => {
-      const qulityTable = document.querySelector('.mom-comparison')
-
-      if (qulityTable) {
-        const containerHeight = qulityTable.clientHeight;
-        // 获取图片的实际高度（像素值）
-        setTableScrollY(Math.max(0, containerHeight - 196));
-      }
-    };
-
-    calculateTableHeight();
-
-    // 监听窗口大小变化，重新计算高度（适配响应式）
-    window.addEventListener('resize', calculateTableHeight);
-
-    // 清理函数：移除事件监听，避免内存泄漏
-    return () => {
-      window.removeEventListener('resize', calculateTableHeight);
-    };
-  }, []); // 空依赖：仅在组件挂载时执行（若有依赖数据，可添加到依赖数组）
-
+  const tableRef = useRef(null)
+  const [tableScrollY] = useTableScrollHeightRef(tableRef, 116)
   const rankFarmList = homeStore(state => state.rankFarmList)
   const provincesList = homeStore(state => state.provincesList)
-  return <div className='mom-comparison'>
+  return <div className='mom-comparison' ref={tableRef}>
     <div className="position">
       <Segmented
+        onChange={ev => {
+          console.log('ev', ev)
+        }}
         options={['全国', '省份']}
       />
-      <Select  style={{ width: 250 }} options={provincesList}></Select>
-    </div>
-    <div className="date-range">
-      <RangePicker style={{ width: '260px' }} />
+      <Select style={{ width: 90, height: 32 }} options={provincesList}></Select>
+      <DatePicker size='small' style={{ width: 120, height: '32px' }} onChange={() => {}} picker="month" />
     </div>
     <Table
       className='sx-table mom-table'

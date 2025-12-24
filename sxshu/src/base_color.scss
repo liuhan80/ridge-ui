@@ -16,3 +16,24 @@ $hoverColor: #0075c2;
     background-color: $bgColor3;
   }
 }
+
+
+/* 针对 Webkit 内核浏览器（Chrome、Edge、Safari 等） */
+/* 滚动条整体容器 */
+::-webkit-scrollbar {
+  width: 4px; /* 垂直滚动条宽度 */
+  height: 4px; /* 水平滚动条高度，若不需要可删除 */
+}
+
+/* 滚动条轨道 */
+::-webkit-scrollbar-track {
+  background: #001732; /* 轨道背景色 */
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  background: #0C609E; /* 滑块颜色 */
+  border-radius: 0; /* 若需要圆角可修改，比如2px，这里保持默认直角 */
+}
+
+

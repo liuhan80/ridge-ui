@@ -164,13 +164,12 @@ const config = {
         use: ['file-loader']
       },
       {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        issuer: /\.[jt]sx?$/,
-        use: ['babel-loader', '@svgr/webpack', 'url-loader'],
-      },
-      {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader',
+        // 3. 其他所有 SVG（不带 ?react/?inline）用 asset/inline 处理
+        test: /\.svg$/i,
+        type: 'asset/inline',
+        resourceQuery: { 
+            not: [/react/, /inline/] // 排除带 ?react 或 ?inline 的情况
+        }
       }
     ]
   },

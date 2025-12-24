@@ -1,38 +1,56 @@
 // src/hooks/useTableScrollHeight.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+
 
 /**
- * 自定义Hook：计算表格的scrollY高度
- * @param {string} containerClassName - 表格容器的类名（用于获取DOM元素）
+ * 自定义Hook：计算表格的scrollY高度（支持实时更新）
+ * @param {React.RefObject} ref - 表格容器的Ref（必须是React.createRef()/useRef()创建的Ref对象）
  * @param {number} offset - 高度偏移值（容器高度减去该值，得到表格的scrollY）
- * @returns {number} - 表格的scrollY高度
+ * @returns {[number, () => void]} - [表格scrollY高度, 手动更新高度的方法]
  */
-const useTableScrollHeight = (containerClassName, offset = 0) => {
-  const [tableScrollY, setTableScrollY] = useState(0);
+const useTableScrollHeightRef = (ref, offset = 0) => {
+  const [tableScrollY, setTableScrollY] = useState(0)
 
-  // 定义计算高度的函数
-  const calculateTableHeight = () => {
-    // 根据类名获取容器元素（注意：类名不要拼错，原代码中有笔误reivew→review，这里保留和原代码一致的类名）
-    const container = document.querySelector(`.${containerClassName}`);
-    if (container) {
-      const containerHeight = container.clientHeight;
-      // 计算并设置表格的scrollY高度
-      setTableScrollY(Math.max(0, containerHeight - offset));
-    }
-  };
+  // 核心：计算高度的纯函数（抽离便于复用）
+  const calculateTableHeight = useCallback(() => {
+    if (!ref.current) return // 避免Ref未挂载时的报错
+    const containerHeight = ref.current.clientHeight
+    const targetHeight = Math.max(0, containerHeight - offset) // 确保高度≥0
+    setTableScrollY(targetHeight)
+  }, [ref, offset]) // 依赖ref和offset，变化时重新生成函数
 
-  // 组件挂载时计算高度，监听窗口resize事件
+  // 1. 监听容器尺寸变化（ResizeObserver：比window.resize更精准，监听元素自身尺寸变化）
+  // 2. 监听ref变化、offset变化
+  // 3. 组件挂载/卸载时清理监听
   useEffect(() => {
-    calculateTableHeight();
-    window.addEventListener('resize', calculateTableHeight);
+    // 初始计算一次高度
+    calculateTableHeight()
 
-    // 组件卸载时移除事件监听，避免内存泄漏
+    // 监听窗口resize（兜底：应对窗口尺寸变化）
+    window.addEventListener('resize', calculateTableHeight)
+
+    // 监听容器自身尺寸变化（核心：实现「随时更新」）
+    const resizeObserver = new ResizeObserver(() => {
+      calculateTableHeight()
+    })
+    if (ref.current) {
+      resizeObserver.observe(ref.current)
+    }
+
+    // 组件卸载/依赖变化时，清理所有监听
     return () => {
-      window.removeEventListener('resize', calculateTableHeight);
-    };
-  }, [containerClassName, offset]); // 依赖：类名和偏移值变化时重新执行
+      window.removeEventListener('resize', calculateTableHeight)
+      resizeObserver.disconnect() // 停止监听容器尺寸
+    }
+  }, [ref, offset, calculateTableHeight]) // 依赖变化时重新初始化监听
 
-  return tableScrollY;
-};
+  // 暴露手动更新方法：支持外部主动触发高度计算（比如容器内容变化后）
+  const updateTableHeight = useCallback(() => {
+    calculateTableHeight()
+  }, [calculateTableHeight])
 
-export default useTableScrollHeight;
+  // 返回高度值 + 手动更新方法
+  return [tableScrollY, updateTableHeight]
+}
+
+export default useTableScrollHeightRef;

@@ -1,11 +1,7 @@
-* {
-    font-family: 'fzlthk', Arial, sans-serif;
-}
-
 /* 三峡表格通用样式 */
 .ant-table-wrapper.sx-table-normal {
     .ant-table {
-
+        scrollbar-color: none;
         .table-empty-placeholder {
             display: flex;
             flex-direction: column;
@@ -57,7 +53,7 @@
                             display: none;
                         }
                         &.ant-table-cell-scrollbar {
-                            width: 10px;
+                            width: 6px;
                             padding: 0;
                             border-left: none;
                             box-shadow: none;
@@ -122,7 +118,9 @@
     }
 }
 
-
+.ant-table-wrapper .ant-table {
+    scrollbar-color: auto;
+}
 
 /* 三峡表格通用样式 */
 .ant-table-wrapper.sx-table {
@@ -151,7 +149,7 @@
                         }
 
                         &.ant-table-cell-scrollbar {
-                            width: 10px;
+                            width: 6px;
                             padding: 0;
                             border-left: none;
                             box-shadow: none;
@@ -308,9 +306,25 @@
 }
 
 .ant-picker-dropdown {
-    .ant-picker-panel-container {
-        background: rgb(6, 72, 105);
+    .ant-picker-header button {
+        color: #fff;
     }
+    .ant-picker-range-arrow::before {
+        background: #042d68;
+    }
+    .ant-picker-cell {
+        color: rgba(255, 255, 255, 0.4);
+    }
+    .ant-picker-cell-in-view {
+        color: #fff;
+    }
+    .ant-picker-panel-container {
+        background: #042d68;
+    }
+    /* .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-disabled):before,
+    .ant-picker-cell-in-view.ant-picker-cell-in-range:not(.ant-picker-cell-disabled):before {
+        background-color: rgba(21, 154, 255, 0.2)!important;
+    } */
 }
 .ant-btn-primary {
     background: linear-gradient( #0C609E 0%, #2AB4EB 100%);
@@ -437,6 +451,14 @@ span.ant-tag.error {
 .ant-tree {
     color: #fff;
     .ant-tree-treenode {
-
+        width: 100%;
+        &.ant-tree-treenode-selected {
+            background: rgba(0,240,255,0.2);
+            border-radius: 4px;
+            .ant-tree-node-selected {
+                background-color: transparent;
+                color: #00F0FF;
+            }
+        }
     }
 }
