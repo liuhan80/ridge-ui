@@ -46,11 +46,12 @@ const columns = [
 
 
 const Content = () => {
-  // 1. 定义状态：存储Table的scroll.y像素值
   const tableRef = useRef(null)
   const [tableScrollY] = useTableScrollHeightRef(tableRef, 116)
   const rankFarmList = homeStore(state => state.rankFarmList)
   const provincesList = homeStore(state => state.provincesList)
+
+  const [showProvince, setShowProvince] = useState('')
   return <div className='mom-comparison' ref={tableRef}>
     <div className="position">
       <Segmented
