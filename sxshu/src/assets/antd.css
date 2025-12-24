@@ -5,6 +5,18 @@
 /* 三峡表格通用样式 */
 .ant-table-wrapper.sx-table-normal {
     .ant-table {
+
+        .table-empty-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #00AAFF;
+            .ant-empty-description {
+                color: #00AAFF;
+            }
+        }
+
         border-radius: 0;
         background: transparent;
         .ant-table-measure-row {

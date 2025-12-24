@@ -112,8 +112,9 @@ a {
 .table-page {
   background: #001732;
   width: 100%;
-  height: 100%;
+  flex: 1;
   padding: 16px;
+  overflow: hidden;
   box-sizing: border-box;
   .content-container {
       height: 100%;
@@ -130,6 +131,7 @@ a {
   }
   .table-container {
       flex: 1;
+      overflow: hidden;
   }
 }
 
