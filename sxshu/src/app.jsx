@@ -33,7 +33,6 @@ const App = () => {
         {/* 案例分析 */}
         <Route path='/case' element={<CaseAnalysis />} />
 
-
         {/* 申诉页面 */}
         <Route path='/appeal' element={<AppealList />} />
 

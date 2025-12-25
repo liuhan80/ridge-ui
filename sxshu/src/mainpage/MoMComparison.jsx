@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import SectionBox from '../components/section/SectionBox'
 import { Segmented, DatePicker, Table, Select } from 'antd'
 import homeStore from '../store/home'
+import globalStore from '../store/globals'
 
 import useTableScrollHeightRef from '../utils/useTableScrollHeight'
 
@@ -49,7 +50,7 @@ const Content = () => {
   const tableRef = useRef(null)
   const [tableScrollY] = useTableScrollHeightRef(tableRef, 116)
   const rankFarmList = homeStore(state => state.rankFarmList)
-  const provincesList = homeStore(state => state.provincesList)
+  const provinces = globalStore(state => state.provinces)
 
   const [showProvince, setShowProvince] = useState('')
   return <div className='mom-comparison' ref={tableRef}>
@@ -60,7 +61,7 @@ const Content = () => {
         }}
         options={['全国', '省份']}
       />
-      <Select style={{ width: 90, height: 32 }} options={provincesList}></Select>
+      <Select style={{ width: 90, height: 32 }} options={provinces}></Select>
       <DatePicker size='small' style={{ width: 120, height: '32px' }} onChange={() => {}} picker="month" />
     </div>
     <Table

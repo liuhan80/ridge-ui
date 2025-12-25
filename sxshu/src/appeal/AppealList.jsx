@@ -1,5 +1,7 @@
-import React, { useEffect, useState }  from 'react'
+import React, { useEffect, useState } from 'react'
 import { DatePicker, Table, Tag, Space, Select, Button } from 'antd'
+
+import CommonTablePage from '../components/common-table/ComonTablePage'
 import appealStore from '../store/appeal'
 import AppealCreateModal from './AppealCreateModal.jsx'
 
@@ -86,34 +88,34 @@ const AppealList = () => {
     // 1. 定义状态：存储Table的scroll.y像素值
     const [tableScrollY, setTableScrollY] = useState(0);
     const [createModalVisible, setCreateModalVisible] = useState(false);
-      
+
     const appealTableData = appealStore(state => state.appealTableData)
     const setCandinateModalVisible = appealStore(state => state.setCandinateModalVisible)
 
     // 3. useEffect：计算高度（组件挂载+窗口大小变化时触发）
     useEffect(() => {
-    // 定义计算高度的函数
-    const calculateTableHeight = () => {
-        const qulityTable = document.querySelector('.appeal')
+        // 定义计算高度的函数
+        const calculateTableHeight = () => {
+            const qulityTable = document.querySelector('.appeal')
 
-        if (qulityTable) {
-            const containerHeight = qulityTable.clientHeight;
-            // 获取图片的实际高度（像素值）
-            setTableScrollY(Math.max(0, containerHeight - 256));
-        }
-    };
+            if (qulityTable) {
+                const containerHeight = qulityTable.clientHeight;
+                // 获取图片的实际高度（像素值）
+                setTableScrollY(Math.max(0, containerHeight - 256));
+            }
+        };
 
-    calculateTableHeight();
+        calculateTableHeight();
 
-    // 监听窗口大小变化，重新计算高度（适配响应式）
-    window.addEventListener('resize', calculateTableHeight);
+        // 监听窗口大小变化，重新计算高度（适配响应式）
+        window.addEventListener('resize', calculateTableHeight);
 
-    // 清理函数：移除事件监听，避免内存泄漏
-    return () => {
-        window.removeEventListener('resize', calculateTableHeight);
-    };
+        // 清理函数：移除事件监听，避免内存泄漏
+        return () => {
+            window.removeEventListener('resize', calculateTableHeight);
+        };
     }, []); // 空依赖：仅在组件挂载时执行（若有依赖数据，可添加到依赖数组）
-    
+
     return <div className='appeal'>
         <div className='appeal-container'>
             <div className="action-bar">
@@ -162,4 +164,31 @@ const AppealList = () => {
 }
 
 
-export default AppealList
+const AppealListPage = () => {
+    const setCandinateModalVisible = appealStore(state => state.setCandinateModalVisible)
+    return <>
+        <CommonTablePage actionBar={<>
+            <div>省份</div>
+            <Select style={{ width: '120px' }}></Select>
+            <div>场站名称</div>
+            <Select style={{ width: '280px' }}></Select>
+            <div>流程编号</div>
+            <Select style={{ width: '180px' }}></Select>
+            <div>审批状态</div>
+            <Select style={{ width: '180px' }}></Select>
+            <div>查询时间</div>
+            <RangePicker style={{ width: '300px' }} />
+            <button className="main">查询</button>
+            <button className="reset">重置</button>
+            <button style={{
+                marginLeft: 'auto'
+            }} onClick={() => {
+                setCandinateModalVisible(true)
+            }}>新增申诉</button>
+        </>} columns={columns} storeName='appeal-list' requestUrl='/public/appeal-list.json'></CommonTablePage>
+        <AppealCreateModal></AppealCreateModal>
+        <StationAppealEditModal></StationAppealEditModal>
+    </>
+}
+
+export default AppealListPage

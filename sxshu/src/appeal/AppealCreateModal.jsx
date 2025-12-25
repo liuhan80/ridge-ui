@@ -11,11 +11,12 @@ import globalStore from '../store/globals'
 const { TextArea } = Input
 
 const RenderProvince = () => {
+    const provinces = globalStore(state => state.provinces)
     return <div className='province'>
         <div className='select-prov'>
             <img src={buildingImg}></img>
             <div className="choose">省份选择</div>
-            <Select></Select>
+            <Select options={provinces} style={{width: 160}} ></Select>
             <div className="code">流程编号</div>
             <div className="code-number">123009892</div>
             <div className='score'>分数 88.21%</div>
@@ -45,6 +46,7 @@ const RenderStation = () => {
     const candinateGotoPage = appealStore(state => state.candinateGotoPage)
     const setCandinateSelectedKeys = appealStore(state => state.setCandinateSelectedKeys)
     const candinateSelectedKeys = appealStore(state => state.candinateSelectedKeys)
+    const confirmStationCreate = appealStore(state => state.confirmStationCreate)
 
     const columns = [
         {
@@ -84,7 +86,8 @@ const RenderStation = () => {
             width: 120,
             render: (value, record) => {
                 return <Button type='link' onClick={() => {
-                    setCandinateSelectedKeys[record.key]
+                    setCandinateSelectedKeys([record.key])
+                    confirmStationCreate()
                 }}>申诉</Button>
             }
         }

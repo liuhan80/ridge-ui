@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom'; // 注：若不再使用，可删除此导入
-import { Segmented, DatePicker, Table, Button } from 'antd';
+import { Segmented, DatePicker, Table, Select } from 'antd';
 import slideImage from '../assets/image/slider.png'
 const { RangePicker } = DatePicker;
 import homeStore from '../store/home'
+import globalStore from '../store/globals'
 import { getCssAlignedGradientColor } from '../utils/utils';
 // 导入独立的浮层组件
 import GlobalPopoverQuality from './GlobalPopoverQuality'; // 路径根据实际项目调整
@@ -17,10 +18,14 @@ const RegionalDataQuality = () => {
 
   const [clickedRecord, setClickedRecord] = useState({});
   const [clickedObject, setClickedObject] = useState([]);
-  const leftShow = homeStore(state => state.leftShow)
-
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [popoverPosition, setPopoverPosition] = useState({ x: 0, y: 0 });
+
+  const [segName, setSegName] = useState('全国')
+  
+  const leftShow = homeStore(state => state.leftShow)
+  const provinces = globalStore(state => state.provinces)
+
 
   // 处理单元格点击事件
   const handleCellClick = (e) => {
@@ -154,10 +159,13 @@ const RegionalDataQuality = () => {
   return <div className='reginal-data-quality' ref={rootRef}>
     <div className='toolbar'>
       <Segmented
-        //value={alignValue}
-        // onChange={setAlignValue}
+        value={segName}
+        onChange={val => {
+          setSegName(val)
+        }}
         options={['全国', '省份']}
       />
+      {segName === '省份' && <Select style={{ width: 90, height: 32 }} options={provinces}></Select>}
       <RangePicker style={{ width: '260px' }} />
       <button className="main">查询</button>
     </div>

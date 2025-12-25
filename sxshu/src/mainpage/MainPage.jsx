@@ -10,6 +10,8 @@ import RegionalDataQuality from './RegionalDataQuality'
 import TotalScoreRanking from './TotalScoreRanking'
 
 import homeStore from '../store/home'
+import globalStore from '../store/globals'
+
 import MoMComparison from './MoMComparison'
 
 const MainPage = () => {
@@ -28,7 +30,7 @@ const MainPage = () => {
             <SectionBox title='设备情况' content={<DeviceSituation />} style={{ flex: 1 }} />
           </div>
           <div className='center'>
-            <div className='metric-list'>
+            <SectionBox title='全国数据质量评分' content={<div className='metric-list'>
               <Metric1
                 label='完整性' value='65.12%' onClick={() => {
                   location.href = '/#/case'
@@ -38,19 +40,21 @@ const MainPage = () => {
               <Metric1 label='完整性' value='65.12%' />
               <Metric1 label='完整性' value='65.12%' />
               <Metric1 label='完整性' value='65.12%' />
-            </div>
+            </div>}>
+            </SectionBox>
+
             <SectionBox style={{ overflow: 'hidden', flex: 1 }} title='区域数据质量' content={<RegionalDataQuality />} />
           </div>
         </div>
         <div className='toggle-button' onClick={onToggleLeftShow}>
           <div className='image-wrapper'>
-            <img style={{ cursor: 'pointer'}} src={leftImg} />
+            <img style={{ cursor: 'pointer' }} src={leftImg} />
           </div>
         </div>
         {leftShow && <div className='side'>
-            <TotalScoreRanking> </TotalScoreRanking>
-            <MoMComparison />
-                     </div>}
+          <TotalScoreRanking> </TotalScoreRanking>
+          <MoMComparison />
+        </div>}
       </div>
       {/* <Metric1 label="完整性" value='65.20%'></Metric1> */}
     </div>

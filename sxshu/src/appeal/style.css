@@ -30,6 +30,7 @@
     }
     .province {
         .select-prov {
+            gap: 10px;
             margin: 12px 0;
             height: 80px;
             padding: 24px;
@@ -45,14 +46,17 @@
             .code {
                 font-size: 14px;
                 color: #FFFFFF;
+                margin-left: 150px;
             }
-            .conde-nubmer {
+            .code-number {
                 font-size: 18px;
                 color: #FFFFFF;
             }
             .score {
                 font-size: 22px;
                 color: #FFFFFF;
+                margin-left: auto;
+                margin-right: 36px;
             }
             img {
                 width: 32px;

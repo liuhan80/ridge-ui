@@ -10,8 +10,10 @@
 }
 
 .rule-page {
+    overflow-y: auto!important;
     .action-bar {
         justify-items:end;
+        display: flex;
         border-bottom: 1px solid rgba(164,208,249,0.1);
         margin-bottom: 12px;
         .buttons {
