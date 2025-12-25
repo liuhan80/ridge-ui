@@ -32,13 +32,15 @@ const App = () => {
         <Route path='/' element={<MainPage />} />
         {/* 案例分析 */}
         <Route path='/case' element={<CaseAnalysis />} />
-        <Route path='/report' element={<Report />} />
+
+
         {/* 申诉页面 */}
         <Route path='/appeal' element={<AppealList />} />
 
         {/* 盘点 数据 */}
         <Route path='/review' element={<Review />} />
-
+        {/* 盘点 报告 */}
+        <Route path='/report' element={<Report />} />
         {/* 盘点 分项结果 */}
         <Route path='/breakdown' element={<BreakdownTable />} />
 

@@ -82,7 +82,6 @@ const columns = [
     }
 ];
 
-
 const AppealList = () => {
     // 1. 定义状态：存储Table的scroll.y像素值
     const [tableScrollY, setTableScrollY] = useState(0);

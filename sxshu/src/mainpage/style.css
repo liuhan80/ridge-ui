@@ -16,11 +16,13 @@
             display: flex;
             gap: 16px;
             justify-items: stretch;
+            overflow: hidden;
             .left {
                 width: 380px;
                 gap: 16px;
                 display: flex;
                 flex-direction: column;
+                overflow: hidden;
             }
             .center {
                 flex: 1;

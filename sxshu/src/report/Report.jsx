@@ -1,5 +1,6 @@
 import React, { useEffect, useState }  from 'react'
 import { DatePicker, Table, Tag, Space } from 'antd'
+import CommonTablePage from '../components/common-table/ComonTablePage'
 import reportStore from '../store/report'
 
 import './style.css'
@@ -25,7 +26,7 @@ const columns = [
         dataIndex: 'status',
         render: value => {
             if (value === '已发布') {
-                return <Tag color='green' >
+                return <Tag className='success' >
                     {value}
                 </Tag>
             }
@@ -45,8 +46,8 @@ const columns = [
         dataIndex: 'pushState',
         width: 120,
         render: () => {
-            return <Tag color='green' >
-                '已推送'
+            return <Tag className='success' >
+                已推送
             </Tag>
         }
     }
@@ -83,6 +84,7 @@ const Report = () => {
     };
     }, []); // 空依赖：仅在组件挂载时执行（若有依赖数据，可添加到依赖数组）
     
+
     return <div className='report'>
         <div className='report-container'>
             <div className="action-bar">
@@ -120,4 +122,15 @@ const Report = () => {
 }
 
 
-export default Report
+const ReportPage = () => {
+    return <CommonTablePage storeName='report' actionBar={<><div>报告状态</div>
+        <RangePicker style={{ width: '260px' }} />
+        <div>查询时间</div>
+        <button className="main">查询</button>
+        <button className="reset">重置</button>
+        <button style={{
+            marginLeft: 'auto'
+        }}>报告上传</button></>} requestUrl='/public/report-list.json' columns={columns} />
+}
+
+export default ReportPage

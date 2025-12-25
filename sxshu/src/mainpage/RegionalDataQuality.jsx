@@ -12,6 +12,8 @@ const RegionalDataQuality = () => {
   // 1. 定义状态：存储Table的scroll.y像素值
   const [tableScrollY, setTableScrollY] = useState(0);
   const scores = homeStore(state => state.scores);
+  const rootRef = useRef(null)
+  const [tableWidth, setTableWidth] = useState('535px');
 
   const [clickedRecord, setClickedRecord] = useState({});
   const [clickedObject, setClickedObject] = useState([]);
@@ -143,7 +145,13 @@ const RegionalDataQuality = () => {
     setPopoverVisible(false);
   };
 
-  return <div className='reginal-data-quality'>
+  useEffect(() => {
+    if (rootRef.current) {
+      setTableWidth((rootRef.current.clientWidth - 20) + 'px')
+    }
+  }, [leftShow])
+
+  return <div className='reginal-data-quality' ref={rootRef}>
     <div className='toolbar'>
       <Segmented
         //value={alignValue}
@@ -160,7 +168,7 @@ const RegionalDataQuality = () => {
           y: tableScrollY
         }}
         style={{
-          width: leftShow ? 'calc(100vw - 960px)' : 'calc(100vw - 553px)'
+          width: tableWidth //leftShow ? 'calc(100vw - 960px)' : 'calc(100vw - 553px)'
         }}
         className='quality-table'
         rowHoverable={false}
