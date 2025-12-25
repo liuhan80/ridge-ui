@@ -30,6 +30,7 @@ const App = () => {
       />
       <Routes style={{ flex: 1 }}>
         <Route path='/' element={<MainPage />} />
+        {/* 案例分析 */}
         <Route path='/case' element={<CaseAnalysis />} />
         <Route path='/report' element={<Report />} />
         {/* 申诉页面 */}

@@ -2,44 +2,44 @@
  * Created by A ciTy on 2017/3/29.
  */
 
-const config = require('../webpack.config.js'),
-  ESLintPlugin = require('eslint-webpack-plugin');
-const fs = require('fs');
+const config = require('../webpack.config.js')
+const ESLintPlugin = require('eslint-webpack-plugin')
+const fs = require('fs')
 
-config.mode = 'development';
-const proxyTarget = 'dev'; // 枚举范围：targetMap的key
+config.mode = 'development'
+const proxyTarget = 'dev' // 枚举范围：targetMap的key
 
 const targetMap = {
-    dev: {
-        url: 'https://10.10.3.12:4999'
-    },
-    test: {
-        url: 'https://10.10.3.13:4999',
-        key: fs.readFileSync('./pfx/om_1825849177586352128_server.key'),
-        cert: fs.readFileSync('./pfx/om_1825849177586352128_server.crt')
-    },
-    iphmDev: {
-        url: 'https://10.12.42.71:4999'
-    },
-    production: {
-        url: 'https://10.10.0.28:4999'
-    }
-};
+  dev: {
+    url: 'https://10.10.3.12:4999'
+  },
+  test: {
+    url: 'https://10.10.3.13:4999',
+    key: fs.readFileSync('./pfx/om_1825849177586352128_server.key'),
+    cert: fs.readFileSync('./pfx/om_1825849177586352128_server.crt')
+  },
+  iphmDev: {
+    url: 'https://10.12.42.71:4999'
+  },
+  production: {
+    url: 'https://10.10.0.28:4999'
+  }
+}
 
 const getTarget = targetServer => {
-    let urlObject = new URL(targetMap[targetServer].url),
-        target = {
-            protocol: urlObject.protocol,
-            host: urlObject.hostname,
-            port: urlObject.port
-        };
+  const urlObject = new URL(targetMap[targetServer].url)
+  const target = {
+    protocol: urlObject.protocol,
+    host: urlObject.hostname,
+    port: urlObject.port
+  }
 
-    targetMap[targetServer].key && (target.key = targetMap[targetServer].key);
-    targetMap[targetServer].cert && (target.cert = targetMap[targetServer].cert);
-    return target;
-};
+  targetMap[targetServer].key && (target.key = targetMap[targetServer].key)
+  targetMap[targetServer].cert && (target.cert = targetMap[targetServer].cert)
+  return target
+}
 
-const target = getTarget(proxyTarget);
+const target = getTarget(proxyTarget)
 
 // 处理webpack开发服务器
 
@@ -56,6 +56,9 @@ config.devServer = {
       target,
       secure: false
     },
+    '/sjpd/service': {
+      target: 'http://192.168.0.3:8000/'
+    },
     '/fe-static': {
       target,
       secure: false
@@ -66,16 +69,16 @@ config.devServer = {
     assets: false,
     excludeAssets: 'img'
   }
-};
+}
 
 // 处理打包方式
 
-config.devtool = 'eval-cheap-module-source-map';
+config.devtool = 'eval-cheap-module-source-map'
 
 config.output = {
   filename: '[name].js',
   chunkFilename: '[name].chunk.js'
-};
+}
 
 // config.plugins.push(
 //   new ESLintPlugin({
@@ -86,4 +89,4 @@ config.output = {
 //   })
 // );
 
-module.exports = config;
+module.exports = config

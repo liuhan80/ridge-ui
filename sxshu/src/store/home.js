@@ -1,23 +1,32 @@
 // src/store/useStore.js
-import { create } from 'zustand';
-import { scores, rankFarmList, provincesList } from './mock';
+import { create } from 'zustand'
+import { scores, rankFarmList, provincesList } from './mock'
+
+const API_PREFIX = window.API_PREFIX
 // 创建全局store
 const useStore = create((set) => ({
   // 初始化状态
   leftShow: true,
 
+  // 设备情况
+  statistics: {
+    wind_turbine: '--',
+    inverter: '--',
+    substation: '--'
+  },
+
   setLeftshow: () => set(state => {
     return {
-        leftShow: !state.leftShow
+      leftShow: !state.leftShow
     }
   }),
 
   scores,
-  
+
   rankFarmList,
 
   provincesList,
-  
+
   count: 0,
   theme: 'light',
   user: null,
@@ -28,10 +37,18 @@ const useStore = create((set) => ({
   setUser: (user) => set({ user }),
   // 异步方法（如请求接口获取用户信息）
   fetchUser: async (userId) => {
-    const res = await fetch(`/api/user/${userId}`);
-    const user = await res.json();
-    set({ user });
-  }
-}));
+    const res = await fetch(`/api/user/${userId}`)
+    const user = await res.json()
+    set({ user })
+  },
 
-export default useStore;
+  fetchStatistics: async () => {
+    const res = await fetch(`${API_PREFIX}/equipment/statistics`)
+
+    const statistics = await res.json()
+
+    set({ statistics })
+  }
+}))
+
+export default useStore

@@ -1,5 +1,5 @@
 # 基于轻量的nginx alpine镜像
-FROM nginx:1.25-alpine
+FROM nginx
 
 # 创建指定的静态资源目录
 RUN mkdir -p /opt/goldwind/sxshu
