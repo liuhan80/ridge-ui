@@ -1,0 +1,15 @@
+const path = require('path')
+process.env.DEBUG = 'ridge:boot,ridge:user,ridge:store,ridge:npm'
+
+const rootStore = process.env.SXSHU_ROOT_STORE || '/opt/node/file'
+
+module.exports = {
+  public: path.resolve(__dirname, '../public'), // 静态资源目录：选择服务器目录同级的public
+  bootPath: path.resolve(__dirname), // config文件所在路径， 为避免麻烦 后续存储都以此为基准
+  storePath: path.resolve(__dirname, rootStore), // 文件上传管理路径
+  dbDataDir: path.resolve(__dirname, path.resolve(rootStore, './dbStore')), 
+  cors: {
+    credentials: true,
+    origin: '*'
+  }
+}
