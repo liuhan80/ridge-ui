@@ -185,7 +185,7 @@ const AppealListPage = () => {
             }} onClick={() => {
                 setCandinateModalVisible(true)
             }}>新增申诉</button>
-        </>} columns={columns} storeName='appeal-list' requestUrl='/public/appeal-list.json'></CommonTablePage>
+        </>} columns={columns} storeName='appeal-list' requestUrl='./public/appeal-list.json'></CommonTablePage>
         <AppealCreateModal></AppealCreateModal>
         <StationAppealEditModal></StationAppealEditModal>
     </>

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { Table, Spin, Alert, Pagination, Button, Input, Select, Empty } from 'antd'
 // import useStatusBookStore from '../store/useStatusBookStore'
-import tableStoreFactory from '../../store/useStatusBookStore'
+import tableStoreFactory from '../store/useStatusBookStore'
 
 /**
  * 自定义Hook：计算表格的scrollY高度（支持实时更新）
@@ -54,9 +54,67 @@ const useTableScrollHeightRef = (ref, offset = 0) => {
   return [tableScrollY, updateTableHeight]
 }
 
-const CommonTablePage = ({
-  requestUrl = '/public/status-book.json',
-  columns = [
+const useStatusBookStore = tableStoreFactory.getTableStore('status-book')
+
+const StatusBookTable = ({
+}) => {
+  const tableContainerRef = useRef(null)
+  const [tableScrollY] = useTableScrollHeightRef(tableContainerRef, 104)
+
+  // 选择器写法（和你项目统一）
+  const tableState = useStatusBookStore((state) => state.tableState)
+  const initTable = useStatusBookStore((state) => state.initTable)
+  const fetchTableData = useStatusBookStore((state) => state.fetchTableData)
+  const changeTablePage = useStatusBookStore((state) => state.changeTablePage)
+  const changeTablePageSize = useStatusBookStore((state) => state.changeTablePageSize)
+  const refreshTable = useStatusBookStore((state) => state.refreshTable)
+
+  const { list, total, pageSize, current, loading, error } = tableState
+  const requestUrl = './public/status-book.json'
+
+  // 示例：自定义查询条件（如省份筛选）
+  const [province, setProvince] = React.useState('')
+
+  // 组件挂载：仅初始化表格状态（不加载数据）
+  useEffect(() => {
+    initTable(20)
+    handleSearch()
+    // 卸载时中断请求
+    return () => {
+      const abortController = useStatusBookStore.getState().tableState.abortController
+      if (abortController) abortController.abort()
+    }
+  }, [initTable])
+
+  // ========== 核心：所有数据加载都是「手动触发」 ==========
+  // 1. 首次加载/查询按钮触发
+  const handleSearch = () => {
+    fetchTableData(requestUrl, { province }) // 传入查询条件
+  }
+
+  // 2. 分页切换触发（先改页码，再加载数据）
+  const handlePageChange = (newCurrent, newPageSize) => {
+    if (newCurrent !== current) {
+      changeTablePage(newCurrent) // 先更新页码
+      fetchTableData(requestUrl, { province }) // 再加载数据
+    }
+    if (newPageSize !== pageSize) {
+      changeTablePageSize(newPageSize) // 先更新页大小
+      fetchTableData(requestUrl, { province }) // 再加载数据
+    }
+  }
+
+  // 3. 刷新重试触发
+  const handleRefresh = () => {
+    refreshTable() // 清空错误
+    fetchTableData(requestUrl, { province }) // 重新加载
+  }
+
+  useEffect(() => {
+    refreshTable()
+  }, [])
+  // 表头
+  const columns = [
     { title: '序号', dataIndex: 'id', key: 'id', align: 'center' },
     { title: '省份', dataIndex: 'province', key: 'province', align: 'center' },
     { title: '场站名称', dataIndex: 'stationName', key: 'stationName', align: 'center' },
@@ -74,75 +132,58 @@ const CommonTablePage = ({
         </span>
       )
     }
-  ],
-  storeName = 'default',
-  actionBar = <></>
-}) => {
-  const tableContainerRef = useRef(null)
-  const [tableScrollY] = useTableScrollHeightRef(tableContainerRef, 104)
-  const useStatusBookStore = tableStoreFactory.getTableStore(storeName)
-  // 选择器写法（和你项目统一）
-  const tableState = useStatusBookStore((state) => state.tableState)
-  const initTable = useStatusBookStore((state) => state.initTable)
-  const fetchTableData = useStatusBookStore((state) => state.fetchTableData)
-  const changeTablePage = useStatusBookStore((state) => state.changeTablePage)
-  const changeTablePageSize = useStatusBookStore((state) => state.changeTablePageSize)
-  const refreshTable = useStatusBookStore((state) => state.refreshTable)
+  ]
 
-  const { list, total, pageSize, current, loading, error } = tableState
-
-  // ========== 核心：所有数据加载都是「手动触发」 ==========
-  // 1. 首次加载/查询按钮触发
-  const handleSearch = () => {
-    fetchTableData(requestUrl, { }) // 传入查询条件
+  /*
+  if (error) {
+    return (
+      <Alert
+        message="数据加载失败"
+        description={error}
+        type="error"
+        showIcon
+        style={{ margin: '50px' }}
+        action={
+          <button
+            onClick={handleRefresh}
+            style={{ border: 'none', background: '#1890ff', color: 'white', padding: '4px 8px', borderRadius: '4px' }}
+          >
+            刷新重试
+          </button>
+        }
+      />
+    );
   }
-
-  // 2. 分页切换触发（先改页码，再加载数据）
-  const handlePageChange = (newCurrent, newPageSize) => {
-    if (newCurrent !== current) {
-      changeTablePage(newCurrent) // 先更新页码
-      fetchTableData(requestUrl, { province }) // 再加载数据
-    }
-    if (newPageSize !== pageSize) {
-      changeTablePageSize(newPageSize) // 先更新页大小
-      fetchTableData(requestUrl, { province }) // 再加载数据
-    }
-  }
-
-  // 3. 刷新重试触发
-  const handleRefresh = () => {
-    refreshTable()
-    fetchTableData(requestUrl, { province }) // 重新加载
-  }
-
-  // 初始化
-  useEffect(() => {
-    initTable(20)
-    handleSearch()
-    return () => {
-      const abortController = useStatusBookStore.getState().tableState.abortController
-      if (abortController) abortController.abort()
-    }
-  }, [])
-
+  */
   // console.log('tableScrollY', tableScrollY, list, total, pageSize, current, loading)
 
   return (
     <div className='table-page'>
       <div className='content-container'>
         <div className='action-bar'>
-          {actionBar}
+          <div>省份</div>
+          <Select style={{ width: '120px' }} />
+          <div>场站名称</div>
+          <Select style={{ width: '280px' }} />
+          <div>报告状态</div>
+          <div>查询时间</div>
+          <button className='main'>查询</button>
+          <button className='reset'>重置</button>
+          <button style={{
+            marginLeft: 'auto'
+          }}
+          >报告上传
+          </button>
         </div>
-        <div className='table-container' ref={tableContainerRef}>
+        <div className='table-container status-book' ref={tableContainerRef}>
           <Table
             className='sx-table-normal'
             scroll={{
-              // y: tableScrollY
               y: tableScrollY
             }}
             loading={{
               spinning: loading,
-              tip: '正在加载数据...', // 自定义提示文字
+              tip: '正在加载台账数据...', // 自定义提示文字
               delay: 300 // 延迟显示加载（避免闪屏，单位ms）
             }}
             locale={{
@@ -165,23 +206,9 @@ const CommonTablePage = ({
               },
               total,
               current,
-              onChange: handlePageChange,
               showSizeChanger: true
             }}
-            columns={columns.map(col => {
-              if (col.title === '序号') {
-                return  {
-                    width: '72px',
-                    title: '序号',
-                    // 核心：(当前页-1)*每页条数 + 行索引 + 1
-                    // dataIndex: 'number',
-                    className: 'center',
-                    render: (_, record, index) => (current - 1) * pageSize + index + 1,
-                }
-              } else {
-                return col
-              }
-            })} dataSource={list}
+            columns={columns} dataSource={list}
           />
         </div>
       </div>
@@ -189,4 +216,4 @@ const CommonTablePage = ({
   )
 }
 
-export default CommonTablePage
+export default StatusBookTable

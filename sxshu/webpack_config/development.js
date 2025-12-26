@@ -60,6 +60,10 @@ config.devServer = {
       target: 'http://192.168.0.3:8000/',
       pathRewrite: { '^/sjpd/service': '' }
     },
+    '/sjpd-node/api': {
+      target: 'http://127.0.0.1:7080/',
+      pathRewrite: { '^/sjpd-node': '' }
+    },
     '/fe-static': {
       target,
       secure: false

@@ -1,6 +1,6 @@
 {
   "name": "ridge-boot",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Boot loader for a koa-based modularized application booter",
   "main": "src/bootstrap.js",
   "scripts": {

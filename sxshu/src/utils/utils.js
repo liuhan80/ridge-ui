@@ -198,7 +198,38 @@ const fetchData = async url => {
   }
 }
 
+const getNodeRequestUrl = url => {
+  return NODE_API_PREFIX + url
+}
+
+
+/**
+ * 将ISO时间字符串转换为 yyyy-mm-dd 格式
+ * @param {string} isoStr - ISO格式时间字符串（如 2025-12-26T10:08:26.077Z）
+ * @returns {string} 格式化后的日期（如 2025-12-26）
+ */
+const formatIsoToDate = (isoStr) => {
+  if (!isoStr) return ''; // 空值处理
+  try {
+    // 创建Date对象（自动解析ISO格式）
+    const date = new Date(isoStr);
+    // 获取年/月/日（补零确保两位）
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，需+1
+    const day = String(date.getDate()).padStart(2, '0');
+    // 拼接为 yyyy-mm-dd
+    return `${year}-${month}-${day}`;
+  } catch (error) {
+    console.error('时间格式转换失败：', error);
+    return ''; // 解析失败返回空
+  }
+}
+
+
+
 export {
+  getNodeRequestUrl,
+  formatIsoToDate,
   fetchData,
   getCssAlignedGradientColor,
   processAppealData

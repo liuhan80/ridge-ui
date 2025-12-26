@@ -24,10 +24,12 @@ class TableStoreFactory {
   getTableStore (key) {
     if (!this.tableStores[key]) {
       this.tableStores[key] = create((set) => ({
+        url: null,  // 新增url存储
+        queryParams: {},  // 新增查询参数存储
         tableState: {
           list: [],
           total: 0,
-          pageSize: 10,
+          pageSize: 20,
           current: 1,
           loading: false,
           error: null,
@@ -38,6 +40,10 @@ class TableStoreFactory {
         })),
 
         fetchTableData: (url, queryParams = {}) => set(async (state) => {
+
+          // 保存当前请求的url和查询参数
+          set({ url, queryParams })
+
           if (state.tableState.abortController) state.tableState.abortController.abort()
           const newAbortController = new AbortController()
           const current = state.tableState.current
@@ -72,9 +78,15 @@ class TableStoreFactory {
           tableState: { ...state.tableState, pageSize, current: 1, error: null }
         })),
 
-        refreshTable: () => set((state) => ({
-          tableState: { ...state.tableState, error: null }
-        }))
+        refreshTable: () => set(async (state) => {
+          // 从当前状态中获取之前的url和查询参数（需先在fetchTableData中保存这两个参数）
+          // 注意：需要先在tableState中新增url和queryParams字段，并在fetchTableData时保存
+          const { url, queryParams } = state;
+          // 调用fetchTableData，传入之前保存的url和查询参数，复用分页信息（current、pageSize已在state中）
+          await state.fetchTableData(url, queryParams);
+          // 无需额外set，因为fetchTableData内部会处理状态更新
+          return state;
+        })
       }))
     }
     return this.tableStores[key]

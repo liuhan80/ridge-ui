@@ -54,7 +54,7 @@ const SiteManagePage = () => {
   ]
 
   useEffect(async () => {
-    const data = await fetchData('/public/province-tree.json')
+    const data = await fetchData('./public/province-tree.json')
 
     setProvinceTreeData(data.treeData)
   }, [])
@@ -89,7 +89,7 @@ const SiteManagePage = () => {
           height: '100%'
         }}
       >
-        <CommonTablePage requestUrl='/public/site-list.json' columns={columns} />
+        <CommonTablePage requestUrl='./public/site-list.json' columns={columns} />
       </div>
     </div>
   )

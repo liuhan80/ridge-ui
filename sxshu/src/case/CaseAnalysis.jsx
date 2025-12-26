@@ -2,12 +2,19 @@ import React, {  useState } from 'react'
 import { DatePicker, Table, Tag, Space, Modal  } from 'antd'
 import './style.css'
 import SectionBox from '../components/section/SectionBox';
+import CommonTablePage from '../components/common-table/ComonTablePage';
+import tableStoreFactory from '../store/useStatusBookStore'
+
 
 import BarChart from '../components/column_chart/ColumnChart.jsx'
 import CenterRing from './CenterRing.jsx'
 const { RangePicker } = DatePicker;
+import globalStore from '../store/globals'
 import caseStore from '../store/case'
 import AnalysisModal from './AnalysisModal';
+import CaseModal from './CaseModal';
+import { create, remove, batchRemove } from '../utils/colclient';
+import { getNodeRequestUrl } from '../utils/utils';
 
 const CaseAnalysis = () => {
     const columnXData = caseStore(state => state.columnXData)
@@ -15,17 +22,23 @@ const CaseAnalysis = () => {
     const mainProviderData = caseStore(state => state.mainProviderData)
     const inverterManufacturer = caseStore(state => state.inverterManufacturer)
     const caseTableData = caseStore(state => state.caseTableData)
+    const provinces = globalStore(state => state.provinces)
 
     const [open, setOpen] = useState(false)
+    const [createModalOpen, setCreateModalOpen] = useState(false)
     const [caseObject, setCaseObject] = useState(null)
-    
+
+    const caseTableStore = tableStoreFactory.getTableStore('cases')
+    const refreshTable = caseTableStore(state => state.refreshTable)
     
     const columns = [
         {
             width: '72px',
-            title: '序号',
-            dataIndex: 'number',
-            className: 'center',
+            title: '序号'
+        },
+        {
+            title: '省份',
+            dataIndex: 'province',
         },
         {
             title: '剖析案例',
@@ -43,10 +56,9 @@ const CaseAnalysis = () => {
                     return <Tag color='green' >
                         {value}
                     </Tag>
-                }
-                if (value === '审核中') {
-                    return <Tag color='green' >
-                        {value}
+                } else {
+                    return <Tag className='grayed' >
+                        预发布
                     </Tag>
                 }
             }
@@ -64,11 +76,29 @@ const CaseAnalysis = () => {
                 <a onClick={() => {
                     onCaseClick(record)
                 }}>分析详情</a>
-                <a>删除</a>
+                <a onClick={() => {
+                    handleRemoveCase(record)
+                }}>删除</a>
             </Space>
             }
         }
     ];
+
+    const handleRemoveCase = async record => {
+        Modal.confirm({
+            title: '确认',
+            content: '是否确认删除？',
+            async onOk() {
+                await batchRemove('casedetails', {
+                    case: record._id
+                })
+                await remove(record._id, 'cases')
+                refreshTable();
+            },
+            onCancel() {
+            },
+          });
+    }
 
     const onCaseClick = record => {
         setCaseObject(record)
@@ -84,6 +114,8 @@ const CaseAnalysis = () => {
 
                 <button style={{
                     marginLeft: 'auto'
+                }} onClick={() => {
+                    setCreateModalOpen(true)
                 }}>新增案例</button>
             </div>
             <div className="chart-list">
@@ -91,31 +123,34 @@ const CaseAnalysis = () => {
                 <SectionBox title='主机厂家分析图' content={<CenterRing ringData={mainProviderData}></CenterRing>}></SectionBox>
                 <SectionBox title='逆变器厂家分析图' content={<CenterRing ringData={inverterManufacturer}></CenterRing>}></SectionBox>
             </div>
-            <div className="chart-table">
-                <Table
-                    className='sx-table-normal'
-                    scroll={{
-                        y: 320
-                    }}
-                    bordered
-                    pagination={{
-                        showQuickJumper: true,
-                        // 显示总条数（关键：实现共xx条信息，自定义显示文案）
-                        showTotal: (total, range) => {
-                            // total：总条数；range：当前页的条数范围，如[1,10]
-                            return `共 ${total} 条记录，当前显示 ${range[0]}-${range[1]} 条`;
-                            // 极简版：直接返回`共 ${total} 条`即可
-                            // return `共 ${total} 条`;
-                        },
-                        showSizeChanger: true
-                    }}
-                    columns={columns} dataSource={caseTableData} ></Table>
-            </div>
+            <CommonTablePage columns={columns} storeName='cases' requestUrl={getNodeRequestUrl('/coll/cases/list')}></CommonTablePage>
         </div>
 
         <AnalysisModal visible={open} caseObject={caseObject} onClose={() => {
             setOpen(false)
         }}></AnalysisModal>
+
+        <CaseModal visible={createModalOpen} fields={[{
+             type: 'input',
+             name: 'name',
+             label: '案例名称', // 补充label字段，用于表单标签
+             required: true,
+             placeholder: '请输入案例名称' // 可选占位符
+        }, {
+            type: 'select',
+            name: 'province',
+            label: '省份', // 补充label字段，用于表单标签
+            required: true,
+            options: provinces
+       }]}
+       onClose={() => {
+            setCreateModalOpen(false)
+       }}
+       onConfirm={async object => {
+            const result = await create(object, getNodeRequestUrl('/coll/cases/doc/create'));
+            refreshTable();
+       }}
+       ></CaseModal>
     </div>
 }
 
