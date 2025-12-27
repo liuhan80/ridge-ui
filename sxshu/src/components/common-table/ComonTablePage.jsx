@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { Table, Spin, Alert, Pagination, Button, Input, Select, Empty } from 'antd'
+import { fetchTableDataApi } from '../../utils/colclient'
 // import useStatusBookStore from '../store/useStatusBookStore'
 import tableStoreFactory from '../../store/useStatusBookStore'
 
@@ -75,6 +76,7 @@ const CommonTablePage = ({
       )
     }
   ],
+  query = {},
   storeName = 'default',
   actionBar = <></>
 }) => {
@@ -94,25 +96,25 @@ const CommonTablePage = ({
   // ========== 核心：所有数据加载都是「手动触发」 ==========
   // 1. 首次加载/查询按钮触发
   const handleSearch = () => {
-    fetchTableData(requestUrl, { }) // 传入查询条件
+    fetchTableData(requestUrl, query) // 传入查询条件
   }
 
   // 2. 分页切换触发（先改页码，再加载数据）
   const handlePageChange = (newCurrent, newPageSize) => {
     if (newCurrent !== current) {
       changeTablePage(newCurrent) // 先更新页码
-      fetchTableData(requestUrl, { province }) // 再加载数据
+      fetchTableData(requestUrl) // 再加载数据
     }
     if (newPageSize !== pageSize) {
       changeTablePageSize(newPageSize) // 先更新页大小
-      fetchTableData(requestUrl, { province }) // 再加载数据
+      fetchTableData(requestUrl) // 再加载数据
     }
   }
 
   // 3. 刷新重试触发
   const handleRefresh = () => {
     refreshTable()
-    fetchTableData(requestUrl, { province }) // 重新加载
+    fetchTableData(requestUrl) // 重新加载
   }
 
   // 初始化
@@ -123,7 +125,7 @@ const CommonTablePage = ({
       const abortController = useStatusBookStore.getState().tableState.abortController
       if (abortController) abortController.abort()
     }
-  }, [])
+  }, [query])
 
   // console.log('tableScrollY', tableScrollY, list, total, pageSize, current, loading)
 

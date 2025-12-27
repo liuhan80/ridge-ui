@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Form, Input, Space, Table, Select, Upload, Button } from 'antd'
-import { UploadOutlined } from '@ant-design/icons'
-import axios from 'axios';
+import { UploadOutlined, DeleteOutlined } from '@ant-design/icons'
+import SxUploader from '../components/upload/SxUploader';
 import caseStore from '../store/case'
 import globalStore from '../store/globals'
-import { getNodeRequestUrl, formatIsoToDate } from '../utils/utils'
+import { getNodeRequestUrl, formatIsoToDate, getFileNameFromPath } from '../utils/utils'
 
 import tableStoreFactory from '../store/useStatusBookStore'
-import { create, update } from '../utils/colclient';
+import { create, remove, update } from '../utils/colclient';
 
 const AnalysisModal = ({
     caseObject,
@@ -57,7 +57,7 @@ const AnalysisModal = ({
     }
 
     const isRecordEdit = record => {
-        return record.isEditing || (record && editCase && record.number === editCase.number)
+        return record.isEditing || (record && editCase && record._id === editCase._id)
     }
 
     const getEditValue = (record, key) => {
@@ -66,6 +66,10 @@ const AnalysisModal = ({
         } else if (editCase) {
             return editCase[key]
         }
+    }
+
+    const openAttachment = attachment => {
+        window.open(getNodeRequestUrl(`/sxfile/download?relativePath=${attachment}`), '_blank')
     }
 
     const columns = [
@@ -141,20 +145,14 @@ const AnalysisModal = ({
             dataIndex: 'fileUrl',
             render: (value, record) => {
                 if (isRecordEdit(record)) {
-                    if (currentEditFile) {
-                        return <Space><Button type='link'>${currentEditFile}</Button></Space>
-                    } else {
-                        return <Upload
-                            showUploadList={false}
-                            name="file" // 与后端接收的 key 保持一致（file）
-                            customRequest={handleUpload} // 自定义上传逻辑（替代默认上传）
-                        >
-                            <Button loading={loading} icon={<UploadOutlined />} type="link">上传文件</Button>
-                        </Upload>
-                    }
+                    return <SxUploader value={currentEditFile} onChange={val => {
+                        setCurrentEditFile(val)
+                    }}></SxUploader>
                 } else {
                     if (record.attachment) {
-                        return record.attachment
+                        return <Button onClick={() => {
+                            openAttachment(record.attachment)
+                        }} type='link'>{getFileNameFromPath(record.attachment)}</Button>
                     } else {
                         return ''
                     }
@@ -205,50 +203,16 @@ const AnalysisModal = ({
                                 isEditing: true
                             })
                         }}>编辑</a>
-                        <a>删除</a>
+                        <a onClick={async () => {
+                            await remove(record._id, 'casedetails')
+                            refreshDetails()
+                        }}>删除</a>
                     </Space >
                 }
             }
         }
     ];
 
-    // 自定义上传逻辑（核心）
-    const handleUpload = async (file) => {
-        setLoading(true);
-        try {
-            // 1. 创建 FormData（适配后端接收文件的格式）
-            const formData = new FormData();
-            // 注意：后端 ctx.request.files.file 对应 key 是 "file"，需保持一致
-            formData.append('file', file.file);
-
-            // 2. 调用后端上传接口 /sxfile/upload
-            const response = await axios.post(getNodeRequestUrl('/sxfile/upload'), formData, {
-                headers: {
-                    // 必须设置 Content-Type 为 multipart/form-data（FormData 自动处理）
-                    'Content-Type': 'multipart/form-data',
-                },
-                // 可选：设置上传超时（比如30秒）
-                timeout: 30000,
-            });
-
-            // 3. 解析后端返回结果（匹配你 Koa 接口的返回格式）
-            if (response.data.result === 'ok') {
-                const { relativePath: uploadFilePath } = response.data;
-                setCurrentEditFile(uploadFilePath); // 保存文件路径
-            } else {
-                message.error(`上传失败：${response.data.message}`);
-            }
-        } catch (error) {
-            // 异常处理（网络错误/接口报错）
-            message.error(`上传失败：${error.message || '服务器异常'}`);
-            console.error('上传错误：', error);
-        } finally {
-            setLoading(false);
-        }
-
-        // 阻止 Upload 组件默认的上传行为（我们用自定义逻辑）
-        return false;
-    };
 
     const handleAdd = () => {
         const newData = {
@@ -271,9 +235,9 @@ const AnalysisModal = ({
             }
             delete newCaseObject.isEditing
             if (currentEditFile) {
-                newCase.attachment = currentEditFile
+                newCaseObject.attachment = currentEditFile
             }
-            await create(newCaseObject, getNodeRequestUrl('/coll/casedetails/doc/create'))
+            await create(newCaseObject, 'casedetails')
             await refreshDetails()
         } 
         if (editCase) { // 更新编辑
@@ -301,6 +265,10 @@ const AnalysisModal = ({
         onClose && onClose()
     }
 
+    const deleteCurrentFile = async () => {
+        setCurrentEditFile(null)
+    }
+
     const withEditData = [...caseDetailData]
 
     if (newCase) {
@@ -317,7 +285,10 @@ const AnalysisModal = ({
         onCancel={handleCancel}
         footer={() => {
             return <Space>
-                <button>保存</button>
+                <button onClick={() => {
+                    handleSave()
+                    handleCancel()
+                }}>保存</button>
                 <button className='reset' onClick={() => {
                     handleCancel()
                 }}>取消</button>

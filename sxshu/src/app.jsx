@@ -10,6 +10,7 @@ import BreakdownTable from './review/BreakdownTable.jsx'
 import Rule from './review/Rule.jsx'
 import StatusBookTablePage from './book/StatusBookTablePage.jsx'
 import SiteManagePage from './book/SiteManagePage.jsx'
+import AdminManagePage from './manage/Manage.jsx'
 
 // 1. 导入图片，webpack会处理并返回构建后的路径
 import fakeHeadImg from './assets/image/fakehead.png'
@@ -50,6 +51,8 @@ const App = () => {
         <Route path='/book' element={<StatusBookTablePage />} />
 
         <Route path='/site' element={<SiteManagePage />} />
+
+        <Route path='/manage/SG225HX' element={<AdminManagePage />} />
       </Routes>
     </div>
   )

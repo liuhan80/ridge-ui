@@ -345,8 +345,9 @@ module.exports = class TableService {
                     return await next();
                 }
 
+
                 // 2. 校验文件类型（仅允许JSON）
-                const fileExt = path.extname(file.name).toLowerCase();
+                const fileExt = path.extname(file.originalFilename ).toLowerCase();
                 if (fileExt !== '.json') {
                     ctx.status = 400;
                     ctx.body = {
@@ -355,14 +356,14 @@ module.exports = class TableService {
                         message: '导入失败：仅支持JSON格式文件'
                     };
                     // 删除临时文件
-                    await fs.unlink(file.path);
+                    await fs.unlink(file.filepath);
                     return await next();
                 }
 
                 // 3. 读取并解析JSON文件（必须是对象数组）
                 let jsonData = [];
                 try {
-                    const fileContent = await fs.readFile(file.path, 'utf8');
+                    const fileContent = await fs.readFile(file.filepath, 'utf8');
                     jsonData = JSON.parse(fileContent);
                     // 校验格式：必须是数组，且数组项为对象
                     if (!Array.isArray(jsonData)) {
@@ -378,33 +379,36 @@ module.exports = class TableService {
                         success: false,
                         message: `导入失败：JSON解析错误 - ${parseError.message}`
                     };
-                    await fs.unlink(file.path);
+                    await fs.unlink(file.filepath);
                     return await next();
                 }
 
                 // 4. 处理数据：补全默认字段，统一主键为_id
-                const now = new Date();
                 const importData = jsonData.map(item => ({
                     ...item,
                     _id: item._id || shortid('10'), // 无_id则自动生成
-                    createTime: item.createTime || now,
-                    updateTime: now // 导入时更新时间为当前时间
+                    // createTime: item.createTime || now,
+                    // updateTime: now // 导入时更新时间为当前时间
                 }));
 
                 // 5. 批量导入（新增+更新：按_id存在则更新，不存在则新增）
-                const collection = that.getCollection(tableName);
+                const collection = await that.getCollection(tableName);
                 let successCount = 0;
                 let failCount = 0;
                 const failItems = [];
 
+                await collection.clean();
+
+                const result = await collection.bulkInsert(importData)
                 // 逐条处理（支持 Upsert：存在则更新，不存在则插入）
+                /*
                 for (const item of importData) {
                     try {
                         // 先查询是否存在该_id的记录
                         const existItem = await collection.findOne(item._id);
                         if (existItem) {
                             // 存在则更新（仅更新非主键字段）
-                            const { _id, createTime, ...updateFields } = item;
+                            const { _id, ...updateFields } = item;
                             await collection.update(
                                 _id,
                                 { $set: updateFields },
@@ -423,14 +427,15 @@ module.exports = class TableService {
                         });
                     }
                 }
-
+                    */
                 // 6. 清理临时文件
-                await fs.unlink(file.path);
+                await fs.unlink(file.filepath);
 
                 // 7. 返回导入结果
                 ctx.body = {
                     code: 200,
                     success: true,
+                    result,
                     data: {
                         total: jsonData.length,
                         successCount,
@@ -441,6 +446,7 @@ module.exports = class TableService {
                 };
             } catch (error) {
                 ctx.status = 500;
+                console.error('/coll/:tableName/import', error)
                 ctx.body = {
                     code: 500,
                     success: false,

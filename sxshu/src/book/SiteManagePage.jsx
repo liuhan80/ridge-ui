@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tree } from 'antd'
 import CommonTablePage from '../components/common-table/ComonTablePage'
 import bookStore from '../store/book'
-import { fetchData } from '../utils/utils'
+import { provincesList } from '../store/mock'
+import { fetchData, getNodeRequestUrl } from '../utils/utils'
+
+
+import tableStoreFactory from '../store/useStatusBookStore'
 
 const SiteManagePage = () => {
-  const provinceTreeData = bookStore(state => state.provinceTreeData)
-  const setProvinceTreeData = bookStore(state => state.setProvinceTreeData)
   const columns = [
     {
       title: '序号',
@@ -16,49 +18,68 @@ const SiteManagePage = () => {
       align: 'center'
     },
     {
-      title: '电站编号',
-      dataIndex: 'stationCode',
-      key: 'stationCode',
-      align: 'center'
+      title: '场站ID',
+      dataIndex: 'pms_ne_station__id',
+      key: 'pms_ne_station__id',
+      width: 120,
+      align: 'left'
     },
     {
-      title: '省份',
+      title: '所属省份',
+      width: 120,
       dataIndex: 'province',
       key: 'province',
       align: 'center'
     },
     {
-      title: '电站名称',
-      dataIndex: 'stationName',
-      key: 'stationName',
+      title: '电厂名称',
+      dataIndex: 'name',
+      key: 'name',
+      align: 'left'
+    },
+    {
+      title: '资产管理系统中电站编码',
+      dataIndex: 'psr_id',
+      key: 'psr_id',
+      align: 'left'
+    },
+    {
+      title: '资产管理系统中电站名称',
+      dataIndex: 'name_pms',
+      key: 'name_pms',
+      align: 'left'
+    },
+    {
+      title: '设计容量(MW)',
+      width: 160,
+      dataIndex: 'capacity',
+      key: 'capacity',
       align: 'center'
     },
     {
-      title: '集控电站编号',
-      dataIndex: 'controlStationCode',
-      key: 'controlStationCode',
-      align: 'center'
-    },
-    {
-      title: '电力生产管理系统编号',
-      dataIndex: 'productionSystemCode',
-      key: 'productionSystemCode',
-      align: 'center'
-    },
-    {
-      title: '备注',
-      dataIndex: 'remark',
-      key: 'remark',
+      title: '总装机容量(MW)',
+      width: 160,
+      dataIndex: 'rated_capacity',
+      key: 'rated_capacity',
       align: 'center'
     }
   ]
 
-  useEffect(async () => {
-    const data = await fetchData('./public/province-tree.json')
+  const [query, setQuery] = useState({})
 
-    setProvinceTreeData(data.treeData)
-  }, [])
-
+  const provinceTreeData =  [
+      {
+        "title": "三峡集团",
+        "key": "group",
+        "children": provincesList.map(r => {
+          return {
+            "isLeaf": true,
+            title: r.label,
+            key: r.label
+          }
+        })
+      }
+  ]
   return (
     <div
       className='sx-page' style={{
@@ -75,6 +96,17 @@ const SiteManagePage = () => {
       >
         <Tree
           treeData={provinceTreeData} defaultExpandAll expandedKeys={['group']} showLine
+          onSelect={val => {
+            console.log(val)
+            const [province] = val
+            if (province === 'group') {
+              setQuery({})
+            } else {
+              setQuery({
+                province: province
+              })
+            }
+          }}
           renderLabel={(label, nodeData) => {
             return <div key={nodeData.key}>{nodeData} -1</div>
           }}
@@ -89,7 +121,7 @@ const SiteManagePage = () => {
           height: '100%'
         }}
       >
-        <CommonTablePage requestUrl='./public/site-list.json' columns={columns} />
+        <CommonTablePage storeName='sites' requestUrl={getNodeRequestUrl('/coll/sites/list')} columns={columns} query={query}/>
       </div>
     </div>
   )

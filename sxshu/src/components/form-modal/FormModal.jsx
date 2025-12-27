@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Form, Input, Space, Select, Upload, message } from 'antd';
+import { Modal, Form, Input, Space, Select, Upload, Button, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import SxUploader from '../upload/SxUploader';
 
-const CreateModal = ({
+const FormModal = ({
     title = '创建',
     fields = [{
         type: 'input',
@@ -143,26 +144,7 @@ const CreateModal = ({
                         rules={required ? [{ required, message: `请上传${label}` }] : []}
                         tooltip={tip}
                     >
-                        <Upload
-                            name={name}
-                            customRequest={({ file }) => handleFileUpload(file)}
-                            showUploadList={{ showPreviewIcon: false }}
-                            beforeUpload={() => false} // 阻止自动上传
-                            fileList={form.getFieldValue(name) ? [{
-                                uid: '1',
-                                name: '已上传文件',
-                                status: 'done',
-                                url: form.getFieldValue(name)
-                            }] : []}
-                        >
-                            <Button
-                                icon={<UploadOutlined />}
-                                loading={uploadLoading}
-                                type="primary"
-                            >
-                                点击上传文件
-                            </Button>
-                        </Upload>
+                        <SxUploader ></SxUploader>
                     </Form.Item>
                 );
             default:
@@ -202,4 +184,4 @@ const CreateModal = ({
     );
 };
 
-export default CreateModal;
+export default FormModal;

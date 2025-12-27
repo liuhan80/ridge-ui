@@ -9,21 +9,44 @@ const axiosInstance = axios.create({
   }
 });
 
+const fetchTableDataApi = async (url, params = { pageSize: 10, current: 1 }, signal) => {
+  try {
+    const queryString = new URLSearchParams(params).toString()
+    const requestUrl = queryString ? `${url}?${queryString}` : url
+
+    const response = await fetch(requestUrl, { signal })
+    if (!response.ok) throw new Error(`请求失败：${response.status} ${response.statusText}`)
+
+    const data = await response.json()
+    const { items: list, count: total, pageSize, current } = data
+    return { list, total, pageSize: pageSize || params.pageSize, current: current || params.current }
+  } catch (error) {
+    if (error.name !== 'AbortError') throw error
+  }
+}
+
+const list = async (tableName, query) => {
+  const requestUrl = getNodeRequestUrl(`/coll/${tableName}/list`)
+
+  return fetchTableDataApi(requestUrl, query)
+}
+
 /**
  * 创建记录
  * @param {Object} doc - 要创建的表单数据（包含各字段，如 caseName、province、attachment 等）
  * @param {string} createUrl - 创建接口地址（如 '/coll/user/create'）
  * @returns {Promise<Object>} - 返回创建结果 { success: boolean, data: { id: string }, message: string }
  */
-const create = async (doc, createUrl) => {
+const create = async (doc, tableName) => {
   try {
     // 1. 参数校验
-    if (!createUrl) {
+    if (!tableName) {
       throw new Error('创建接口地址不能为空');
     }
     if (typeof doc !== 'object' || doc === null) {
       throw new Error('创建数据必须为非空对象');
     }
+    const createUrl = getNodeRequestUrl(`/coll/${tableName}/doc/create`)
 
     // 2. 调用后端创建接口（POST 请求，JSON 格式传参）
     const response = await axiosInstance.post(createUrl, doc);
@@ -148,8 +171,6 @@ const remove = async (_id, tableName) => {
   }
 };
 
-
-
 /**
  * 删除记录
  * @param {string} _id - 要删除的记录主键 _id
@@ -192,5 +213,35 @@ const batchRemove = async (tableName, query) => {
   }
 };
 
+const batchImport = async (tableName, file) => {
+  try {
+    // 1. 创建 FormData（适配后端接收文件的格式）
+    const formData = new FormData();
+    // 注意：后端 ctx.request.files.file 对应 key 是 "file"，需保持一致
+    formData.append('file', file);
+
+    // 2. 调用后端上传接口 /sxfile/upload
+    const response = await axios.post(getNodeRequestUrl(`/coll/${tableName}/import`), formData, {
+      headers: {
+        // 必须设置 Content-Type 为 multipart/form-data（FormData 自动处理）
+        'Content-Type': 'multipart/form-data',
+      },
+      // 可选：设置上传超时（比如30秒）
+      timeout: 300000,
+    });
+
+    // 3. 解析后端返回结果（匹配你 Koa 接口的返回格式）
+    if (response.data.result === 'ok') {
+      const { relativePath: uploadFilePath } = response.data;
+      setCurrentEditFile(uploadFilePath); // 保存文件路径
+    }
+  } catch (error) {
+    // 异常处理（网络错误/接口报错）
+    console.error('上传错误：', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 // 导出方法供组件使用
-export { create, update, remove, batchRemove };
+export { list, create, update, remove, batchRemove, batchImport, fetchTableDataApi };

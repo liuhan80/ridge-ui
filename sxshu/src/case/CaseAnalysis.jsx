@@ -12,7 +12,7 @@ const { RangePicker } = DatePicker;
 import globalStore from '../store/globals'
 import caseStore from '../store/case'
 import AnalysisModal from './AnalysisModal';
-import CaseModal from './CaseModal';
+import FormModal from '../components/form-modal/FormModal.jsx';
 import { create, remove, batchRemove } from '../utils/colclient';
 import { getNodeRequestUrl } from '../utils/utils';
 
@@ -111,7 +111,6 @@ const CaseAnalysis = () => {
                 <RangePicker style={{ width: '260px' }} />
                 <button className="main">查询</button>
                 <button className="reset">重置</button>
-
                 <button style={{
                     marginLeft: 'auto'
                 }} onClick={() => {
@@ -130,7 +129,7 @@ const CaseAnalysis = () => {
             setOpen(false)
         }}></AnalysisModal>
 
-        <CaseModal visible={createModalOpen} fields={[{
+        <FormModal visible={createModalOpen} fields={[{
              type: 'input',
              name: 'name',
              label: '案例名称', // 补充label字段，用于表单标签
@@ -147,10 +146,10 @@ const CaseAnalysis = () => {
             setCreateModalOpen(false)
        }}
        onConfirm={async object => {
-            const result = await create(object, getNodeRequestUrl('/coll/cases/doc/create'));
+            const result = await create(object, 'cases');
             refreshTable();
        }}
-       ></CaseModal>
+       ></FormModal>
     </div>
 }
 
