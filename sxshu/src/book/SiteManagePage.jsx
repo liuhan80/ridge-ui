@@ -97,7 +97,6 @@ const SiteManagePage = () => {
         <Tree
           treeData={provinceTreeData} defaultExpandAll expandedKeys={['group']} showLine
           onSelect={val => {
-            console.log(val)
             const [province] = val
             if (province === 'group') {
               setQuery({})

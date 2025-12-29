@@ -1,6 +1,7 @@
 const AppealService = require('./AppealService.js');
 const FileManager = require('./FileManager.js');
 const TableService = require('./TableService.js');
+const PermissionService = require('./PermissionService.js');
 module.exports = {
     name: 'sx-shu-service',
     description: '三峡数据盘点前端服务',
@@ -16,9 +17,8 @@ module.exports = {
 
         app.services.fileManager = new FileManager(app);
         app.services.fileManager.initRoutes(app);
-
         app.services.sxTables = new TableService(app, 'sxshu');
-        
+        app.services.permissionService = new PermissionService(app);
     },
 
     // 启动收尾工作，可以在此执行建库、建索引等一些全局的具体业务操作

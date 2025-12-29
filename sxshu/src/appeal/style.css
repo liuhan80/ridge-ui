@@ -75,6 +75,17 @@
     }
 }
 
+
+.appeal-success {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    .text {
+        color: #fff;
+    }
+}
+
 /* 申诉编辑列表 */
 .appeal-edit {
     height: calc(100vh - 221px);

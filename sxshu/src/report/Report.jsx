@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { DatePicker, Table, Tag, Space, Button } from 'antd'
 import CommonTablePage from '../components/common-table/ComonTablePage'
 import reportStore from '../store/report'
-import { getNodeRequestUrl } from '../utils/utils'
+import { downloadAttachment, getNodeRequestUrl, openAttachment } from '../utils/utils'
 import FormModal from '../components/form-modal/FormModal'
 import tableStoreFactory from '../store/useStatusBookStore'
-import { create } from '../utils/colclient'
+import { create, remove } from '../utils/colclient'
 
 import './style.css'
 
@@ -39,14 +39,14 @@ const ReportPage = () => {
             dataIndex: 'status',
             width: 120,
             render: value => {
-                if (value === '已发布') {
+                if (value === 'published') {
                     return <Tag className='success' >
-                        {value}
+                        已发布
                     </Tag>
                 }
-                if (value === '审核中') {
-                    return <Tag color='green' >
-                        {value}
+                if (value === 'prepare') {
+                    return <Tag className='grayed' >
+                        预发布
                     </Tag>
                 }
             }
@@ -64,13 +64,17 @@ const ReportPage = () => {
                     display: 'flex',
                     gap: '5px'
                 }}>
-                    <Button onClick={() => {
-                        
+                    <Button size='small' onClick={() => {
+                        downloadAttachment(record.attachment)
                     }} type='link'>下载</Button>
-                    <Button type='link' onClick={() => {
-                        
+                    <Button size='small'  type='link' onClick={() => {
+                        openAttachment(record.attachment)
                     }}>预览</Button>
-                    <Button type='link'>推送</Button>
+                    <Button size='small'  type='link' onClick={() => {
+                        remove(record._id, 'reports')
+                        refreshTable()
+                    }}>删除</Button>
+                    <Button size='small'  type='link'>推送</Button>
                 </div>
             }
         }
@@ -83,7 +87,7 @@ const ReportPage = () => {
         required: true,
         placeholder: '' // 可选占位符
     }, {
-        type: 'input',
+        type: 'date',
         name: 'published',
         label: '发布时间', // 补充label字段，用于表单标签
         required: true,
@@ -94,7 +98,7 @@ const ReportPage = () => {
         label: '发布状态', // 补充label字段，用于表单标签
         required: true,
         options: [{
-            label: '待发布',
+            label: '预发布',
             value: 'prepare'
         }, {
             label: '已发布',
@@ -120,7 +124,6 @@ const ReportPage = () => {
         <button style={{
             marginLeft: 'auto'
         }} onClick={() => {
-            debugger
             setVisible(true)
         }}>报告上传</button></>} requestUrl={getNodeRequestUrl('/coll/reports/list')} columns={columns} />
         <FormModal visible={visible} fields={fields} onConfirm={async object => {

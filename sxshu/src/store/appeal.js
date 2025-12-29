@@ -1,15 +1,24 @@
 // src/store/useStore.js
 import { create } from 'zustand';
+import *  as client from '../utils/colclient.js'
 // 创建全局store
 const useStore = create((set) => ({
   appealTableTotal: 480,
   appealTableCurrent: 1,
   appealTableData: [],
 
+  successAppealModalVisible: false, // 申请成功对话框
   /**
    * 新增申诉表格
    */
   candinateModalVisible: false, // 申诉对话框可见性
+  candinateTypeSwitch: false, // 可切换申诉类型
+  provinceSwitch: false, // 可切换省份
+  stationSwitch: false, // 可切换场站
+  candinateRange: 'province',  // 申诉范围
+  provinceAppealObject: null, // 省份申诉数据 首页专用
+  stationAppealObject: null, // 场站申诉 首页专用
+  candinate: '',  // 申诉类型
   candinateDataTotal: 361,
   candinateDataCurrent: 1,
   candinateSelectedKeys: [],
@@ -83,24 +92,92 @@ const useStore = create((set) => ({
       candinateModalVisible: visible
     }
   }),
-  
+
+  updateStationAppealObject: object => set(state => {
+    return {
+      stationAppealObject: object
+    }
+  }),
+
   setCandinateSelectedKeys: keys => set(state => {
     return {
       candinateSelectedKeys: keys
     }
   }),
 
-  // 确认场站申诉选择
-  confirmStationCreate: () => set(state => {
+  updateCandinateRange: range => set(state => {
     return {
-      candinateModalVisible: false,
-      confirmAppealModalVisible: true,
-      appealStationSelectedData: state.candinateSelectedKeys.map(key => {
-        return state.appealCandinateData.find(t => t.key === key)
+      candinateRange: range
+    }
+  }),
+
+  // 从列表打开申诉对话框
+  openAppealCreateModal: () => set(state => {
+    return {
+      candinateModalVisible: true,
+      candinateTypeSwitch: true,
+      provinceSwitch: true,
+      stationSwitch: true,
+      candinateRange: 'province'
+    }
+  }),
+
+  // 确认场站申诉选择
+  confirmAppealCreate: () => set(async state => {
+    if (state.candinateRange === 'province') {
+      const provinceAppealObject = state.provinceAppealObject
+      // 省份直接提交
+      await client.create({
+        province: provinceAppealObject.name,
+        desc: provinceAppealObject.desc,
+        attachment: provinceAppealObject.attachment
+      }, 'appeals')
+
+      set({
+        candinateModalVisible: false,
+        successAppealModalVisible: true
+      })
+    } else if (state.stationAppealObject) {
+      set({
+        candinateModalVisible: false,
+        confirmAppealModalVisible: true,
+        appealStationSelectedData: state.candinateSelectedKeys.map(key => {
+          return state.appealCandinateData.find(t => t.key === key)
+        }).map(t => {
+          return {
+            ...t, 
+            ...state.stationAppealObject
+          }
+        })
       })
     }
   }),
 
+
+  // 首页创建申请
+  createAppealHome: ({
+    provinceAppealObject,
+    stationAppealObject,
+  }) => set(state => {
+    return {
+      candinateRange: 'province',
+      candinateModalVisible: true,
+      candinateTypeSwitch: false,
+      provinceSwitch: false,
+      stationSwitch: false,
+      provinceAppealObject,
+      stationAppealObject
+    }
+  }),
+
+  updateProvinceAppeal: (update) => set(state => {
+    return {
+      provinceAppealObject: {
+        ...state.provinceAppealObject,
+        ...update
+      }
+    }
+  }),
 
   /**
    * 申诉确认对话框相关状态
@@ -121,7 +198,7 @@ const useStore = create((set) => ({
       appealStationSelectedData: state.appealStationSelectedData.filter(data => data.key !== key)
     }
   }),
-  
+
   setConfirmAppealModalVisible: visible => set(state => {
     return {
       confirmAppealModalVisible: visible

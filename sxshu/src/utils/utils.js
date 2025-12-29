@@ -194,7 +194,7 @@ const fetchData = async url => {
     return data
   } catch (error) {
     console.error('获取数据失败：', error)
-    return { data: null, error: error.message }
+    return null
   }
 }
 
@@ -246,6 +246,18 @@ const getFileNameFromPath = (filePath) => {
   return fileName;
 }
 
+const openAttachment = attachment => {
+  window.open(getNodeRequestUrl(`/sxfile/download?relativePath=${attachment}`), '_blank')
+}
+
+const downloadAttachment = attachment => {
+  window.open(getNodeRequestUrl(`/sxfile/download?relativePath=${attachment}&download=1`), '_blank')
+}
+
+const removeAttachment = attachment => {
+  window.open(getNodeRequestUrl(`/sxfile/remove?relativePath=${attachment}&download=1`), '_blank')
+}
+
 
 export {
   getFileNameFromPath,
@@ -253,5 +265,8 @@ export {
   formatIsoToDate,
   fetchData,
   getCssAlignedGradientColor,
-  processAppealData
+  processAppealData,
+  openAttachment,
+  removeAttachment,
+  downloadAttachment
 }

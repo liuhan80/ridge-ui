@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom'; // 注：若不再使用，可删除此导入
 import { Segmented, DatePicker, Table, Select } from 'antd';
-import slideImage from '../assets/image/slider.png'
-const { RangePicker } = DatePicker;
-import homeStore from '../store/home'
-import globalStore from '../store/globals'
 import { getCssAlignedGradientColor } from '../utils/utils';
 // 导入独立的浮层组件
 import GlobalPopoverQuality from './GlobalPopoverQuality'; // 路径根据实际项目调整
+import ProvinceAppealForm from '../appeal/ProvinceAppealForm';
+import AppealCreateModal from '../appeal/AppealCreateModal';
+
+import homeStore from '../store/home'
+import globalStore from '../store/globals'
+import appealStore from '../store/appeal'
+
+import slideImage from '../assets/image/slider.png'
+const { RangePicker } = DatePicker;
 
 const RegionalDataQuality = () => {
   // 1. 定义状态：存储Table的scroll.y像素值
@@ -15,6 +20,8 @@ const RegionalDataQuality = () => {
   const scores = homeStore(state => state.scores);
   const rootRef = useRef(null)
   const [tableWidth, setTableWidth] = useState('535px');
+  
+  const [appealVisible, setAppealVisible] = useState(false);
 
   const [clickedRecord, setClickedRecord] = useState({});
   const [clickedObject, setClickedObject] = useState([]);
@@ -25,6 +32,7 @@ const RegionalDataQuality = () => {
   
   const leftShow = homeStore(state => state.leftShow)
   const provinces = globalStore(state => state.provinces)
+  const createAppealHome = appealStore(state => state.createAppealHome)
 
 
   // 处理单元格点击事件
@@ -41,7 +49,10 @@ const RegionalDataQuality = () => {
     return <div className="hot-cell" style={{
       backgroundColor: getCssAlignedGradientColor(value),
     }} onClick={e => {
-      setClickedObject([label, value]);
+      if (label === '总得分') {
+        return;
+      }
+      setClickedObject([label, value, columns.find(t => t.title === label).dataIndex]);
       setClickedRecord(record);
       handleCellClick(e)
     }}>
@@ -128,7 +139,6 @@ const RegionalDataQuality = () => {
 
       if (qulityTable) {
         const containerHeight = qulityTable.clientHeight;
-        console.log('containerHeight', containerHeight);
         // 获取图片的实际高度（像素值）
         setTableScrollY(Math.max(0, containerHeight - 46));
       }
@@ -146,8 +156,15 @@ const RegionalDataQuality = () => {
   }, []); // 空依赖：仅在组件挂载时执行（若有依赖数据，可添加到依赖数组）
 
   // 新增：关闭浮层的方法
-  const handlePopoverClose = () => {
+  const handlePopoverClose = appeal => {
     setPopoverVisible(false);
+    if (appeal) {
+      if (clickedRecord) {
+        createAppealHome({
+          provinceAppealObject: { ...clickedRecord, appealKey: clickedObject[2]}
+        })
+      }
+    }
   };
 
   useEffect(() => {
@@ -195,6 +212,8 @@ const RegionalDataQuality = () => {
       getCssAlignedGradientColor={getCssAlignedGradientColor}
       onClose={handlePopoverClose}
     />
+
+    <AppealCreateModal ></AppealCreateModal>
   </div>
 }
 

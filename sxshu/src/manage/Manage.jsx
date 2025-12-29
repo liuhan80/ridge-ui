@@ -8,9 +8,6 @@ import {
 
 import { list, batchImport, batchRemove } from '../utils/colclient'
 
-const { Header, Content } = Layout;
-const { TextArea } = Input;
-
 // 核心表格组件
 const SimpleDataTable = ({ tableName = 'user' }) => {
   // 状态管理
@@ -25,7 +22,6 @@ const SimpleDataTable = ({ tableName = 'user' }) => {
 
   // 1. 获取数据列表
   const fetchData = async () => {
-    setLoading(true);
     try {
       // 构建查询参数
       const queryParams = {
@@ -61,12 +57,9 @@ const SimpleDataTable = ({ tableName = 'user' }) => {
       }
     } catch (error) {
       console.error('获取数据失败:', error);
-      message.error('获取数据失败，请稍后重试');
       setData([]);
       setTotal(0);
       setColumns([]);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -97,7 +90,6 @@ const SimpleDataTable = ({ tableName = 'user' }) => {
   // 4. 批量删除功能
   const handleBatchDelete = async () => {
     if (selectedRowKeys.length === 0) {
-      message.warning('请选择要删除的记录');
       return;
     }
 
@@ -107,15 +99,15 @@ const SimpleDataTable = ({ tableName = 'user' }) => {
       const result = await batchRemove(tableName, selectedRowKeys);
 
       if (result.success || result.code === 0) {
-        message.success(`成功删除 ${selectedRowKeys.length} 条记录`);
+        // message.success(`成功删除 ${selectedRowKeys.length} 条记录`);
         setSelectedRowKeys([]); // 清空选中状态
         fetchData(); // 刷新数据
       } else {
-        message.error(result.message || '批量删除失败');
+        // message.error(result.message || '批量删除失败');
       }
     } catch (error) {
       console.error('批量删除失败:', error);
-      message.error('批量删除失败，请重试');
+      // message.error('批量删除失败，请重试');
     } finally {
       setLoading(false);
     }
@@ -125,18 +117,19 @@ const SimpleDataTable = ({ tableName = 'user' }) => {
   const handleFileUpload = async (file) => {
     try {
       setLoading(true);
-      debugger;
       // 调用批量导入接口
       const result = await batchImport(tableName, file);
 
       if (result) {
-        message.success(`成功导入 条数据`);
+        Modal.success({
+          content: `成功导入 ${result.data.total}条数据`
+        });
         fetchData(); // 刷新数据
       } else {
-        message.error(result.message || '批量导入失败');
+        Modal.error(result.message || '批量导入失败');
       }
     } catch (error) {
-      message.error(`导入失败：${error.message || '文件格式错误'}`);
+      Modal.error(`导入失败：${error.message || '文件格式错误'}`);
     } finally {
       setLoading(false);
     }
@@ -233,18 +226,27 @@ const SimpleDataTable = ({ tableName = 'user' }) => {
 // 使用示例
 const App = () => {
   // 可以根据实际需求动态设置表名
-  const tableNames = ['status-book', 'cases', 'casedetails', 'sites']
+  const tableNames = [{
+    label: '设备台账',
+    value: 'status-book'
+  }, {
+    label: '场站台账',
+    value: 'sites'
+  }, {
+    label: '全国得分',
+    value: 'p-scores'
+  }, {
+    label: '场站得分',
+    value: 'st-scores'
+  }]
   const [currentTable, setCurrentTable] = useState('status-book')
 
-
-
   return <div className='sx-page'>
-    <Select style={{ width: '360px'}} value={currentTable} options={tableNames.map(r => ({ label: r, value: r }))} onChange={val => {
+    <Select style={{ width: '360px'}} value={currentTable} options={tableNames} onChange={val => {
       setCurrentTable(val)
     }} />
     <SimpleDataTable tableName={currentTable} />;
   </div>
-
 };
 
 export default App;

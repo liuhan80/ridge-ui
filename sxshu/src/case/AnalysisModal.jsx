@@ -4,7 +4,7 @@ import { UploadOutlined, DeleteOutlined } from '@ant-design/icons'
 import SxUploader from '../components/upload/SxUploader';
 import caseStore from '../store/case'
 import globalStore from '../store/globals'
-import { getNodeRequestUrl, formatIsoToDate, getFileNameFromPath } from '../utils/utils'
+import { getNodeRequestUrl, formatIsoToDate, getFileNameFromPath, openAttachment } from '../utils/utils'
 
 import tableStoreFactory from '../store/useStatusBookStore'
 import { create, remove, update } from '../utils/colclient';
@@ -68,9 +68,9 @@ const AnalysisModal = ({
         }
     }
 
-    const openAttachment = attachment => {
-        window.open(getNodeRequestUrl(`/sxfile/download?relativePath=${attachment}`), '_blank')
-    }
+    // const openAttachment = attachment => {
+    //     window.open(getNodeRequestUrl(`/sxfile/download?relativePath=${attachment}`), '_blank')
+    // }
 
     const columns = [
         {

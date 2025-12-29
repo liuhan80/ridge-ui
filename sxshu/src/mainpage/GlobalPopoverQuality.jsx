@@ -98,7 +98,9 @@ const GlobalPopoverQuality = ({
         <div className='value'>{clickedObject[1] || 0}%</div>
       </div>
       <div className='actions'>
-        <Button>申诉</Button>
+        <Button onClick={() => {
+           onClose(true);
+        }}>申诉</Button>
       </div>
     </div>,
     document.body

@@ -1,5 +1,5 @@
 const path = require('path')
-process.env.DEBUG = 'ridge:boot,ridge:user,ridge:store,ridge:npm'
+process.env.DEBUG = 'ridge:boot,ridge:http'
 
 const rootStore = process.env.SXSHU_ROOT_STORE || '/opt/node/file'
 

@@ -231,15 +231,14 @@ const batchImport = async (tableName, file) => {
     });
 
     // 3. 解析后端返回结果（匹配你 Koa 接口的返回格式）
-    if (response.data.result === 'ok') {
-      const { relativePath: uploadFilePath } = response.data;
-      setCurrentEditFile(uploadFilePath); // 保存文件路径
+    if (response.data.success) {
+      return response.data
+      // const { relativePath: uploadFilePath } = response.data;
+      // setCurrentEditFile(uploadFilePath); // 保存文件路径
     }
   } catch (error) {
     // 异常处理（网络错误/接口报错）
     console.error('上传错误：', error);
-  } finally {
-    setLoading(false);
   }
 };
 

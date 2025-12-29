@@ -385,6 +385,9 @@ textarea::placeholder {
 
 .ant-input-outlined:focus-within {
     background: rgba(23,206,255,0.1);
+    border-color: #84e3fd;
+    box-shadow: none;
+    box-sizing: none;
 }
 
 span.ant-tag.success {
@@ -473,4 +476,9 @@ span.ant-tag.error {
             }
         }
     }
+}
+
+::placeholder {
+    color: #999999 !important; /* 自定义颜色，比如浅灰色 */
+    opacity: 1 !important; /* 解决部分浏览器透明度问题 */
 }

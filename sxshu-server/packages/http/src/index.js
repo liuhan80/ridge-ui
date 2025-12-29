@@ -152,6 +152,8 @@ module.exports = {
     // 未使用 app.on('error') 方式，从洋葱圈模型来看，这里只捕获路由层异常，对于外层中间件发生的异常，这里不做处理
     app.use(async (ctx, next) => {
       try {
+          // 将请求地址和响应时间记录到控制台（或日志系统）  
+        debug(`${new Date()} Request URL: ${ctx.url}`);  
         await next()
         // 对托管的静态页面 /index.html的页内前端路由的支持，都发送到index.html
         if (ctx.status === 404) {
@@ -159,6 +161,7 @@ module.exports = {
         }
       } catch (err) {
         // 这里只捕获HTTPError
+        console.error('error', err)
         if (err instanceof AssertionError) {
           ctx.body = {
             code: 400,

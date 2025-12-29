@@ -5,10 +5,13 @@
   "scripts": {
     "start": "node ./boot.js"
   },
- "workspaces": [
+  "workspaces": [
     "packages/*"
   ],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "axios": "^1.13.2"
+  }
 }

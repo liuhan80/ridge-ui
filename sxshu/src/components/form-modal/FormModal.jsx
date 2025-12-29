@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Form, Input, Space, Select, Upload, Button, message } from 'antd';
+import { Modal, Form, Input, Space, Select, Upload, Button,DatePicker, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import SxUploader from '../upload/SxUploader';
@@ -147,6 +147,31 @@ const FormModal = ({
                         <SxUploader ></SxUploader>
                     </Form.Item>
                 );
+            // 新增date类型的表单项
+            case 'date':
+                return (
+                    <Form.Item
+                        key={name}
+                        name={name}
+                        label={label}
+                        rules={[{ 
+                            required, 
+                            message: `请选择${label}`,
+                            // 可选：日期格式校验
+                            type: 'object', 
+                            message: `请选择有效的${label}`
+                        }]}
+                        tooltip={tip}
+                    >
+                        <DatePicker
+                            placeholder={placeholder}
+                            style={{ width: '100%' }}
+                            // 可选：限制日期选择范围
+                            // disabledDate={(current) => current && current > dayjs().endOf('day')}
+                            format="YYYY-MM-DD" // 显示格式
+                        />
+                    </Form.Item>
+                );
             default:
                 return null;
         }
@@ -172,7 +197,7 @@ const FormModal = ({
 
                 {/* 自定义底部按钮 */}
                 <Space style={{ marginTop: 20, textAlign: 'right', display: 'flex', justifyContent: 'flex-end' }}>
-                    <button onClick={handleCancel} type="reset">
+                    <button onClick={handleCancel} className='reset'>
                         取消
                     </button>
                     <button onClick={handleOk}>

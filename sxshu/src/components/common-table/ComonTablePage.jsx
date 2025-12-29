@@ -76,7 +76,7 @@ const CommonTablePage = ({
       )
     }
   ],
-  query = {},
+  query,
   storeName = 'default',
   actionBar = <></>
 }) => {

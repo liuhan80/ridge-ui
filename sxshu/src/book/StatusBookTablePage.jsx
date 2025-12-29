@@ -83,7 +83,7 @@ const StatusBookTable = () => {
 
   return (
     <>
-      <CommonTablePage storeName='status-book' requestUrl={getNodeRequestUrl(`/coll/status-book/list`)} columns={columns} />
+      <CommonTablePage storeName='status-book' requestUrl={getNodeRequestUrl(`/coll/status-book/list`)} columns={columns} query={{}}/>
       <DetailModal />
     </>
   )
