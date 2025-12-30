@@ -130,6 +130,18 @@ module.exports = class TableService {
 
                 // 获取集合并插入
                 const collection = await that.getCollection(tableName);
+
+                // 如果传入了inc参数，用总数+1生成自定义格式的递增编号
+                if (ctx.request.query.inc) {
+                    // 1. 查询集合总记录数（简化版：总数+1作为编号数字）
+                    const total = await collection.count({}) // 推荐用countDocuments，count已废弃
+                    const nextNum = total + 1;
+                    
+                    // 2. 拼接成最终编号（数字部分补0到6位，可自定义位数）
+                    const numStr = nextNum.toString().padStart(8, '0'); // 固定6位数字，不足补0
+                    createData.incIndex = `${ctx.request.query.inc}${numStr}`; // 最终编号如HYC000001
+                }
+
                 const result = await collection.insert(createData);
 
                 // 返回结果（核心返回 _id）

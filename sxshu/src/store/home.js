@@ -20,16 +20,19 @@ const useStore = create((set) => ({
       leftShow: !state.leftShow
     }
   }),
-
   scores,
-
   rankFarmList,
-
   provincesList,
 
   count: 0,
   theme: 'light',
   user: null,
+
+  setScores: scores => set(state => {
+    return {
+      scores
+    }
+  }),
 
   // 定义更新状态的方法（支持同步/异步）
   increment: () => set((state) => ({ count: state.count + 1 })),

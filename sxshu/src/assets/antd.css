@@ -301,8 +301,17 @@
     }
 }
 
+.ant-select-disabled {
+    .ant-select-selector {
+        border: 1px solid rgba(255,255,255,0.6);
+    }
+    .ant-select-selection-item {
+        color: rgba(255,255,255,0.9);
+    }
+}
+
 .ant-select-single .ant-select-selector {
-    color: rgba(255,255,255,0.6);
+    color: rgba(255,255,255,0.9);
 }
 
 .ant-picker-dropdown {
@@ -451,6 +460,11 @@ span.ant-tag.error {
 .ant-btn.ant-btn-variant-outlined {
     background: transparent!important;
     color: #17CEFF;
+}
+
+.ant-btn.ant-btn-variant-outlined:disabled {
+    color: #CCC;
+    border-color: #ccc;
 }
 
 

@@ -34,6 +34,9 @@ ReactDOM.render(
             Button: {
 
             },
+            Message: {
+              contentBg: '#2AB4EB'
+            },
             Select: {
               activeBorderColor: '#2AB4EB',
               selectorBg: 'rgba(23,206,255,0.1)',

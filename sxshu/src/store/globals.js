@@ -4,8 +4,14 @@ import { provincesList } from './mock';
 import { fetchData, getNodeRequestUrl } from '../utils/utils';
 // 创建全局store
 const useStore = create((set) => ({
+  globalSpin: false,
   provinces: provincesList,
-  userProvinces: null, // 用户有权限的省
+
+  userProvinces: ['山西', '河北'], // 用户有权限的省
+  userId: 'zhang_wei83',  // 用户账号
+  userSites: [], // 用户有权限的场站
+  isAdmin: true, // 用户是否是管理员
+
   // 初始化状态
   dateTypes: [{
     label: '电量',
@@ -35,6 +41,9 @@ const useStore = create((set) => ({
     value: 'same'
   }],
 
+  setGlobalLoading : (loading, tip) => set(state => ({
+    globalSpin: loading
+  })),
     // 3. 定义异步初始化方法，用于从接口加载数据并更新状态
   initResources: async () => {
     const resData = await fetchData(getNodeRequestUrl('/permision/resources'));
@@ -42,7 +51,9 @@ const useStore = create((set) => ({
       console.log('用户有权限的省', resData.result)
         set({
           // 假设接口返回的数据结构如下，根据实际接口返回字段调整
-          userProvinces: resData.result
+          userProvinces: resData.result,
+          userId: resData.userId,
+          isAdmin: resData.isAdmin
         });
       } else {
         console.log('获取用户权限失败')

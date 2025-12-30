@@ -137,6 +137,7 @@ const CommonTablePage = ({
         </div>
         <div className='table-container' ref={tableContainerRef}>
           <Table
+            rowKey='_id'
             className='sx-table-normal'
             scroll={{
               // y: tableScrollY

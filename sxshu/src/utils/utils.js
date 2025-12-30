@@ -1,3 +1,5 @@
+import { message } from "antd"
+
 /**
  * 处理数据：排序 + 添加categorySpan和indicatorSpan属性
  * @param {Array} data 原始的appealCandinateData
@@ -202,6 +204,26 @@ const getNodeRequestUrl = url => {
   return NODE_API_PREFIX + url
 }
 
+const validate = (object, rules) => {
+  if (!object) {
+    throw new Error('表单信息不完善，请检查');
+  }
+
+  try {
+    for (const rule of rules) {
+      const value = object[rule.key];
+      if (rule.checkType === 'array') {
+        if (!value || value.length === 0) throw new Error(rule.msg);
+      } else {
+        if (!value || value.trim() === '') throw new Error(rule.msg);
+      }
+    }
+    return true
+  } catch (e) {
+    message.error(e.message);
+    return false
+  }
+}
 
 /**
  * 将ISO时间字符串转换为 yyyy-mm-dd 格式
@@ -260,6 +282,7 @@ const removeAttachment = attachment => {
 
 
 export {
+  validate,
   getFileNameFromPath,
   getNodeRequestUrl,
   formatIsoToDate,

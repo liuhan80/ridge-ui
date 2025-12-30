@@ -46,14 +46,17 @@ const create = async (doc, tableName) => {
     if (typeof doc !== 'object' || doc === null) {
       throw new Error('创建数据必须为非空对象');
     }
-    const createUrl = getNodeRequestUrl(`/coll/${tableName}/doc/create`)
-
+    let createUrl = getNodeRequestUrl(`/coll/${tableName}/doc/create`)
+    
+    if (doc.inc) {
+      createUrl = createUrl + '?inc=' + doc.inc
+    }
     // 2. 调用后端创建接口（POST 请求，JSON 格式传参）
     const response = await axiosInstance.post(createUrl, doc);
     const { code, success, data, message: resMsg } = response.data;
 
     // 3. 结果处理
-    if (code === 200 && success) {
+    if (code === '0') {
       return {
         success: true,
         data, // { id: '_id值' }

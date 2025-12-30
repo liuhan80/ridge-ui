@@ -1,15 +1,80 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Modal, Form, Input, Space, Table, Select, Upload, Button, Radio, Pagination } from 'antd'
+import { UploadOutlined } from '@ant-design/icons'
 import { processAppealData } from '../utils/utils.js'
 import { appealCandinateData as mockAppealData } from '../store/mock.js'
 
+import buildingImg from '../assets/image/building.png'
 import successImg from '../assets/image/success.png'
 
 import appealStore from '../store/appeal.js'
 import globalStore from '../store/globals.js'
+import SxUploader from '../components/upload/SxUploader.jsx'
 import *  as client from '../utils/colclient.js'
-import { useFetcher } from 'react-router-dom'
 
+const { TextArea } = Input
+
+const RenderProvince = () => {
+    const provinces = globalStore(state => state.userProvinces).map(t => ({
+        label: t,
+        value: t
+    }))
+    const provinceSwitch = appealStore(state => state.provinceSwitch)
+    const provinceAppealObject = appealStore(state => state.provinceAppealObject)
+    const updateProvinceAppeal = appealStore(state => state.updateProvinceAppeal)
+    
+    return <div className='province'>
+        <div className='select-prov'>
+            <img src={buildingImg}></img>
+            <div className="choose">省份选择</div>
+            { provinceSwitch && <Select onChange={val => {
+                updateProvinceAppeal({
+                    province: val
+                })
+            }} options={provinces} style={{width: 160}} ></Select>}
+            { !provinceSwitch && provinceAppealObject && <div className="choose">{provinceAppealObject.province}</div>}
+            {/* <div className="code">流程编号</div>
+            <div className="code-number">123009892</div> */}
+            <div className='score'>分数 {provinceAppealObject && provinceAppealObject.score}%</div>
+        </div>
+        <div className='form-item'>
+            <div className="label">申述类型</div>
+            <Select options={[{
+                label: '电量',
+                value: 'energy'
+            }, {
+                label: '状态',
+                value: 'status'
+            }, {
+                label: '故障',
+                value: 'error'
+            }, {
+                label: '一次接线图',
+                value: 'line'
+            }]} value={provinceAppealObject && provinceAppealObject.appealType} style={{ flex: 1 }} onChange={val => {
+                updateProvinceAppeal({
+                    appealType: val
+                })
+            }}></Select>
+        </div>
+        <div className='form-item'>
+            <div className="label">申诉说明</div>
+            <TextArea placeholder='填写申诉说明' value={provinceAppealObject && provinceAppealObject.desc} onChange={e => {
+                updateProvinceAppeal({
+                    desc: e.target.value
+                })
+            }}  style={{ flex: 1, height: '108px' }}></TextArea>
+        </div>
+        <div className='form-item'>
+            <div className="label">附件上传</div>
+            <SxUploader value={provinceAppealObject && provinceAppealObject.attachment} onChange={val => {
+                  updateProvinceAppeal({
+                    attachment: val
+                })              
+            }}></SxUploader>
+        </div>
+    </div>
+}
 
 const RenderStation = () => {
     const appealCandinateData = appealStore(state => state.appealCandinateData)
@@ -19,25 +84,17 @@ const RenderStation = () => {
     const setCandinateSelectedKeys = appealStore(state => state.setCandinateSelectedKeys)
     const candinateSelectedKeys = appealStore(state => state.candinateSelectedKeys)
     const confirmStationCreate = appealStore(state => state.confirmStationCreate)
+    const updateStationAppealObject = appealStore(state => state.updateStationAppealObject)
     const setAppealCandinateData = appealStore(state => state.setAppealCandinateData)
 
-
-    const appealProvince = appealStore(state => state.appealProvince)
-    const appealSite = appealStore(state => state.appealSite)
-    const appealType = appealStore(state => state.appealType)
-    const setAppealProvince = appealStore(state => state.setAppealProvince)
-    const setAppealSite = appealStore(state => state.setAppealSite)
-    const setAppealType = appealStore(state => state.setAppealType)
-
-
-    
-    const dateTypes = globalStore(state => state.dateTypes)
     const provinces = globalStore(state => state.userProvinces).map( t => ({
         label: t,
         value: t
     }))
 
     const [siteOptions, setSiteOptions] = useState([])
+    const [province, setProvince] = useState('')
+    const [site, setSite] = useState('')
 
     const columns = [
         {
@@ -96,21 +153,16 @@ const RenderStation = () => {
     }
 
     const onProvinceChanged = async province => {
-        setAppealProvince(province)
-    }
-
-    const onSiteChanged = async val => {
-        setAppealSite(val)
-        setCandinateSelectedKeys([])
-        // setAppealCandinateData(mockAppealData)
-    }
-    
-    const fetchSiteList = async () => {
-        setAppealSite('')
+        setProvince(province)
         setAppealCandinateData([])
+        setSite('')
         setCandinateSelectedKeys([])
+        updateStationAppealObject({
+            province,
+            site: ''
+        })
         const sites = await client.list('sites', {
-            province: appealProvince
+            province: province
         })
         setSiteOptions(sites.list.map(r => {
             return {
@@ -121,32 +173,28 @@ const RenderStation = () => {
         }))
     }
 
-    const fetchSiteData = async () => {
+    const onSiteChanged = async val => {
+        setSite(val)
+        setCandinateSelectedKeys([])
+        updateStationAppealObject({
+            province,
+            site: val
+        })
         setAppealCandinateData(mockAppealData)
     }
-
-    useEffect(() => {
-        fetchSiteList()
-    }, [appealProvince])
 
     return <div className="station">
         <Space className='action-bar'>
             <div>省份</div>
-            <Select onChange={onProvinceChanged} value={appealProvince} options={provinces} style={{ width: '120px' }}></Select>
+            <Select onChange={onProvinceChanged} value={province} options={provinces} style={{ width: '120px' }}></Select>
             <div>场站</div>
-            <Select value={appealSite} options={siteOptions} style={{ width: '260px' }} onChange={onSiteChanged}></Select>
+            <Select value={site} options={siteOptions} style={{ width: '260px' }} onChange={onSiteChanged}></Select>
             <div>类别</div>
-            <Select options={dateTypes} allowClear value={appealType} onChange={val => {
-                setAppealType(val)
-            }} style={{ width: '120px' }}></Select>
+            <Select style={{ width: '120px' }}></Select>
             <button onClick={() => {
-                fetchSiteData()
+
             }}>查询</button>
-            <button className='reset' onClick={() => {
-                setAppealType('')
-                setAppealSite('')
-                setAppealCandinateData([])
-            }}>重置</button>
+            <button className='reset'>重置</button>
         </Space>
         <Table scroll={{
             y: 480
@@ -169,7 +217,9 @@ const RenderStation = () => {
     </div>
 }
 
-const AppealCreateModal = () => {
+const AppealCreateModal = ({
+    province, // 带入的申诉省份
+}) => {
     const candinateModalVisible = appealStore(state => state.candinateModalVisible)
     const confirmAppealCreate = appealStore(state => state.confirmAppealCreate)
     const cancelAppealRequest = appealStore(state => state.cancelAppealRequest)
@@ -209,7 +259,17 @@ const AppealCreateModal = () => {
             }}
         >
             <div className='create-appeal'>
-               <RenderStation></RenderStation>
+                { false && <Space className='range'>
+                    <div>申诉范围</div>
+                    <Radio.Group options={[
+                        { label: '省份', value: 'province' },
+                        { label: '场站', value: 'station' },
+                    ]} onChange={ev => {
+                        updateCandinateRange(ev.target.value)
+                    }} value={candinateRange} />
+                </Space> }
+                {candinateRange === '----' && <RenderProvince></RenderProvince>}
+                {candinateRange === 'station' && <RenderStation></RenderStation>}
             </div>
         </Modal>
         <Modal

@@ -1,6 +1,7 @@
 // src/components/GlobalPopoverQuality.jsx
 import React, { useRef, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import globalStore from '../store/globals'
 import { Button } from 'antd';
 
 // 独立的全局浮层组件
@@ -14,6 +15,9 @@ const GlobalPopoverQuality = ({
 }) => {
   const elRef = useRef(null);
   // 浮层偏移量（原逻辑中的10px）
+
+  const userProvinces = globalStore(state => state.userProvinces)
+
   const offset = 10;
   // 浮层的预估高度（如果浮层内容不固定，可后续用getBoundingClientRect获取实际高度）
   const popoverEstimatedHeight = 110; // 可根据实际样式调整这个值
@@ -98,7 +102,7 @@ const GlobalPopoverQuality = ({
         <div className='value'>{clickedObject[1] || 0}%</div>
       </div>
       <div className='actions'>
-        <Button onClick={() => {
+        <Button disabled={userProvinces.indexOf(clickedRecord.name) === -1 } onClick={() => {
            onClose(true);
         }}>申诉</Button>
       </div>

@@ -1,8 +1,10 @@
 // src/store/useStore.js
 import { create } from 'zustand';
 import *  as client from '../utils/colclient.js'
+import { validate } from '../utils/utils.js';
+
 // 创建全局store
-const useStore = create((set) => ({
+const useStore = create((set, get) => ({
   appealTableTotal: 480,
   appealTableCurrent: 1,
   appealTableData: [],
@@ -12,90 +14,50 @@ const useStore = create((set) => ({
    * 新增申诉表格
    */
   candinateModalVisible: false, // 申诉对话框可见性
-  candinateTypeSwitch: false, // 可切换申诉类型
-  provinceSwitch: false, // 可切换省份
-  stationSwitch: false, // 可切换场站
-  candinateRange: 'province',  // 申诉范围
-  provinceAppealObject: null, // 省份申诉数据 首页专用
-  stationAppealObject: null, // 场站申诉 首页专用
+
+  appealProvince: '', // 申诉省份
+  appealSite: '', // 申诉场站
+  appealType: '', // 申诉类型
+
+  provinceAppealObject: {}, // 省份申诉数据
+  stationAppealObject: {}, // 场站申诉 首页专用
   candinate: '',  // 申诉类型
-  candinateDataTotal: 361,
-  candinateDataCurrent: 1,
   candinateSelectedKeys: [],
-  appealCandinateData: [
-    // 第一组：电量分类（重复出现）
-    { category: '电量', indicator: '上网电量', indicatorType: '完整性', score: 98.1 },
-    { category: '电量', indicator: '发电量', indicatorType: '一致性', score: 81.1 },
-    { category: '电量', indicator: '上网电量', indicatorType: '准确性', score: 92.3 },
-    { category: '电量', indicator: '发电量', indicatorType: '完整性', score: 85.7 },
-    { category: '电量', indicator: '厂用电率', indicatorType: '唯一性', score: 78.9 },
-    { category: '电量', indicator: '上网电量', indicatorType: '有效性', score: 95.2 },
-    { category: '电量', indicator: '发电量', indicatorType: '准确性', score: 88.4 },
-    { category: '电量', indicator: '厂用电率', indicatorType: '一致性', score: 76.5 },
-    { category: '电量', indicator: '上网电量', indicatorType: '唯一性', score: 90.6 },
-    { category: '电量', indicator: '发电量', indicatorType: '有效性', score: 83.8 },
-    // 第二组：电压分类（重复出现）
-    { category: '电压', indicator: '母线电压', indicatorType: '完整性', score: 91.2 },
-    { category: '电压', indicator: '线路电压', indicatorType: '一致性', score: 86.3 },
-    { category: '电压', indicator: '母线电压', indicatorType: '准确性', score: 93.5 },
-    { category: '电压', indicator: '线路电压', indicatorType: '完整性', score: 89.7 },
-    { category: '电压', indicator: '变压器电压', indicatorType: '唯一性', score: 79.1 },
-    { category: '电压', indicator: '母线电压', indicatorType: '有效性', score: 94.8 },
-    { category: '电压', indicator: '线路电压', indicatorType: '准确性', score: 87.2 },
-    { category: '电压', indicator: '变压器电压', indicatorType: '一致性', score: 77.4 },
-    { category: '电压', indicator: '母线电压', indicatorType: '唯一性', score: 91.9 },
-    { category: '电压', indicator: '线路电压', indicatorType: '有效性', score: 84.6 },
-    // 第三组：电流分类（重复出现）
-    { category: '电流', indicator: '负载电流', indicatorType: '完整性', score: 90.3 },
-    { category: '电流', indicator: '零序电流', indicatorType: '一致性', score: 82.5 },
-    { category: '电流', indicator: '负载电流', indicatorType: '准确性', score: 92.7 },
-    { category: '电流', indicator: '零序电流', indicatorType: '完整性', score: 86.9 },
-    { category: '电流', indicator: '短路电流', indicatorType: '唯一性', score: 80.2 },
-    { category: '电流', indicator: '负载电流', indicatorType: '有效性', score: 93.1 },
-    { category: '电流', indicator: '零序电流', indicatorType: '准确性', score: 85.4 },
-    { category: '电流', indicator: '短路电流', indicatorType: '一致性', score: 78.3 },
-    { category: '电流', indicator: '负载电流', indicatorType: '唯一性', score: 89.5 },
-    { category: '电流', indicator: '零序电流', indicatorType: '有效性', score: 81.7 },
-    // 第四组：功率分类（重复出现）
-    { category: '功率', indicator: '有功功率', indicatorType: '完整性', score: 96.4 },
-    { category: '功率', indicator: '无功功率', indicatorType: '一致性', score: 88.6 },
-    { category: '功率', indicator: '有功功率', indicatorType: '准确性', score: 94.2 },
-    { category: '功率', indicator: '无功功率', indicatorType: '完整性', score: 87.8 },
-    { category: '功率', indicator: '视在功率', indicatorType: '唯一性', score: 81.4 },
-    { category: '功率', indicator: '有功功率', indicatorType: '有效性', score: 97.3 },
-    { category: '功率', indicator: '无功功率', indicatorType: '准确性', score: 89.1 },
-    { category: '功率', indicator: '视在功率', indicatorType: '一致性', score: 79.6 },
-    { category: '功率', indicator: '有功功率', indicatorType: '唯一性', score: 95.5 },
-    { category: '功率', indicator: '无功功率', indicatorType: '有效性', score: 84.9 },
-    // 第五组：回到电量分类（继续重复）
-    { category: '电量', indicator: '上网电量', indicatorType: '完整性', score: 92.8 },
-    { category: '电量', indicator: '发电量', indicatorType: '一致性', score: 83.2 },
-    { category: '电量', indicator: '厂用电率', indicatorType: '准确性', score: 77.9 },
-    { category: '电量', indicator: '上网电量', indicatorType: '唯一性', score: 91.4 },
-    { category: '电量', indicator: '发电量', indicatorType: '有效性', score: 86.5 },
-    { category: '电压', indicator: '母线电压', indicatorType: '完整性', score: 93.7 },
-    { category: '电压', indicator: '线路电压', indicatorType: '一致性', score: 85.1 },
-    { category: '电流', indicator: '负载电流', indicatorType: '准确性', score: 90.8 },
-    { category: '功率', indicator: '有功功率', indicatorType: '完整性', score: 96.7 },
-    { category: '电量', indicator: '上网电量', indicatorType: '有效性', score: 94.3 }
-  ].map((item, index) => ({
-    ...item,
-    key: `item_${index + 1}` // 生成格式：item_1、item_2...（也可以直接用index + 1作为key）
-  })),
+  appealCandinateData: [], // 可选待申诉数据， 按场站筛选的结果
+  candinateDataCurrent: 1,
+  candinateDataTotal: () => get().appealCandinateData.length,
   candinateGotoPage: page => set(state => {
     return {
       candinateDataCurrent: page
     }
   }),
-  setCandinateModalVisible: visible => set(state => {
+
+  setAppealProvince: province => set(state => {
     return {
-      candinateModalVisible: visible
+      appealProvince: province
     }
   }),
 
-  updateStationAppealObject: object => set(state => {
+  setAppealSite: site => set(state => {
     return {
-      stationAppealObject: object
+      appealSite: site
+    }
+  }),
+  setAppealType: type => set(state => {
+    return {
+      appealType: type
+    }
+  }),
+
+  setAppealCandinateData: data => set(state => {
+    return {
+      appealCandinateData: data
+    }
+  }),
+
+  setCandinateModalVisible: visible => set(state => {
+    return {
+      candinateModalVisible: visible
     }
   }),
 
@@ -107,6 +69,7 @@ const useStore = create((set) => ({
 
   updateCandinateRange: range => set(state => {
     return {
+      appealCandinateData: [],
       candinateRange: range
     }
   }),
@@ -122,22 +85,8 @@ const useStore = create((set) => ({
     }
   }),
 
-  // 确认场站申诉选择
+  // 确认下一步填写分项详情
   confirmAppealCreate: () => set(async state => {
-    if (state.candinateRange === 'province') {
-      const provinceAppealObject = state.provinceAppealObject
-      // 省份直接提交
-      await client.create({
-        province: provinceAppealObject.name,
-        desc: provinceAppealObject.desc,
-        attachment: provinceAppealObject.attachment
-      }, 'appeals')
-
-      set({
-        candinateModalVisible: false,
-        successAppealModalVisible: true
-      })
-    } else if (state.stationAppealObject) {
       set({
         candinateModalVisible: false,
         confirmAppealModalVisible: true,
@@ -146,27 +95,61 @@ const useStore = create((set) => ({
         }).map(t => {
           return {
             ...t, 
-            ...state.stationAppealObject
+            province: state.appealProvince,
+            site: state.appealSite,
           }
         })
       })
-    }
   }),
 
+  // 批量创建申诉
+  confirmSitesAppealCreate: () => set(async state => {
+    const appealStationSelectedData = state.appealStationSelectedData
+    
+    for (const item of appealStationSelectedData) {
+      if (!validate(item, [
+        { key: 'desc', msg: '申诉描述不能为空，请填写详细的申诉原因' },
+        { key: 'attachment', msg: '申诉附件不能为空，请上传相关证明材料', checkType: 'array' }
+      ])) {
+        return
+      }
+    }
+    for (const item of appealStationSelectedData) {
+      await client.create({
+        ...item,
+        inc: 'APS',
+        type: item.appealType,
+      }, 'appeals')
+    }
+    state.reset()
+    set({
+      successAppealModalVisible: true
+    })
+  }),
 
-  // 首页创建申请
-  createAppealHome: ({
-    provinceAppealObject,
-    stationAppealObject,
+  reset: () => set(state => ({
+    confirmAppealModalVisible: false,
+    candinateModalVisible: false,
+    provinceAppealObject: {},
+    stationAppealObject: {},
+    candinateSelectedKeys: [],
+    appealCandinateData: [],
+    successAppealModalVisible: false
+  })),
+
+
+  //  创建并打开申诉对话框
+  createAppeal: ({
+    province,
+    site,
+    type
   }) => set(state => {
     return {
-      candinateRange: 'province',
       candinateModalVisible: true,
-      candinateTypeSwitch: false,
-      provinceSwitch: false,
-      stationSwitch: false,
-      provinceAppealObject,
-      stationAppealObject
+      appealProvince: province,
+      appealSite: site,
+      appealType: type,
+      appealCandinateData: []
     }
   }),
 
@@ -178,6 +161,14 @@ const useStore = create((set) => ({
       }
     }
   }),
+
+  closeSuccessModal: () => set(state => {
+    return {
+      successAppealModalVisible: false
+    }
+  }),
+
+
 
   /**
    * 申诉确认对话框相关状态
@@ -193,9 +184,24 @@ const useStore = create((set) => ({
     }
   }),
 
-  removeStationSelectedData: key => set(state => { // 删除一条申请项
+  removeStationSelectedData: index => set(state => { // 删除一条申请项
     return {
-      appealStationSelectedData: state.appealStationSelectedData.filter(data => data.key !== key)
+      appealStationSelectedData: state.appealStationSelectedData.filter((_, i) => i !== index)
+    }
+  }),
+
+  updateStationDataItem: (index, updateObject) => set(state => {
+    return {
+      appealStationSelectedData: state.appealStationSelectedData.map((item, i) => {
+        if (i === index) {
+          return {
+            ...item,
+            ...updateObject
+          }
+        } else {
+          return item
+        }
+      })
     }
   }),
 
@@ -210,7 +216,33 @@ const useStore = create((set) => ({
       candinateModalVisible: false,
       confirmAppealModalVisible: false,
       candinateSelectedKeys: [],
+      appealCandinateData: [],
       appealStationSelectedData: []
+    }
+  }),
+
+
+  appealObjectViewObject : {},
+  appealObjectModalVisible: false,
+
+  setAppealObjectModalVisible: visible => set(state => {
+    return {
+      appealObjectModalVisible: visible
+    }
+  }),
+
+  updateAppealViewObject: object => set(state => {
+    return {
+      appealObjectViewObject: {
+        ...state.appealObjectViewObject,
+        ...object
+      }
+    }
+  }),
+
+  setAppealObjectViewObject: object => set(state => {
+    return {
+      appealObjectViewObject: object
     }
   })
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { Spin } from 'antd';
 
 import MainPage from './mainpage/MainPage.jsx'
 import CaseAnalysis from './case/CaseAnalysis.jsx'
@@ -14,8 +15,10 @@ import AdminManagePage from './manage/Manage.jsx'
 
 // 1. 导入图片，webpack会处理并返回构建后的路径
 import fakeHeadImg from './assets/image/fakehead.png'
+import globalStore from './store/globals.js'
 
 const App = () => {
+  const globalSpin = globalStore(state => state.globalSpin)
   return (
     <div style={{
       display: 'flex',
@@ -29,6 +32,7 @@ const App = () => {
           height: '90px'
         }} alt='fake head'
       />
+       <Spin spinning={globalSpin} tip='请求服务处理中...' fullscreen />
       <Routes style={{ flex: 1 }}>
         <Route path='/' element={<MainPage />} />
         {/* 案例分析 */}

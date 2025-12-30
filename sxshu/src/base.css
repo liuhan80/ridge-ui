@@ -138,6 +138,23 @@ a {
     }
 }
 
+.display-area {
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.8; /* 增大行高，提升可读性 */
+  color: #FFF;
+  /* 核心属性：保留换行，自动换行（避免横向滚动） */
+  white-space: pre-wrap;
+  /* 兼容处理：识别所有空白符（包括换行/空格） */
+  white-space: break-spaces;
+  /* 可选：首行缩进（仿文档效果） */
+  text-indent: 2em;
+  /* 可选：防止长文本溢出 */
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+
 /* 第一步：重置全局滚动条基础样式（提升优先级，去掉不必要的 !important） */
 /* 针对所有可滚动容器的 Webkit 滚动条 */
 *::-webkit-scrollbar {

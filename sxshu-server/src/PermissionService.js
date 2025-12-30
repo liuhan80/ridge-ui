@@ -8,6 +8,7 @@ module.exports = class PermissionService {
     constructor(app) {
         this.app = app;
         this.initRoutes(app);
+        this.admins = this.app.config.admins?.split(',') || []
     }
 
     async initRoutes({ router }) {
@@ -20,13 +21,18 @@ module.exports = class PermissionService {
 
         router.get('/permision/resources', async (ctx, next) => {
             try {
+                const userId = ctx.cookies.get('cookieUserid')
                 // 调用权限接口（复用通用请求方法）
                 const result = await this.authRequest({
                     method: 'get',
                     url: `https://api.ctgne.com/idp-service/v1.0/site/reportPermissionDlsc`,
                     params: { userId:  ctx.cookies.get('cookieUserid') || 'zhang_wei83' } // get参数放params
                 });
-                ctx.body = result;
+                ctx.body = {
+                    ...result,
+                    isAdmin: this.admins.indexOf(userId) > -1,
+                    userId
+                }
             } catch (error) {
                 ctx.body = {
                     success: false,

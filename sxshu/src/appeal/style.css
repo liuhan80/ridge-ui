@@ -72,6 +72,7 @@
     
     .label {
         margin-right: 8px;
+        margin-top: 4px;
     }
 }
 
@@ -105,11 +106,12 @@
             .label {
                 width: 75px;
                 font-size: 14px;
+                color: #fefefeb0;
                 text-align: right;
                 margin-right: 8px;
             }
             .value {
-                font-size: 18px;
+                font-size: 14px;
             }
         }
     }
