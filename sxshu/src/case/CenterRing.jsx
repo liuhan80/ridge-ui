@@ -25,7 +25,7 @@ const RingChartDemo = ({
         </div>
         <div className='legend-list'>
           {ringData && ringData.map((data, index) => {
-            return <RingLegend color={colors[index]} label={data.name} value={data.value}></RingLegend>
+            return <RingLegend color={colors[index % 5]} label={data.name} value={data.value}></RingLegend>
           })}
         </div>
     </div>

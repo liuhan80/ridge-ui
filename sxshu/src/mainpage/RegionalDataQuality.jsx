@@ -15,6 +15,8 @@ import appealStore from '../store/appeal'
 
 import slideImage from '../assets/image/slider.png'
 import { list } from '../utils/colclient';
+import StationAppealConfirmModal from '../appeal/StationAppealConfirmModal';
+import StationAppealEditModal from '../appeal/StationAppealEditModal';
 const { RangePicker } = DatePicker;
 
 const RegionalDataQuality = () => {
@@ -68,7 +70,7 @@ const RegionalDataQuality = () => {
       width: !currentProvince ? '56px': '160px',
       dataIndex: 'name',
       className: 'column-name',
-      align: 'center',
+      align: 'left',
       render: val => {
         if (val.startsWith(currentProvince)) {
           return val.substring(currentProvince.length)
@@ -250,6 +252,7 @@ const RegionalDataQuality = () => {
     />
 
     <AppealCreateModal ></AppealCreateModal>
+    <StationAppealEditModal></StationAppealEditModal>
   </div>
 }
 

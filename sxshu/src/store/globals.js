@@ -51,7 +51,7 @@ const useStore = create((set) => ({
       console.log('用户有权限的省', resData.result)
         set({
           // 假设接口返回的数据结构如下，根据实际接口返回字段调整
-          userProvinces: resData.result,
+          userProvinces: resData.result.map(sh => sh.name),
           userId: resData.userId,
           isAdmin: resData.isAdmin
         });

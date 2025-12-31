@@ -17,11 +17,11 @@ const fetchTableDataApi = async (url, params = { pageSize: 10, current: 1 }, sig
   }
 }
 class TableStoreFactory {
-  constructor () {
+  constructor() {
     this.tableStores = {}
   }
 
-  getTableStore (key) {
+  getTableStore(key) {
     if (!this.tableStores[key]) {
       this.tableStores[key] = create((set) => ({
         url: null,  // 新增url存储
@@ -52,11 +52,26 @@ class TableStoreFactory {
           })
 
           try {
+            // 核心：过滤queryParams，移除null/undefined，保留空字符串
+            const filterQueryParams = (params) => {
+              const filtered = {}
+              Object.entries(params).forEach(([key, value]) => {
+                // 只过滤 null 和 undefined，空字符串、0、false等都保留
+                if (value !== null && value !== undefined) {
+                  filtered[key] = value
+                }
+              })
+              return filtered
+            }
+
+            // 先过滤参数，再组装请求参数
+            const filteredQueryParams = filterQueryParams(queryParams)
             const requestParams = {
               pageSize: state.tableState.pageSize,
               current: state.tableState.current,
-              ...queryParams
+              ...filteredQueryParams
             }
+
             const data = await fetchTableDataApi(url, requestParams, newAbortController.signal)
             if (!data) return
 

@@ -45,6 +45,8 @@
                     gap: 10px;
                     width: 240px;
                     flex-wrap: wrap;
+                    height: 250px;
+                    overflow: auto;
                 }
             }
         }

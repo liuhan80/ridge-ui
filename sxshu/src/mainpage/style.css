@@ -160,6 +160,10 @@
                     display: none;
                 }
             }
+
+            .ant-table-column-title {
+                text-align: center;
+            }
             .column-name {
                 color: #65BBE8;
             }

@@ -119,6 +119,7 @@ const useStore = create((set, get) => ({
         ...item,
         inc: 'APS',
         type: item.appealType,
+        status: 'requested'
       }, 'appeals')
     }
     state.reset()

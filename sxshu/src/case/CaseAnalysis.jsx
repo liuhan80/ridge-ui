@@ -1,9 +1,10 @@
-import React, {  useState } from 'react'
-import { DatePicker, Table, Tag, Space, Modal  } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { DatePicker, Table, Tag, Space, Modal } from 'antd'
 import './style.css'
 import SectionBox from '../components/section/SectionBox';
 import CommonTablePage from '../components/common-table/ComonTablePage';
 import tableStoreFactory from '../store/useStatusBookStore'
+import jsonclient from '../utils/jsonclient';
 
 
 import BarChart from '../components/column_chart/ColumnChart.jsx'
@@ -21,16 +22,26 @@ const CaseAnalysis = () => {
     const columnSeries = caseStore(state => state.columnSeries)
     const mainProviderData = caseStore(state => state.mainProviderData)
     const inverterManufacturer = caseStore(state => state.inverterManufacturer)
+    const setInverterManufacturer = caseStore(state => state.setInverterManufacturer)
+    const setMainProviderData = caseStore(state => state.setMainProviderData)
     const caseTableData = caseStore(state => state.caseTableData)
     const provinces = globalStore(state => state.provinces)
 
     const [open, setOpen] = useState(false)
     const [createModalOpen, setCreateModalOpen] = useState(false)
     const [caseObject, setCaseObject] = useState(null)
+    const [sites, setSites] = useState([])
 
     const caseTableStore = tableStoreFactory.getTableStore('cases')
     const refreshTable = caseTableStore(state => state.refreshTable)
-    
+
+    useEffect(async () => {
+        const manufacturer = await jsonclient.getJSON('manufacturer')
+        setMainProviderData(manufacturer)
+
+        const inverter = await jsonclient.getJSON('inverter')
+        setInverterManufacturer(inverter)
+    }, [])
     const columns = [
         {
             width: '72px',
@@ -73,13 +84,13 @@ const CaseAnalysis = () => {
             width: 140,
             render: (value, record) => {
                 return <Space size="middle">
-                <a onClick={() => {
-                    onCaseClick(record)
-                }}>分析详情</a>
-                <a onClick={() => {
-                    handleRemoveCase(record)
-                }}>删除</a>
-            </Space>
+                    <a onClick={() => {
+                        onCaseClick(record)
+                    }}>分析详情</a>
+                    <a onClick={() => {
+                        handleRemoveCase(record)
+                    }}>删除</a>
+                </Space>
             }
         }
     ];
@@ -97,8 +108,23 @@ const CaseAnalysis = () => {
             },
             onCancel() {
             },
-          });
+        });
     }
+
+    // 处理字段值变化，更新联动字段的options
+    const handleFieldChange = (changeKey, fieldName, value) => {
+        // 监听省份变化，更新城市选项
+        if (changeKey === 'provinceChange' && fieldName === 'province') {
+            const newFields = [...fields];
+            // 找到城市字段并更新options
+            const cityFieldIndex = newFields.findIndex(item => item.name === 'city');
+            if (cityFieldIndex > -1) {
+                newFields[cityFieldIndex].options = cityData[value] || [];
+                newFields[cityFieldIndex].placeholder = value ? '请选择城市' : '请先选择省份';
+            }
+            setFields(newFields);
+        }
+    };
 
     const onCaseClick = record => {
         setCaseObject(record)
@@ -130,26 +156,34 @@ const CaseAnalysis = () => {
         }}></AnalysisModal>
 
         <FormModal visible={createModalOpen} fields={[{
-             type: 'input',
-             name: 'name',
-             label: '案例名称', // 补充label字段，用于表单标签
-             required: true,
-             placeholder: '请输入案例名称' // 可选占位符
-        }, {
-            type: 'select',
-            name: 'province',
-            label: '省份', // 补充label字段，用于表单标签
-            required: true,
-            options: provinces
-       }]}
-       onClose={() => {
-            setCreateModalOpen(false)
-       }}
-       onConfirm={async object => {
-            const result = await create(object, 'cases');
-            refreshTable();
-       }}
-       ></FormModal>
+                type: 'input',
+                name: 'name',
+                label: '案例名称', // 补充label字段，用于表单标签
+                required: true,
+                placeholder: '请输入案例名称' // 可选占位符
+            }, {
+                type: 'select',
+                name: 'province',
+                label: '省份', // 补充label字段，用于表单标签
+                required: true,
+                onChangeKey: 'provinceChange',
+                options: provinces
+            }, {
+                type: 'select',
+                name: 'site',
+                label: '场站', // 补充label字段，用于表单标签
+                required: true,
+                options: sites
+            }]}
+            handleFieldChange={handleFieldChange}
+            onClose={() => {
+                setCreateModalOpen(false)
+            }}
+            onConfirm={async object => {
+                const result = await create(object, 'cases');
+                refreshTable();
+            }}
+        ></FormModal>
     </div>
 }
 

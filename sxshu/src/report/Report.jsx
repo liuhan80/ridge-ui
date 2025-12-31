@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DatePicker, Table, Tag, Space, Button } from 'antd'
+import { DatePicker, Table, Tag, Space, Button, Select } from 'antd'
 import CommonTablePage from '../components/common-table/ComonTablePage'
 import reportStore from '../store/report'
 import { downloadAttachment, getNodeRequestUrl, openAttachment } from '../utils/utils'
@@ -17,6 +17,13 @@ const ReportPage = () => {
 
     const caseTableStore = tableStoreFactory.getTableStore('reports')
     const refreshTable = caseTableStore(state => state.refreshTable)
+
+
+    const [query, setQuery] = useState({
+        status: ''
+    })
+    const [tableQuery, setTableQuery] = useState({})
+
 
     const columns = [
         {
@@ -105,10 +112,6 @@ const ReportPage = () => {
             value: 'published'
         }]
     }, {
-        type: 'select',
-        name: 'publisher',
-        label: '发布人' // 补充label字段，用于表单标签
-    }, {
         type: 'file',
         name: 'attachment',
         label: '报告文件', // 补充label字段，用于表单标签
@@ -117,15 +120,40 @@ const ReportPage = () => {
 
     return <><CommonTablePage storeName='reports' actionBar={<>
         <div>报告状态</div>
-        <RangePicker style={{ width: '260px' }} />
-        <div>查询时间</div>
-        <button className="main">查询</button>
-        <button className="reset">重置</button>
+        <Select value={query.status}
+            style={{ width: '160px' }}
+            onChange={val => {
+                setQuery({
+                    ...query,
+                    status: val
+                })        
+            }}
+         options={[{
+            label: '全部',
+            value: ''
+        }, {
+            label: '待发布',
+            value: 'published'
+        }, {
+            label: '预发布',
+            value: 'prepare'
+        }, ]}></Select>
+        <button className="main" onClick={() => {
+            setTableQuery(query)
+        }}>查询</button>
+        <button className="reset" onClick={() => {
+            setQuery({
+                status: ''
+            })
+            setTableQuery({
+                status: ''
+            })
+        }}>重置</button>
         <button style={{
             marginLeft: 'auto'
         }} onClick={() => {
             setVisible(true)
-        }}>报告上传</button></>} requestUrl={getNodeRequestUrl('/coll/reports/list')} columns={columns} />
+        }}>报告上传</button></>} requestUrl={getNodeRequestUrl('/coll/reports/list')} query={tableQuery} columns={columns} />
         <FormModal visible={visible} fields={fields} onConfirm={async object => {
             const result = await create(object, 'reports');
             refreshTable();

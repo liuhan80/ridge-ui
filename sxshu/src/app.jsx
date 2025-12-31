@@ -12,9 +12,9 @@ import Rule from './review/Rule.jsx'
 import StatusBookTablePage from './book/StatusBookTablePage.jsx'
 import SiteManagePage from './book/SiteManagePage.jsx'
 import AdminManagePage from './manage/Manage.jsx'
+import JSONManagePage from './manage/JSONManage.jsx'
 
 // 1. 导入图片，webpack会处理并返回构建后的路径
-import fakeHeadImg from './assets/image/fakehead.png'
 import globalStore from './store/globals.js'
 
 const App = () => {
@@ -26,13 +26,7 @@ const App = () => {
       height: '100%'
     }}
     >
-      <img
-        src={fakeHeadImg} style={{
-          width: 1920,
-          height: '90px'
-        }} alt='fake head'
-      />
-       <Spin spinning={globalSpin} tip='请求服务处理中...' fullscreen />
+      <Spin spinning={globalSpin} tip='请求服务处理中...' fullscreen />
       <Routes style={{ flex: 1 }}>
         <Route path='/' element={<MainPage />} />
         {/* 案例分析 */}
@@ -57,6 +51,7 @@ const App = () => {
         <Route path='/site' element={<SiteManagePage />} />
 
         <Route path='/manage/SG225HX' element={<AdminManagePage />} />
+        <Route path='/manage/SG225HX1' element={<JSONManagePage />} />
       </Routes>
     </div>
   )

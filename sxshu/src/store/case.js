@@ -14,6 +14,12 @@ const useStore = create((set) => ({
         { name: '主机厂家5', value: 2100.50, color: '#9932CC' }
     ],
 
+    setMainProviderData: object => set(state => {
+        return {
+            mainProviderData: object
+        }
+    }),
+
     inverterManufacturer: [
         { name: '逆变器厂家1', value: 220.50, color: '#4983CF' },
         { name: '逆变器厂家2', value: 600.50, color: '#2AB4EB' },
@@ -21,6 +27,13 @@ const useStore = create((set) => ({
         { name: '逆变器厂家4', value: 1800.50, color: '#FF8C00' },
         { name: '逆变器厂家5', value: 2100.50, color: '#9932CC' }
     ],
+
+    setInverterManufacturer: object => set(state => {
+        return {
+            inverterManufacturer: object
+        }
+    }),
+
 
     caseTableData: [
         { "number": 1, "name": "逆变器厂家能效优化解决方案", "published": "2025-01-10 08:30:25", "status": "已发布", "publisher": "张三" },

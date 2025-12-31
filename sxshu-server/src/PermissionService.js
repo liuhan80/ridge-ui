@@ -21,18 +21,19 @@ module.exports = class PermissionService {
 
         router.get('/permision/resources', async (ctx, next) => {
             try {
-                const userId = ctx.cookies.get('cookieUserid')
+                const { username } = ctx.state;
                 // 调用权限接口（复用通用请求方法）
                 const result = await this.authRequest({
                     method: 'get',
                     url: `https://api.ctgne.com/idp-service/v1.0/site/reportPermissionDlsc`,
-                    params: { userId:  ctx.cookies.get('cookieUserid') || 'zhang_wei83' } // get参数放params
+                    params: { userId:  username || 'zhang_wei83' } // get参数放params
                 });
                 ctx.body = {
                     ...result,
-                    isAdmin: this.admins.indexOf(userId) > -1,
-                    userId
+                    username,
+                    isAdmin: this.admins.indexOf(username) > -1,
                 }
+                
             } catch (error) {
                 ctx.body = {
                     success: false,

@@ -6,7 +6,7 @@ import {
   Select
 } from 'antd';
 
-import { list, batchImport, batchRemove } from '../utils/colclient'
+import { list, batchImport, batchRemove, remove } from '../utils/colclient'
 
 // 核心表格组件
 const SimpleDataTable = ({ tableName = 'user' }) => {
@@ -96,12 +96,13 @@ const SimpleDataTable = ({ tableName = 'user' }) => {
     try {
       setLoading(true);
       // 调用批量删除接口
-      const result = await batchRemove(tableName, selectedRowKeys);
 
+      for (const key of selectedRowKeys) {
+        await remove(key, tableName)
+      }
       if (result.success || result.code === 0) {
-        // message.success(`成功删除 ${selectedRowKeys.length} 条记录`);
         setSelectedRowKeys([]); // 清空选中状态
-        fetchData(); // 刷新数据
+        // message.success(`成功删除 ${selectedRowKeys.length} 条记录`);
       } else {
         // message.error(result.message || '批量删除失败');
       }
@@ -110,6 +111,7 @@ const SimpleDataTable = ({ tableName = 'user' }) => {
       // message.error('批量删除失败，请重试');
     } finally {
       setLoading(false);
+      fetchData(); // 刷新数据
     }
   };
 

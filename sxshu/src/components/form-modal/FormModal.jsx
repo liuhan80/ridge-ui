@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Form, Input, Space, Select, Upload, Button,DatePicker, message } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-import axios from 'axios';
+import { Modal, Form, Input, Space, Select, Upload, Button, DatePicker, message } from 'antd';
 import SxUploader from '../upload/SxUploader';
 
 const FormModal = ({
@@ -26,6 +24,7 @@ const FormModal = ({
         required: false,
         tip: '支持上传任意格式文件' // 可选提示
     }],
+    onFieldChange, // 接收字段值变化的回调，用于通知父组件更新fields
     onConfirm, // 提交成功后的回调，返回表单数据
     visible,
     onClose // 关闭对话框的回调
@@ -41,42 +40,6 @@ const FormModal = ({
             form.resetFields();
         }
     }, [visible, form]);
-
-    // 自定义文件上传逻辑
-    const handleFileUpload = async (file) => {
-        setUploadLoading(true);
-        try {
-            const formData = new FormData();
-            formData.append('file', file); // 匹配后端接收的key：file
-
-            const response = await axios.post(
-                `${NODE_API_PREFIX}/sxfile/upload`,
-                formData,
-                {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                    timeout: 30000
-                }
-            );
-            if (response.data.result === 'ok') {
-                // 上传成功后，把文件路径回写到表单字段中
-                const { filePath } = response.data;
-                form.setFieldsValue({
-                    [fields.find(item => item.type === 'file')?.name]: filePath
-                });
-                message.success('文件上传成功！');
-                return { status: 'done', url: filePath }; // 告诉Upload组件上传完成
-            } else {
-                message.error(`上传失败：${response.data.message}`);
-                return { status: 'error' };
-            }
-        } catch (error) {
-            message.error(`上传失败：${error.message || '服务器异常'}`);
-            console.error('文件上传错误：', error);
-            return { status: 'error' };
-        } finally {
-            setUploadLoading(false);
-        }
-    };
 
     // 表单提交处理
     const handleOk = async () => {
@@ -95,6 +58,26 @@ const FormModal = ({
             message.error('表单填写不完整，请检查必填项！');
             console.error('表单校验失败：', errorInfo);
         }
+    };
+    
+    // 统一处理表单字段变化（核心：替代subscribe，无需单个onChange）
+    const handleFormValuesChange = (changedValues, allValues) => {
+        // 1. 更新缓存的表单值
+        setFormValues(allValues);
+        // 2. 遍历变化的字段，触发联动回调
+        Object.keys(changedValues).forEach(fieldName => {
+            // 找到当前变化字段的配置
+            const fieldConfig = fields.find(item => item.name === fieldName);
+            if (fieldConfig?.onChangeKey) {
+                // 触发父组件回调：参数(联动标识, 字段名, 新值, 所有值)
+                onFieldChange?.(
+                    fieldConfig.onChangeKey,
+                    fieldName,
+                    changedValues[fieldName],
+                    allValues
+                );
+            }
+        });
     };
 
     // 关闭对话框
@@ -154,11 +137,11 @@ const FormModal = ({
                         key={name}
                         name={name}
                         label={label}
-                        rules={[{ 
-                            required, 
+                        rules={[{
+                            required,
                             message: `请选择${label}`,
                             // 可选：日期格式校验
-                            type: 'object', 
+                            type: 'object',
                             message: `请选择有效的${label}`
                         }]}
                         tooltip={tip}
@@ -188,6 +171,8 @@ const FormModal = ({
         >
             <Form
                 form={form}
+                // 表单级别的值变化监听，替代subscribe
+                onValuesChange={handleFormValuesChange}
                 layout='horizontal' // 垂直布局，更适合多字段
                 colon={false} // 去掉label后的冒号（可选）
             >
