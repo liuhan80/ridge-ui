@@ -50,6 +50,20 @@ html, body {
     bottom: 0;
 }
 
+/* 基础样式：宽高100% + 溢出隐藏 */
+.full-size-hidden {
+  /* 宽高占满父容器 */
+  width: 100%;
+  height: 100%;
+  /* 核心：隐藏所有溢出的内容（包括横向、纵向） */
+  overflow: hidden;
+  /* 可选：解决父容器定位导致的尺寸异常问题 */
+  box-sizing: border-box;
+  /* 可选：防止元素因内边距/边框超出父容器 */
+  position: relative;
+}
+
+
 .ridge-webstart-error {
     position: fixed;
     top: 50%;

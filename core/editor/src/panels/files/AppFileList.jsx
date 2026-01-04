@@ -14,6 +14,7 @@ import IconPageAdd from '../../icons/IconPageAdd.jsx'
 import PajamasClearAll from '../../icons/PajamasClearAll.svg'
 import OuiExport from '../../icons/OuiExport.svg'
 import IconUpload from '../../icons/IconUpload.jsx'
+import { GravityUiGear } from '../../icons/GravityUiGear.jsx'
 import { FILE_COMPOSITE, FILE_FOLDER, FILE_IMAGE, FILE_JS, FILE_JSON, FILE_MARKDOWN } from '../../icons/icons.js'
 import { STORE_TEMPLATE } from '../../utils/template.js'
 import './file-list.less'
@@ -412,59 +413,64 @@ class AppFileList extends React.Component {
     )
   }
 
-
+  // 修改RenderAppImportDialog为下拉菜单形式
   RenderAppImportDialog = () => {
-    const { dialogImportShow } = this.state
-    return (
-      <Modal
-        width={560}
-        title='导入/导出项目'
-        visible={dialogImportShow}
-        okText='关闭'
-        hasCancel={false}
-        onCancel={() => {
-          this.setState({
-            dialogImportShow: false
-          })
-        }}
-        onOk={() => {
-          this.setState({
-            dialogImportShow: false
-          })
-        }}
-      >
-        <Paragraph>项目整体导入</Paragraph>
-        <Text type='danger'>选择导入后，现有工作目录会被替换，建议先通过导出方式提前备份</Text>
-        <Space style={{
-          padding: '10px 0'
-        }}
-        >
-          <Upload
-            action='none' showUploadList={false} uploadTrigger='custom' accept='.zip' onFileChange={async files => {
-              await this.onUploadAppArchive(files[0])
-              window.location.reload()
-            }}
-          >
-            <Button theme='light'>
-              选择项目文件(zip)
-            </Button>
-          </Upload>
-        </Space>
+    const importApp = async (files) => {
+      Modal.confirm({
+        title: '确认导入',
+        content: '选择导入后，现有工作目录会被替换，建议先通过导出方式提前备份',
+        onOk: async () => {
+          await this.onUploadAppArchive(files[0])
+          window.location.reload()
+        }
+      })
+    }
 
-        <Paragraph>导出为压缩文件</Paragraph>
-        <Space style={{
-          padding: '10px 0'
-        }}
-        >
-          <Button
-            theme='light' onClick={() => {
-              this.exportApp()
-            }}
-          >
-            导出
-          </Button>
-        </Space>
-      </Modal>
+    const resetApp = async () => {
+      Modal.confirm({
+        title: '重置',
+        content: '此操作会清空所有目录和文件，是否确认？',
+        onOk: async () => {
+          const { appService } = context.services
+          await appService.reset()
+        }
+      })
+    }
+
+    return (
+      <Dropdown
+        trigger='click'
+        position='bottomRight'
+        clickToHide
+        render={
+          <Dropdown.Menu>
+            <Dropdown.Item>
+              <Upload
+                action='none'
+                showUploadList={false}
+                uploadTrigger='custom'
+                accept='.zip'
+                onFileChange={importApp}
+              >
+                导入项目(zip)
+              </Upload>
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => this.exportApp()}
+              icon={<OuiExport style={{ marginRight: 8, width: '16px', height: '14px' }} />}
+            >
+              导出项目
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={resetApp}
+            >
+              清空项目
+            </Dropdown.Item>
+          </Dropdown.Menu>
+      }
+      >
+        <Button icon={<GravityUiGear />} theme='borderless' type='tertiary' />
+      </Dropdown>
     )
   }
 
@@ -509,13 +515,6 @@ class AppFileList extends React.Component {
       <>
         <div className='file-actions panel-actions'>
           <RenderCreateDropDown />
-          <Button onClick={() => {
-            this.setState({
-              dialogImportShow: true
-            })
-          }}
-          >导入/导出
-          </Button>
           <RenderAppImportDialog />
         </div>
         <DialogCreate

@@ -3407,6 +3407,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/js-cookie@^3.0.6":
+  version "3.0.6"
+  resolved "https://registry.npmjs.org/@types/js-cookie/-/js-cookie-3.0.6.tgz"
+  integrity sha512-wkw9yd1kEXOPnvEeEV1Go1MmxtBJL0RR79aOTAApecWFVu7w0NNXNqhcWgvw2YgZDYadliXkl14pa3WXw5jlCQ==
+
 "@types/json-schema@*", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.8", "@types/json-schema@^7.0.9":
   version "7.0.15"
   resolved "https://registry.npmmirror.com/@types/json-schema/-/json-schema-7.0.15.tgz"
@@ -3893,6 +3898,22 @@ aggregate-error@^3.0.0:
   dependencies:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
+
+ahooks@^3.9.6:
+  version "3.9.6"
+  resolved "https://registry.npmjs.org/ahooks/-/ahooks-3.9.6.tgz"
+  integrity sha512-Mr7f05swd5SmKlR9SZo5U6M0LsL4ErweLzpdgXjA1JPmnZ78Vr6wzx0jUtvoxrcqGKYnX0Yjc02iEASVxHFPjQ==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@types/js-cookie" "^3.0.6"
+    dayjs "^1.9.1"
+    intersection-observer "^0.12.0"
+    js-cookie "^3.0.5"
+    lodash "^4.17.21"
+    react-fast-compare "^3.2.2"
+    resize-observer-polyfill "^1.5.1"
+    screenfull "^5.0.0"
+    tslib "^2.4.1"
 
 ajv-errors@^1.0.0:
   version "1.0.1"
@@ -5665,7 +5686,7 @@ dateformat@^3.0.3:
   resolved "https://registry.npmmirror.com/dateformat/-/dateformat-3.0.3.tgz"
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
 
-dayjs@^1.11.10, "dayjs@>= 1.x":
+dayjs@^1.11.10, dayjs@^1.9.1, "dayjs@>= 1.x":
   version "1.11.13"
   resolved "https://registry.npmmirror.com/dayjs/-/dayjs-1.11.13.tgz"
   integrity sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==
@@ -8160,6 +8181,11 @@ interpret@^3.1.1:
   resolved "https://registry.npmmirror.com/interpret/-/interpret-3.1.1.tgz"
   integrity sha512-6xwYfHbajpoF0xLW+iwLkhwgvLoZDfjYfoFNu8ftMoXINzwuymNLd9u/KmwtdT2GbR+/Cz66otEGEVVUHX9QLQ==
 
+intersection-observer@^0.12.0:
+  version "0.12.2"
+  resolved "https://registry.npmjs.org/intersection-observer/-/intersection-observer-0.12.2.tgz"
+  integrity sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==
+
 intl-messageformat@^10.1.0:
   version "10.7.16"
   resolved "https://registry.npmmirror.com/intl-messageformat/-/intl-messageformat-10.7.16.tgz"
@@ -8715,6 +8741,11 @@ jest-worker@^27.4.5:
     "@types/node" "*"
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
+
+js-cookie@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.npmjs.org/js-cookie/-/js-cookie-3.0.5.tgz"
+  integrity sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
@@ -12290,7 +12321,7 @@ react-css-styled@^1.1.9:
     css-styled "~1.0.8"
     framework-utils "^1.1.0"
 
-react-dom@*, "react-dom@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^16.8.0 || ^17 || ^18", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.2.0", "react-dom@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1", "react-dom@^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^18.0.0 || ^19.0.0", react-dom@^18.2.0, "react-dom@>= 15", "react-dom@>= 16.3.0", react-dom@>=16.0.0, react-dom@>=16.11.0, react-dom@>=16.14.0, react-dom@>=16.6.0, react-dom@>=16.8.0, react-dom@>=16.9.0, "react-dom@>=18 || >=19.0.0-rc.0", react-dom@>=18.0.0:
+react-dom@*, "react-dom@^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^16.8.0 || ^17 || ^18", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.2.0", "react-dom@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1", "react-dom@^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom@^18.0.0 || ^19.0.0", react-dom@^18.2.0, "react-dom@>= 15", "react-dom@>= 16.3.0", react-dom@>=16.0.0, react-dom@>=16.11.0, react-dom@>=16.14.0, react-dom@>=16.6.0, react-dom@>=16.8.0, react-dom@>=16.9.0, "react-dom@>=18 || >=19.0.0-rc.0", react-dom@>=18.0.0:
   version "18.3.1"
   resolved "https://registry.npmmirror.com/react-dom/-/react-dom-18.3.1.tgz"
   integrity sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==
@@ -12306,7 +12337,7 @@ react-draggable@^4.0.3:
     clsx "^1.1.1"
     prop-types "^15.8.1"
 
-react-fast-compare@^3.0.1:
+react-fast-compare@^3.0.1, react-fast-compare@^3.2.2:
   version "3.2.2"
   resolved "https://registry.npmmirror.com/react-fast-compare/-/react-fast-compare-3.2.2.tgz"
   integrity sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==
@@ -12904,7 +12935,7 @@ reusify@^1.0.4:
     "@atlaskit/tokens" "^2.0.2"
 
 ridge-boot@^1.0.0, "ridge-boot@file:C:\\Work\\ridge\\server\\boot":
-  version "1.1.0"
+  version "1.2.0"
   resolved "file:server/boot"
   dependencies:
     co-body "^6.1.0"
@@ -13183,6 +13214,7 @@ ridge-npm-service@^1.0.0, "ridge-npm-service@file:C:\\Work\\ridge\\server\\npm-s
   resolved "file:server/avif"
   dependencies:
     fluent-ffmpeg "^2.1.3"
+    readline "^1.3.0"
     sharp "^0.33.5"
 
 "ridge-swiper@file:C:\\Work\\ridge\\components\\swiper":
@@ -13451,6 +13483,11 @@ scoped-css-loader@^1.0.0:
     loader-utils "^1.1.0"
     qs "^6.5.2"
     schema-utils "^1.0.0"
+
+screenfull@^5.0.0:
+  version "5.2.0"
+  resolved "https://registry.npmjs.org/screenfull/-/screenfull-5.2.0.tgz"
+  integrity sha512-9BakfsO2aUQN2K9Fdbj87RJIEZ82Q9IGim7FqM5OsebfoFC6ZHXgDq/KvniuLTPdeM8wY2o6Dj3WQ7KeQCj3cA==
 
 scroll-into-view-if-needed@^2.2.24:
   version "2.2.31"
@@ -14303,6 +14340,10 @@ svgo@^3.0.2:
     csso "^5.0.5"
     picocolors "^1.0.0"
 
+"sx-pan@file:C:\\Work\\ridge\\components\\sx-pan":
+  version "1.0.0"
+  resolved "file:components/sx-pan"
+
 tailwind-merge@>=3.0.0, tailwind-merge@3.3.1:
   version "3.3.1"
   resolved "https://registry.npmmirror.com/tailwind-merge/-/tailwind-merge-3.3.1.tgz"
@@ -14561,7 +14602,7 @@ tsconfig-paths@^4.1.2:
     minimist "^1.2.6"
     strip-bom "^3.0.0"
 
-tslib@^2, tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.4.0, tslib@^2.8.0, tslib@2:
+tslib@^2, tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.4.0, tslib@^2.4.1, tslib@^2.8.0, tslib@2:
   version "2.8.1"
   resolved "https://registry.npmmirror.com/tslib/-/tslib-2.8.1.tgz"
   integrity sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==
