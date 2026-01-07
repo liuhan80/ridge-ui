@@ -6,7 +6,7 @@ import ApplicationService from './ApplicationService.js'
 import NpmService from './NpmService.js'
 import WorkSpaceControl from '../workspace/WorkspaceControl.js'
 import { cloneDeep, isEqual } from 'lodash'
-
+import { getFile, updateFileContent } from './fileManager.js'
 import { getNodeListConfig } from '../workspace/editorUtils.js'
 import EditorComposite from '../workspace/EditorComposite.js'
 import { ensureLeading } from '../utils/string.js'
@@ -213,13 +213,12 @@ class RidgeEditorContext extends RidgeContext {
    * 打开应用下的文件
    */
   async openFile (id) {
-    const { appService } = this.services
-    const file = await appService.getFile(id)
+    const file = await getFile(id)
     if (file) {
       if (file.type === 'page') {
         await this.openNewPage(file)
       } else if (file.mimeType.startsWith('text/')) {
-        this.Editor.openInCodeEditor(file)
+        this.Editor.openInCodeEditor({ ...file, textContent: file.content })
       } else if (file.mimeType.startsWith('image/')) {
         this.Editor.openImage(file.content)
       }
@@ -452,8 +451,7 @@ class RidgeEditorContext extends RidgeContext {
   }
 
   async onCodeEditComplete (id, code) {
-    const file = await this.services.appService.getFile(id)
-
+    const file = await getFile(id)
     if (!file) {
       return false
     }
@@ -462,14 +460,15 @@ class RidgeEditorContext extends RidgeContext {
       try {
         const json = JSON.parse(code)
         if (json.name) {
-          await this.services.appService.updateFileContent(id, code)
+          await updateFileContent(id, code)
+          // await this.services.appService.updateFileContent(id, code)
         }
       } catch (e) {
         console.error('parse package.json error', e)
         return false
       }
     } else {
-      await this.services.appService.updateFileContent(id, code)
+      await updateFileContent(id, code)
     }
     if (this.editorComposite) {
       await this.editorComposite.refresh()

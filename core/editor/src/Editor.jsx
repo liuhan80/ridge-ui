@@ -12,6 +12,7 @@ import { ReactComposite } from 'ridgejs'
 import './editor.less'
 import PreviewMenuBar from './panels/menu/PreviewMenuBar.jsx'
 import LayoutLeft from './LayoutLeft.jsx'
+import { blobToDataUrl } from './utils/blob.js'
 // 公用错误提示方法
 globalThis.msgerror = msg => {
   Toast.error(msg)
@@ -129,9 +130,9 @@ class Editor extends React.Component {
     context.onCodeEditComplete(this.currentEditFile.id, code)
   }
 
-  openImage (url) {
+  openImage (blob) {
     this.setState({
-      imagePreviewSrc: url,
+      imagePreviewSrc: blobToDataUrl(blob),
       imagePreviewVisible: true
     })
   }
