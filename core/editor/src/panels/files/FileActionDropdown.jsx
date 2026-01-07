@@ -109,6 +109,7 @@ export const CreateFileDropdown = ({
 export const AppActionDropdown = ({
   clearAllFiles,
   exportAllWorkspace,
+  importFileToWorkSpace,
   refreshFileTree,
   setExpandedKeys
 }) => {
@@ -133,6 +134,7 @@ export const AppActionDropdown = ({
   // 导入应用
   const onUploadAppArchive = async (file) => {
     try {
+      await importFileToWorkSpace(file)
       Toast.success(TOAST_MESSAGES.importSuccess)
     } catch (e) {
       Toast.error(TOAST_MESSAGES.importFail(e))
@@ -159,37 +161,48 @@ export const AppActionDropdown = ({
     })
   }
 
+  const fileInputRef = React.useRef(null)
   return (
-    <Dropdown
-      trigger='click'
-      position='bottomRight'
-      clickToHide
-      render={
-        <Dropdown.Menu>
-          <Dropdown.Item>
-            <Upload
-              action='none'
-              showUploadList={false}
-              uploadTrigger='custom'
-              accept='.zip'
-              onFileChange={importApp}
+    <>
+
+      <input
+        type='file'
+        accept='.zip'
+        style={{ display: 'none' }}
+        ref={fileInputRef}
+        onChange={event => {
+          const files = event.target.files
+          console.log('files', files)
+          importApp(files)
+        }}
+      />
+      <Dropdown
+        trigger='click'
+        position='bottomRight'
+        clickToHide
+        render={
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => {
+              fileInputRef.current?.click()
+            }}
             >
               导入项目(zip)
-            </Upload>
-          </Dropdown.Item>
-          <Dropdown.Item
-            onClick={exportApp}
-            icon={<OuiExport style={{ marginRight: 8, width: '16px', height: '14px' }} />}
-          >
-            导出项目
-          </Dropdown.Item>
-          <Dropdown.Item onClick={resetApp}>
-            清空项目
-          </Dropdown.Item>
-        </Dropdown.Menu>
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={exportApp}
+              icon={<OuiExport style={{ marginRight: 8, width: '16px', height: '14px' }} />}
+            >
+              导出项目
+            </Dropdown.Item>
+            <Dropdown.Item onClick={resetApp}>
+              清空项目
+            </Dropdown.Item>
+          </Dropdown.Menu>
       }
-    >
-      <Button icon={<GravityUiGear />} theme='borderless' type='tertiary' />
-    </Dropdown>
+      >
+        <Button icon={<GravityUiGear />} theme='borderless' type='tertiary' />
+      </Dropdown>
+
+    </>
   )
 }

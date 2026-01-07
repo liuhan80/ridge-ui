@@ -421,7 +421,7 @@ export const useFileTreeStore = create((set, get) => ({
     try {
       set({ loading: true, error: null })
       // 调用抽离的工具方法
-      await exportDirectoryAsZip(dirId, fileMetaCollection, fileContentStore, getFileTree, zipName)
+      await exportDirectoryAsZip(dirId, fileMetaCollection, fileContentStore, zipName)
       set({ loading: false })
       return true
     } catch (error) {
@@ -438,7 +438,7 @@ export const useFileTreeStore = create((set, get) => ({
     try {
       set({ loading: true, error: null })
       // 调用抽离的工具方法
-      await exportAllWorkspace(fileMetaCollection, fileContentStore, getFileTree, zipName)
+      await exportAllWorkspace(fileMetaCollection, fileContentStore, zipName)
       set({ loading: false })
       return true
     } catch (error) {

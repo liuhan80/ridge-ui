@@ -104,3 +104,52 @@ export const refreshTreeWithExpanded = async (refreshFileTree, expandedKeys, set
   await refreshFileTree()
   setTimeout(() => setExpandedKeys(currentExpanded), 0)
 }
+
+/**
+ * 验证文件名是否有效（兼容 Windows/macOS/Linux 及通用规范）
+ * @param {string} fileName - 待验证的文件名（不含路径，仅文件名部分）
+ * @returns {{ valid: boolean, message?: string }} 验证结果（是否有效 + 错误原因）
+ */
+export function isValidFileName (fileName) {
+  // 基础检查：不能为空或纯空白
+  if (typeof fileName !== 'string') {
+    return { valid: false, message: '文件名必须是字符串' }
+  }
+  const trimmed = fileName.trim()
+  if (trimmed === '') {
+    return { valid: false, message: '文件名不能为空或纯空白' }
+  }
+
+  // 检查长度（Windows 最大 255 字符，含扩展名；这里取保守值）
+  if (fileName.length > 255) {
+    return { valid: false, message: '文件名过长（最大支持 255 个字符）' }
+  }
+
+  // 检查首尾字符（禁止空格、点号开头/结尾）
+  if (/^\s|\s$/.test(fileName)) {
+    return { valid: false, message: '文件名不能以空格开头或结尾' }
+  }
+  if (/^\.|\.$/.test(fileName)) {
+    return { valid: false, message: '文件名不能以点号开头或结尾' }
+  }
+
+  // 检查非法字符（Windows/macOS/Linux 通用禁止字符）
+  const illegalChars = /[\\/:*?"<>|]/ // Windows 严格禁止；macOS/Linux 也建议避免
+  if (illegalChars.test(fileName)) {
+    return { valid: false, message: '文件名包含非法字符（如 \\ / : * ? " < > |）' }
+  }
+
+  // 可选：检查保留名称（Windows 特有，如 CON、PRN、AUX 等）
+  const reservedNames = [
+    'CON', 'PRN', 'AUX', 'NUL',
+    'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9',
+    'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9'
+  ]
+  const baseName = trimmed.split('.')[0].toUpperCase() // 取主名（无扩展名）
+  if (reservedNames.includes(baseName)) {
+    return { valid: false, message: `文件名使用了系统保留名称（如 ${baseName}）` }
+  }
+
+  // 所有检查通过
+  return { valid: true }
+}

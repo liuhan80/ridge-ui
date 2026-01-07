@@ -97,7 +97,7 @@ const AppFileList = () => {
   }, [])
 
   // 重新定义：确认创建文件（核心修正）
-  const onCreateConfirm = useCallback(async (name, fileType) => {
+  const onCreateConfirm = async (name, fileType) => {
     try {
       const parentId = getParentId(nodeMap, selectedNodeKey)
 
@@ -117,7 +117,7 @@ const AppFileList = () => {
     } catch (e) {
       Toast.error(TOAST_MESSAGES.createFail(e))
     }
-  }, [createDirectory, createFile, refreshFileTree, nodeMap, selectedNodeKey, expandedKeys, setExpandedKeys])
+  }
 
   // 确认重命名
   const onRenameConfirm = useCallback(async () => {
@@ -335,6 +335,7 @@ const AppFileList = () => {
           selectedNodeKey={selectedNodeKey}
         />
         <AppActionDropdown
+          importFileToWorkSpace={importZipToCleanWorkspace}
           exportAllWorkspace={exportAllWorkspace}
           clearAllFiles={clearAllFiles}
           refreshFileTree={refreshFileTree}
