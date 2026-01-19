@@ -25,5 +25,15 @@ module.exports = {
       return !ctx.path.startsWith('/api') || ctx.path.startsWith('/api/user/current')
     },
     max: 2000 // 单IP200次
-  }
+  },
+  packages: [
+    require('ridge-http'), // 基础http服务
+    require('ridge-dao'), // dao 接口模块
+    require('ridge-nedb'), // 使用nedb进行数据模块
+    // require('ridge-delivery'),
+    require('ridge-npm-service'), // npm 发布模块
+    require('ridge-cloud-user'), // 用户管理 - Cloud
+    require('ridge-cloud-storage'), // 用户存储管理 - Cloud
+    require('ridge-cloud-tools') // 转换服务
+  ]
 }
