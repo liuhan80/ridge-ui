@@ -7,7 +7,7 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Ridge Cloud Tools",
   "dependencies": {
     "svg-captcha": "^1.4.0"
   }
