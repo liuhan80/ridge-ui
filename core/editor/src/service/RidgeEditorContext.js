@@ -618,6 +618,9 @@ class RidgeEditorContext extends RidgeContext {
         }
       })
       if (Module) {
+        if (Module.default && Module.default.name) {
+          Object.assign(Module, Module.default)
+        }
         Module.jsContent = await appService.getFileContentByPath(inAppPath)
         return Module
       } else {
