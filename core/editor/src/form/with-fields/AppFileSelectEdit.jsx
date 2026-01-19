@@ -1,6 +1,8 @@
 import { withField, TreeSelect, Tree, TagInput, Popover, Icon, Tag } from '@douyinfe/semi-ui'
 import React, { useState } from 'react'
 
+import { useFileTreeStore } from '../../service/fileManager.js'
+
 import ridgeEditService from '../../service/RidgeEditorContext.js'
 
 // 资源文件地址选择, 支持从应用内和外部同时选择、单个或者多个。
@@ -13,9 +15,12 @@ const AppFileSelectEdit = ({
 }) => {
   const [visible, setVisible] = useState(false)
   const { appService } = ridgeEditService.services
-  const treeData = appService.getUITreeData(node => {
-    return node.type === options.fileType || (node.mimeType && node.mimeType.indexOf(options.fileType) > -1)
-  })
+
+  const treeData = useFileTreeStore.getState().getFilesByType(options.fileType)
+
+  // const treeData = appService.getUITreeData(node => {
+  //   return node.type === options.fileType || (node.mimeType && node.mimeType.indexOf(options.fileType) > -1)
+  // })
 
   // 选择文件后，将 composite:// 开头的路径返回给上层
   const changeWithComposite = val => {

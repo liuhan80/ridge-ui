@@ -212,14 +212,14 @@ export const createFileFromZipEntry = async (zipPath, zipObject, rootDirId, file
     : rootDirId
 
   // 检查父目录是否存在（特别是对于根目录文件）
-  if (!dirPath) {
-    // 确保 rootDirId 确实是目录
-    const parentDir = await fileMetaCollection.findOne({ id: parentId, type: 'directory' })
-    if (!parentDir) {
-      console.error('根目录不存在，无法创建文件:', fileName)
-      return
-    }
-  }
+  // if (!dirPath) {
+  //   // 确保 rootDirId 确实是目录
+  //   const parentDir = await fileMetaCollection.findOne({ id: parentId })
+  //   if (!parentDir) {
+  //     console.error('根目录不存在，无法创建文件:', fileName)
+  //     return
+  //   }
+  // }
 
   // 剩余逻辑保持不变...
   const existingFile = await fileMetaCollection.findOne({

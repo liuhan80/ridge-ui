@@ -484,5 +484,82 @@ export const useFileTreeStore = create((set, get) => ({
       console.error('清空并导入ZIP失败:', error)
       throw error
     }
+  },
+
+  /**
+ * 根据文件类型筛选fileTree中的文件（支持嵌套children结构，返回树状结构）
+ * @param {string|Array<string>} targetTypes - 目标文件类型（如 'pdf' 或 ['docx', 'xlsx']）
+ * @returns {Array} 筛选后的文件树结构（仅保留包含目标类型的节点，空文件夹自动过滤）
+ */
+  getFilesByType: (targetTypes) => {
+    const fileTree = get().fileTree
+    // 边界校验：fileTree为空时返回空数组
+    if (!fileTree || !Array.isArray(fileTree)) return []
+
+    const filter = node => {
+      if (node.mimeType && targetTypes.includes(node.mimeType)) {
+        return {
+          isLeaf: node.type !== 'directory',
+          disabled: node.type === 'directory',
+          label: node.label,
+          value: node.path,
+          key: node.path
+        }
+      } else {
+        return null
+      }
+    }
+
+    return mapTree(fileTree, filter)
+    // 统一处理类型参数：转为数组方便遍历（支持单个类型/多个类型传入）
+    const types = Array.isArray(targetTypes) ? targetTypes : [targetTypes]
+    // 转为小写，统一匹配规则
+    const targetTypeSet = new Set(types.map(type => type.toLowerCase()))
+
+    /**
+   * 递归遍历并筛选文件树的核心函数
+   * @param {Object} node - 当前遍历的节点
+   * @param {Array<string>} parentPath - 父级路径（用于记录文件层级）
+   * @returns {Object|null} 筛选后的节点（包含符合条件的子节点），无符合条件则返回null
+   */
+    const traverseAndFilter = (node, parentPath = []) => {
+    // 深拷贝当前节点（避免修改原数据）
+      const filteredNode = { ...node }
+      // 补充完整路径（可选）
+      filteredNode.fullPath = [...parentPath, node.name].join('/')
+
+      // 1. 处理叶子节点（文件节点：有mimeType，无children或children为空）
+      if (node.mimeType && (!node.children || node.children.length === 0)) {
+      // 匹配目标类型则保留该节点，否则返回null
+        return targetTypeSet.has(node.mimeType.toLowerCase()) ? filteredNode : null
+      }
+
+      // 2. 处理文件夹节点（有children）
+      if (node.children && node.children.length > 0) {
+        const currentPath = [...parentPath, node.name]
+        // 递归筛选子节点，过滤掉返回null的子节点
+        const filteredChildren = node.children
+          .map(child => traverseAndFilter(child, currentPath))
+          .filter(child => child !== null)
+
+        // 若筛选后有子节点，保留该文件夹；否则返回null（空文件夹过滤）
+        if (filteredChildren.length > 0) {
+          filteredNode.children = filteredChildren
+          return filteredNode
+        } else {
+          return null
+        }
+      }
+
+      // 3. 既不是文件也不是文件夹（异常节点），返回null
+      return null
+    }
+
+    // 启动递归筛选（遍历根节点数组）
+    const filteredTree = fileTree
+      .map(rootNode => traverseAndFilter(rootNode))
+      .filter(node => node !== null)
+
+    return filteredTree
   }
 }))

@@ -109,7 +109,7 @@ const PAGE_FIELDS = [
     label: '脚本库',
     type: 'file',
     multiple: true,
-    fileType: 'javascript',
+    fileType: 'text/javascript',
     connect: false
   }, {
     label: '字体库',

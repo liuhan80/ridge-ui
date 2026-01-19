@@ -49,7 +49,7 @@ class RidgeEditorContext extends RidgeContext {
 
     // 页面位置map
     this.pageTransformMap = new Map()
-    this.checkInterval = setInterval(this.checkModification.bind(this), 2000)
+    // this.checkInterval = setInterval(this.checkModification.bind(this), 2000)
   }
 
   setTheme (url) {

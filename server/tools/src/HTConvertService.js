@@ -4,7 +4,6 @@ const path = require('path')
 const debug = require('debug')('ridge:ht-convt')
 const Parser = require('./ht_page_render.js')
 /**
- *
  */
 module.exports = class HtConvertService {
   constructor (app) {
