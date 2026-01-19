@@ -40,6 +40,21 @@ module.exports = class HtConvertService {
     })
     parser.interprete()
 
-    return parser.rootElements
+    const { a, p } = parser.pageConfig
+    const finalPageJSON = {
+      version: '1.4.1',
+      cssFiles: [],
+      jsFiles: [],
+      name: doc.name,
+      children: [],
+      style: {
+        width: a.width,
+        height: a.height
+      }
+    }
+    if (p.background) {
+      finalPageJSON.style.background = p.background
+    }
+    return finalPageJSON
   }
 }
