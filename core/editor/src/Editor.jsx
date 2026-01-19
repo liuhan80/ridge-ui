@@ -1,97 +1,114 @@
-import React from 'react'
-
-import { Dropdown, ImagePreview, Modal, Toast, Tabs, TabPane, Icon, Button, Tooltip, Space } from '@douyinfe/semi-ui'
-
+import React, { useState, useRef, useEffect, useCallback } from 'react'
+import { ImagePreview, Modal, Toast } from '@douyinfe/semi-ui'
 import ConfigPanel from './panels/config/ConfigPanel.jsx'
 import DialogCodeEdit from './panels/files/DialogCodeEdit.jsx'
 import EditMenuBar from './panels/menu/EditMenuBar.jsx'
 import context from './service/RidgeEditorContext.js'
-
 import { ReactComposite } from 'ridgejs'
-
 import './editor.less'
 import PreviewMenuBar from './panels/menu/PreviewMenuBar.jsx'
 import LayoutLeft from './LayoutLeft.jsx'
 import { blobToDataUrl } from './utils/blob.js'
+
+import { editorStore } from './service/editorStore.js'
+
 // 公用错误提示方法
 globalThis.msgerror = msg => {
   Toast.error(msg)
 }
 globalThis.success = Toast.success
-class Editor extends React.Component {
-  constructor (props) {
-    super(props)
 
-    this.workspaceRef = React.createRef()
-    this.viewPortContainerRef = React.createRef()
-    this.codeEditorRef = React.createRef()
+const Editor = () => {
+  const theme = editorStore(state => state.theme)
+  const isLight = editorStore(state => state.isLight)
+  const setIsLight = editorStore(state => state.setIsLight)
 
-    this.state = {
-      isLight: window.localStorage.getItem('ridge-is-light') !== 'false',
-      pageOpened: false,
-      collapseLeft: false,
-      leftResizing: false,
-      isPreview: false,
-      editPreview: false,
+  // const [isLight, setIsLight] = useState(window.localStorage.getItem('ridge-is-light') !== 'false')
+  const [pageOpened, setPageOpened] = useState(false)
+  const [collapseLeft, setCollapseLeft] = useState(false)
+  const [leftResizing, setLeftResizing] = useState(false)
+  const [isPreview, setIsPreview] = useState(false)
+  const [editPreview, setEditPreview] = useState(false)
+  const [editorLoading, setEditorLoading] = useState(true)
+  const [imagePreviewSrc, setImagePreviewSrc] = useState(null)
+  const [imagePreviewVisible, setImagePreviewVisible] = useState(false)
+  const [codeEditTitle, setCodeEditTitle] = useState('')
+  const [codeEditText, setCodeEditText] = useState('')
+  const [codeEditVisible, setCodeEditVisible] = useState(false)
+  const [codeEditType, setCodeEditType] = useState('')
+  const [leftReisizeWidth, setLeftReisizeWidth] = useState(null)
 
-      imagePreviewSrc: null,
-      imagePreviewVisible: false,
+  const workspaceRef = useRef(null)
+  const viewPortContainerRef = useRef(null)
+  const codeEditorRef = useRef(null)
+  const currentEditFile = useRef(null)
 
-      // code preview/edit
-      codeEditTitle: '',
-      codeEditText: '',
-      codeEditVisible: false,
-      codeEditType: ''
+  // 设置主题
+  useEffect(() => {
+    if (window.localStorage.getItem('ridge-is-light') === 'false') {
+      setIsLight(false)
+    }
+  }, [isLight])
+
+  // 组件挂载
+  useEffect(() => {
+    context.editorDidMount({
+      setPageOpened,
+      setPreview: setIsPreview,
+      openInCodeEditor,
+      openImage,
+      setEditorLoaded: () => setEditorLoading(false)
+    }, workspaceRef.current, viewPortContainerRef.current)
+  }, [])
+
+  // 左侧面板调整大小处理
+  useEffect(() => {
+    const handleMouseMove = (ev) => {
+      if (leftResizing && ev.clientX > 250) {
+        setLeftReisizeWidth(ev.clientX)
+      }
     }
 
-    context.setLight(this.state.isLight)
-  }
+    const handleMouseUp = () => {
+      setLeftResizing(false)
+    }
 
-  componentDidMount () {
-    context.editorDidMount(this, this.workspaceRef.current, this.viewPortContainerRef.current)
-  }
+    if (leftResizing) {
+      document.addEventListener('mousemove', handleMouseMove)
+      document.addEventListener('mouseup', handleMouseUp)
 
-  handleLeftResize () {
-    document.addEventListener('mousemove', ev => {
-      if (this.state.leftResizing) {
-        if (ev.clientX > 250) {
-          this.setState({
-            leftReisizeWidth: ev.clientX
-          })
-        }
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove)
+        document.removeEventListener('mouseup', handleMouseUp)
       }
-    })
-    document.addEventListener('mouseup', ev => {
-      this.setState({
-        leftResizing: false
-      })
-    })
-  }
+    }
+  }, [leftResizing])
 
-  setPageOpened (opened) {
-    this.setState({
-      pageOpened: opened
-    })
-  }
+  const handleLeftResize = useCallback(() => {
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
 
-  toggleLeftCollapse () {
-    this.setState({
-      collapseLeft: !this.state.collapseLeft
-    })
-  }
+    function handleMouseMove (ev) {
+      if (leftResizing && ev.clientX > 250) {
+        setLeftReisizeWidth(ev.clientX)
+      }
+    }
 
-  setPreview (preview) {
-    this.setState({
-      isPreview: preview
-    })
-  }
+    function handleMouseUp () {
+      setLeftResizing(false)
+    }
+  }, [leftResizing])
 
-  async confirm (mssage) {
+  const toggleLeftCollapse = useCallback(() => {
+    setCollapseLeft(prev => !prev)
+  }, [])
+
+  const confirm = useCallback((message) => {
     return new Promise((resolve, reject) => {
       Modal.confirm({
         zIndex: 10001,
         title: '确认',
-        content: mssage,
+        content: message,
         onOk: async () => {
           resolve()
         },
@@ -100,133 +117,96 @@ class Editor extends React.Component {
         }
       })
     })
-  }
+  }, [])
 
-  async message (msg) {
+  const message = useCallback((msg) => {
     Modal.message(msg)
-  }
+  }, [])
 
-  setEditorLoaded () {
-    this.setState({
-      editorLoading: false
-    }, () => {
-      this.handleLeftResize()
-    })
-  }
+  const openInCodeEditor = useCallback((file) => {
+    currentEditFile.current = file
+    codeEditorRef.current?.openFile(file)
+  }, [])
 
-  openInCodeEditor (file) {
-    this.currentEditFile = file
+  const completeCodeEdit = useCallback((code) => {
+    if (currentEditFile.current) {
+      context.onCodeEditComplete(currentEditFile.current.id, code)
+    }
+  }, [])
 
-    this.codeEditorRef.current?.openFile(file)
-    // this.setState({
-    //   codeEditTitle: file.name,
-    //   codeEditText: file.textContent,
-    //   codeEditVisible: true,
-    //   codeEditType: file.mimeType
-    // })
-  }
+  const openImage = useCallback((blob) => {
+    setImagePreviewSrc(blobToDataUrl(blob))
+    setImagePreviewVisible(true)
+  }, [])
 
-  completeCodeEdit (code) {
-    context.onCodeEditComplete(this.currentEditFile.id, code)
-  }
+  const handleToggleLight = useCallback((lt) => {
+    setIsLight(lt)
+    context.setLight(lt)
+  }, [])
 
-  openImage (blob) {
-    this.setState({
-      imagePreviewSrc: blobToDataUrl(blob),
-      imagePreviewVisible: true
-    })
-  }
+  const handleSetEditorLoaded = useCallback(() => {
+    setEditorLoading(false)
+    handleLeftResize()
+  }, [handleLeftResize])
 
-  setIsLight (isLight) {
-    this.setState({
-      isLight
-    })
-    context.setLight(isLight)
-  }
-
-  render () {
-    const {
-      state,
-      workspaceRef,
-      codeEditorRef,
-      viewPortContainerRef
-    } = this
-
-    const {
-      isLight,
-      isPreview,
-      collapseLeft,
-      pageOpened,
-      imagePreviewVisible,
-      imagePreviewSrc,
-      codeEditTitle
-    } = state
-    return (
-      <>
-        <div
-          className='editor-root' style={{
-            display: isPreview ? 'none' : ''
-          }}
-        >
-          <LayoutLeft
-            isLight={isLight} toggleLight={lt => {
-              this.setIsLight(lt)
+  return (
+    <>
+      <div
+        className='editor-root'
+        style={{ display: isPreview ? 'none' : '' }}
+      >
+        <LayoutLeft
+          isLight={isLight}
+          toggleLight={handleToggleLight}
+        />
+        {!collapseLeft && (
+          <div
+            className='left-resizer'
+            onMouseDown={(e) => {
+              e.preventDefault()
+              setLeftResizing(true)
             }}
           />
-          {!collapseLeft &&
-            <div
-              className='left-resizer' onMouseDown={e => {
-                e.preventDefault()
-                this.setState({
-                  leftResizing: true
-                })
-              }}
-            />}
-          <div className='editor-content'>
-            <EditMenuBar />
-            <div className='workspace-panel'>
-              <div ref={workspaceRef} className='workspace'>
-                <div className='view-port' ref={viewPortContainerRef} />
-                {
-                    !pageOpened && <div className='no-open-file'><ReactComposite app='ridge-editor-app' path='Welcome' /></div>
-                }
-              </div>
-              {pageOpened && <ConfigPanel />}
+        )}
+        <div className='editor-content'>
+          <EditMenuBar />
+          <div className='workspace-panel'>
+            <div ref={workspaceRef} className='workspace'>
+              <div className='view-port' ref={viewPortContainerRef} />
+              {!pageOpened && (
+                <div className='no-open-file'>
+                  <ReactComposite app='ridge-editor-app' path='Welcome' />
+                </div>
+              )}
             </div>
-          </div>
-          <div />
-        </div>
-
-        <div
-          className='preview-root' style={{
-            display: isPreview ? '' : 'none'
-          }}
-        >
-          <PreviewMenuBar />
-          <div className='preview-container'>
-            <div className='preview-view-port' />
+            {pageOpened && <ConfigPanel />}
           </div>
         </div>
+        <div />
+      </div>
 
-        <ImagePreview
-          src={imagePreviewSrc} visible={imagePreviewVisible} onVisibleChange={() => {
-            this.setState({
-              imagePreviewVisible: false
-            })
-          }}
-        />
-        <DialogCodeEdit
-          ref={codeEditorRef}
-          title={codeEditTitle}
-          onClose={() => {
-            this.setState({
-              codeEditVisible: false
-            })
-          }}
-        />
-      </>
-    )
-  }
+      <div
+        className='preview-root'
+        style={{ display: isPreview ? '' : 'none' }}
+      >
+        <PreviewMenuBar />
+        <div className='preview-container'>
+          <div className='preview-view-port' />
+        </div>
+      </div>
+
+      <ImagePreview
+        src={imagePreviewSrc}
+        visible={imagePreviewVisible}
+        onVisibleChange={() => setImagePreviewVisible(false)}
+      />
+      <DialogCodeEdit
+        ref={codeEditorRef}
+        title={codeEditTitle}
+        onClose={() => setCodeEditVisible(false)}
+      />
+    </>
+  )
 }
 
 export default Editor

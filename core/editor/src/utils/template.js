@@ -1,6 +1,7 @@
 import { VERSION } from 'ridgejs'
 
-const PAGE_JSON_TEMPLATE = {
+const PAGE_JSON_TEMPLATE = JSON.stringify({
+  type: 'composite',
   version: VERSION,
   style: Object.assign({
     width: 1290,
@@ -11,7 +12,7 @@ const PAGE_JSON_TEMPLATE = {
   cssFiles: [],
   jsFiles: [],
   elements: []
-}
+})
 
 const APP_PACKAGE_JSON = {
   name: 'ridge-hello-app',

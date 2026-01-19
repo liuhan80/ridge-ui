@@ -215,8 +215,13 @@ class RidgeEditorContext extends RidgeContext {
   async openFile (id) {
     const file = await getFile(id)
     if (file) {
-      if (file.type === 'page') {
-        await this.openNewPage(file)
+      if (file.mimeType === 'text/json') {
+        try {
+          file.content = JSON.parse(file.content)
+          await this.openNewPage(file)
+        } catch (e) {
+          // invalid json
+        }
       } else if (file.mimeType.startsWith('text/')) {
         this.Editor.openInCodeEditor({ ...file, textContent: file.content })
       } else if (file.mimeType.startsWith('image/')) {
@@ -499,8 +504,6 @@ class RidgeEditorContext extends RidgeContext {
    */
   async saveCurrentPage () {
     if (this.editorComposite) {
-      const { appService } = this.services
-
       let pageJSONObject = null
       try {
         pageJSONObject = this.editorComposite.exportPageJSON()
@@ -515,7 +518,6 @@ class RidgeEditorContext extends RidgeContext {
           this.pageContent = pageJSONObject
           this.openedFileContentMap.set(this.currentOpenPageId, pageJSONObject)
 
-          await appService.savePageContent(this.currentOpenPageId, pageJSONObject)
           this.services.menuBar.setPageChanged(false)
         } catch (e) {
           console.error('save page error', e)

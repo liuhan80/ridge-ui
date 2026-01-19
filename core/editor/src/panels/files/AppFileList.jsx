@@ -5,6 +5,9 @@ import DialogRename from './DialogRename.jsx'
 import DialogCreate from './DialogCreate.jsx'
 import { CreateFileDropdown, AppActionDropdown } from './FileActionDropdown.jsx'
 import { ACCEPT_FILES, CREATE_FILE_TITLES, TOAST_MESSAGES, ROOT_NODE_ID } from './fileConstants'
+import { stringToBlob } from '../../utils/blob.js'
+import { STORE_TEMPLATE, PAGE_JSON_TEMPLATE } from '../../utils/template.js'
+
 import context from '../../service/RidgeEditorContext.js'
 import {
   validateNode,
@@ -100,8 +103,10 @@ const AppFileList = () => {
   const onCreateConfirm = async (name, fileType) => {
     try {
       const parentId = getParentId(nodeMap, selectedNodeKey)
-
-      if (fileType === 'page' || fileType === 'folder') {
+      if (fileType === 'page') {
+        const blob = stringToBlob(PAGE_JSON_TEMPLATE, 'text/json')
+        await createFile(parentId, name, blob, 'text/json')
+      } else if (fileType === 'folder') {
         await createDirectory(parentId, name)
       } else if (fileType === 'js') {
         const blob = stringToBlob(STORE_TEMPLATE, 'text/javascript')
@@ -195,9 +200,10 @@ const AppFileList = () => {
   // 打开文件
   const onOpenClicked = useCallback((node) => {
     if (node.type !== 'directory') {
-      console.log('打开文件：', node.id, node.name)
-      setCurrentOpenId(node.id)
-      context.openFile(node.key)
+      const opened = context.openFile(node.key)
+      if (opened) {
+        setCurrentOpenId(node.id)
+      }
     }
   }, [])
 
@@ -278,7 +284,7 @@ const AppFileList = () => {
             }}
           >
           导出
-          </Dropdown.Item>
+        </Dropdown.Item>
         : null,
       <Dropdown.Item key='rename' icon={<i className='bi bi-pencil' />} onClick={() => onRenameClicked(data)}>
         重命名
