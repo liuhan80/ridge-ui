@@ -55,6 +55,10 @@ module.exports = class HtConvertService {
     if (p.background) {
       finalPageJSON.style.background = p.background
     }
+
+    for (const element of parser.flaternedElements) {
+      finalPageJSON.
+    }
     return finalPageJSON
   }
 }
