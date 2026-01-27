@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
+import trim from 'lodash/trim'
 import { Modal, Form } from '@douyinfe/semi-ui'
-import { isValidFileName } from './fileUtils'
 
 export default ({
   show,
@@ -12,18 +12,15 @@ export default ({
 }) => {
   const [nameValid, setNameValid] = useState(true)
   const [value, setValue] = useState('')
-  const [errorMsg, setErrorMsg] = useState('')
 
   /**
    * 实时检查名称是否冲突
    */
   const checkFileName = (val) => {
-    const trimVal = isValidFileName(val)
+    const trimVal = trim(val)
     setNameValid(true)
-    setErrorMsg('')
-    if (!trimVal.valid) {
+    if (trimVal === '') {
       setNameValid(false)
-      setErrorMsg(trimVal.message)
     } else {
       if (siblingNames && siblingNames.indexOf(trimVal) > -1) {
         setNameValid(false)
@@ -33,7 +30,7 @@ export default ({
 
   return (
     <Modal
-      title={title || '新增..'}
+      title={ title || '新增..' }
       visible={show}
       onOk={() => {
         if (nameValid) {
@@ -55,15 +52,11 @@ export default ({
         <Form.Input
           value={value}
           validateStatus={nameValid ? '' : 'error'}
-          validate
           label='名称' onChange={val => {
             setValue(val)
             checkFileName(val)
           }}
         />
-        {!nameValid && errorMsg && (
-          <div style={{ color: 'red', marginTop: 8 }}>{errorMsg}</div>
-        )}
       </Form>
     </Modal>
   )

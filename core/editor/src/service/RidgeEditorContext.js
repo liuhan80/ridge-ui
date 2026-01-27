@@ -6,7 +6,7 @@ import ApplicationService from './ApplicationService.js'
 import NpmService from './NpmService.js'
 import WorkSpaceControl from '../workspace/WorkspaceControl.js'
 import { cloneDeep, isEqual } from 'lodash'
-import { getFile, updateFileContent } from './fileManager.js'
+
 import { getNodeListConfig } from '../workspace/editorUtils.js'
 import EditorComposite from '../workspace/EditorComposite.js'
 import { ensureLeading } from '../utils/string.js'
@@ -49,7 +49,7 @@ class RidgeEditorContext extends RidgeContext {
 
     // 页面位置map
     this.pageTransformMap = new Map()
-    // this.checkInterval = setInterval(this.checkModification.bind(this), 2000)
+    this.checkInterval = setInterval(this.checkModification.bind(this), 2000)
   }
 
   setTheme (url) {
@@ -213,17 +213,13 @@ class RidgeEditorContext extends RidgeContext {
    * 打开应用下的文件
    */
   async openFile (id) {
-    const file = await getFile(id)
+    const { appService } = this.services
+    const file = await appService.getFile(id)
     if (file) {
-      if (file.mimeType === 'text/json') {
-        try {
-          file.content = JSON.parse(file.content)
-          await this.openNewPage(file)
-        } catch (e) {
-          // invalid json
-        }
+      if (file.type === 'page') {
+        await this.openNewPage(file)
       } else if (file.mimeType.startsWith('text/')) {
-        this.Editor.openInCodeEditor({ ...file, textContent: file.content })
+        this.Editor.openInCodeEditor(file)
       } else if (file.mimeType.startsWith('image/')) {
         this.Editor.openImage(file.content)
       }
@@ -456,7 +452,8 @@ class RidgeEditorContext extends RidgeContext {
   }
 
   async onCodeEditComplete (id, code) {
-    const file = await getFile(id)
+    const file = await this.services.appService.getFile(id)
+
     if (!file) {
       return false
     }
@@ -465,15 +462,14 @@ class RidgeEditorContext extends RidgeContext {
       try {
         const json = JSON.parse(code)
         if (json.name) {
-          await updateFileContent(id, code)
-          // await this.services.appService.updateFileContent(id, code)
+          await this.services.appService.updateFileContent(id, code)
         }
       } catch (e) {
         console.error('parse package.json error', e)
         return false
       }
     } else {
-      await updateFileContent(id, code)
+      await this.services.appService.updateFileContent(id, code)
     }
     if (this.editorComposite) {
       await this.editorComposite.refresh()
@@ -504,6 +500,8 @@ class RidgeEditorContext extends RidgeContext {
    */
   async saveCurrentPage () {
     if (this.editorComposite) {
+      const { appService } = this.services
+
       let pageJSONObject = null
       try {
         pageJSONObject = this.editorComposite.exportPageJSON()
@@ -518,6 +516,7 @@ class RidgeEditorContext extends RidgeContext {
           this.pageContent = pageJSONObject
           this.openedFileContentMap.set(this.currentOpenPageId, pageJSONObject)
 
+          await appService.savePageContent(this.currentOpenPageId, pageJSONObject)
           this.services.menuBar.setPageChanged(false)
         } catch (e) {
           console.error('save page error', e)
@@ -710,6 +709,10 @@ class RidgeEditorContext extends RidgeContext {
     if (this.currentOpenPageId) {
       this.services.distributeService.distributePage(this.currentOpenPageId)
     }
+  }
+
+  async distributeApp () {
+    this.services.distributeService.distributeApp()
   }
 
   alignComponents (direction) {

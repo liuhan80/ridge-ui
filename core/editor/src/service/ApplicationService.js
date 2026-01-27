@@ -419,14 +419,15 @@ export default class ApplicationService {
 
     if (!file) {
       file = this.getFileByPath(id)
-    }
-    if (file && file.type !== 'directory') {
-      file.content = await this.store.getItem(file.id)
-      // 读取文本类型的内容写入 file.textContent
-      if (file.mimeType && file.mimeType.startsWith('text') && typeof file.content === 'string' && file.content.startsWith('data:')) {
-        const textContent = await (dataURLToString(file.content))
-        trace('textContent', textContent)
-        file.textContent = textContent
+    } else {
+      if (file.type !== 'directory') {
+        file.content = await this.store.getItem(file.id)
+        // 读取文本类型的内容写入 file.textContent
+        if (file.mimeType && file.mimeType.startsWith('text') && typeof file.content === 'string' && file.content.startsWith('data:')) {
+          const textContent = await (dataURLToString(file.content))
+          trace('textContent', textContent)
+          file.textContent = textContent
+        }
       }
       return file
     }

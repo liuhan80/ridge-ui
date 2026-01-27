@@ -46,19 +46,57 @@ module.exports = class HtConvertService {
       cssFiles: [],
       jsFiles: [],
       name: doc.name,
-      children: [],
+      elements: [],
       style: {
         width: a.width,
         height: a.height
-      }
+      },
+      children: parser.rootElements.map(el => el.guid)
     }
     if (p.background) {
       finalPageJSON.style.background = p.background
     }
 
-    for (const element of parser.flaternedElements) {
-      finalPageJSON.
+    for (const element of parser.flaternedElements.filter(el => el.guid && el.packageName)) {
+      finalPageJSON.elements.push(this.convertSingleElement(element))
     }
     return finalPageJSON
+  }
+
+  convertSingleElement (element) {
+    const result = {
+      title: element.name,
+      path: element.path,
+      packageName: element.packageName,
+      id: element.guid,
+      style: {
+        x: element.x,
+        y: element.y,
+        height: element.height,
+        width: element.width
+      },
+      props: element.props
+    }
+
+    if (element.visible === false) {
+      result.style.visible = false
+    } else {
+      result.style.visible = true
+    }
+
+    if (element.fillUpBody) {
+      result.full = true
+    }
+
+    if (element.props.flex) {
+      result.style.flex = element.props.flex
+    }
+
+    if (element.containerTypes === 'flex-container') {
+      result.path = 'ridge-container/flex'
+      result.props.children = element.children.map(cl => cl.guid)
+      result.props.flexWrap = element.props.wrap
+    }
+    return result
   }
 }

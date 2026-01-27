@@ -92,6 +92,7 @@ class NeDB {
 
       return splited[splited.length - 2]
     })
+
     return collNames
   }
 

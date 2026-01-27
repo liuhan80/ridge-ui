@@ -29,6 +29,22 @@ class Element extends BaseNode {
     this.events = {}
     debug('create', this.config.id)
 
+    if (!this.config.events) {
+      this.config.events = {}
+    }
+    if (this.config.visible == null) {
+      this.config.visible = true
+    }
+    if (!this.config.slots) {
+      this.config.slots = []
+    }
+    if (!this.config.propEx) {
+      this.config.propEx = {}
+    }
+    if (!this.config.styleEx) {
+      this.config.propEx = {}
+    }
+
     this.onMounted(() => {
       this.bindDOMEvents()
     })
@@ -85,7 +101,10 @@ class Element extends BaseNode {
    */
   async load (includeChildren) {
     if (!this.componentDefinition) {
-      if (this.config.path) {
+      if (this.config.packageName && this.config.path) {
+        // LTS情况
+
+      } else if (this.config.path) {
         this.componentDefinition = await this.composite.context.loader.loadComponent(this.config.path)
       }
     }

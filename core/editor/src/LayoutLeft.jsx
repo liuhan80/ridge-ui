@@ -33,6 +33,7 @@ const THEMES = [{
 
 export default ({
   isLight,
+  risizeWidth,
   toggleLight
 }) => {
   const [currentTabKey, setCurrentTabKey] = useState('app')
@@ -59,7 +60,7 @@ export default ({
       className='root-nav'
       activeKey={currentTabKey}
       style={{
-        width: collapseLeft ? '58px' : '300px'
+        width: collapseLeft ? '58px' : (risizeWidth + 'px')
       }}
       onTabClick={(key, ev) => {
         if (key === currentTabKey) {
