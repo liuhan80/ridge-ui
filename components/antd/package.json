@@ -4,6 +4,7 @@
   "description": "Antd组件",
   "main": "index.js",
   "scripts": {
+    "ladle": "ladle serve",
     "build": "ridge",
     "watch": "ridge -w -s"
   },

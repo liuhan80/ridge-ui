@@ -485,7 +485,7 @@ class AppFileList extends React.Component {
         position='bottomLeft'
         render={
           <Dropdown.Menu className='app-files-dropdown'>
-            <Dropdown.Item icon={<IconPageAdd />} onClick={() => showCreateDialog('page')}>创建页面</Dropdown.Item>
+          <Dropdown.Item icon={<IconPageAdd />} onClick={() => showCreateDialog('page')}>创建页面</Dropdown.Item>
             <Dropdown.Item icon={<IconFolderAdd />} onClick={() => showCreateDialog('folder')}>创建目录</Dropdown.Item>
             <Dropdown.Item icon={<IconFileCode />} onClick={() => showCreateDialog('js')}>创建脚本库</Dropdown.Item>
             <Dropdown.Item icon={<IconUpload />}>
@@ -498,7 +498,6 @@ class AppFileList extends React.Component {
                 上传文件
               </Upload>
             </Dropdown.Item>
-            <Dropdown.Divider />
           </Dropdown.Menu>
             }
       >
