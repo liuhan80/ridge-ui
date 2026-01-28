@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button, Tree, Dropdown, Typography, Toast, Upload, Spin, Modal, Space, Divider } from '@douyinfe/semi-ui'
+import { Button, Tree, Dropdown, Typography, Toast, Upload, Spin, Modal, Space, Divider, Breadcrumb } from '@douyinfe/semi-ui'
 import { ReactComposite } from 'ridgejs'
 import context from '../../service/RidgeEditorContext.js'
 import { eachNode } from './buildFileTree.js'
@@ -17,6 +17,7 @@ import { IxImport } from '../../icons/IxImport.jsx'
 import PajamasClearAll from '../../icons/PajamasClearAll.svg'
 import OuiExport from '../../icons/OuiExport.svg'
 import IconUpload from '../../icons/IconUpload.jsx'
+import ProiconsHome from '../../icons/ProiconsHome.svg'
 import { FILE_COMPOSITE, FILE_FOLDER, FILE_IMAGE, FILE_JS, FILE_JSON, FILE_MARKDOWN } from '../../icons/icons.js'
 import { STORE_TEMPLATE } from '../../utils/template.js'
 import './file-list.less'
@@ -485,7 +486,7 @@ class AppFileList extends React.Component {
         position='bottomLeft'
         render={
           <Dropdown.Menu className='app-files-dropdown'>
-          <Dropdown.Item icon={<IconPageAdd />} onClick={() => showCreateDialog('page')}>创建页面</Dropdown.Item>
+            <Dropdown.Item icon={<IconPageAdd />} onClick={() => showCreateDialog('page')}>创建页面</Dropdown.Item>
             <Dropdown.Item icon={<IconFolderAdd />} onClick={() => showCreateDialog('folder')}>创建目录</Dropdown.Item>
             <Dropdown.Item icon={<IconFileCode />} onClick={() => showCreateDialog('js')}>创建脚本库</Dropdown.Item>
             <Dropdown.Item icon={<IconUpload />}>
@@ -554,16 +555,16 @@ class AppFileList extends React.Component {
     return (
       <>
         <div className='file-actions panel-actions'>
+          <Breadcrumb
+            style={{ flex: 1 }} showTooltip={{
+              width: 80
+            }}
+          >
+            <Breadcrumb.Item icon={<ProiconsHome />}>项目列表</Breadcrumb.Item>
+            <Breadcrumb.Item>您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge</Breadcrumb.Item>
+          </Breadcrumb>
           <RenderCreateDropDown />
           <RenderShareDropDown />
-          {/* <Button onClick={() => {
-            this.setState({
-              dialogImportShow: true
-            })
-          }}
-          >导入/导出
-          </Button> */}
-          {/* <RenderAppImportDialog /> */}
         </div>
         <DialogCreate
           show={dialogCreateShow}

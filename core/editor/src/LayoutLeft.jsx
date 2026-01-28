@@ -8,8 +8,10 @@ import OutLineTree from './panels/outline/OutLineTree.jsx'
 import context from './service/RidgeEditorContext.js'
 import SvgLoader from './utils/SVGFromSrc.js'
 
-import BytesizeFolder from './icons/BytesizeFolder.svg'
+import BytesizeFolder from './icons/ProiconsFolder.svg'
 import IconClist from './icons/CilList.svg'
+import ProiconsHome from './icons/ProiconsHome.svg'
+import ProiconsBoard from './icons/ProiconsBoard.svg'
 
 const THEMES = [{
   label: '默认',
@@ -55,6 +57,7 @@ export default ({
   useEffect(() => {
     loadPackages()
   }, [])
+
   return (
     <Tabs
       className='root-nav'
@@ -103,9 +106,10 @@ export default ({
         </Space>
               }
     >
-      <TabPane tab={<Tooltip content='应用文件管理' position='rightTop'> <Icon svg={<BytesizeFolder />} size='default' /></Tooltip>} itemKey='app'>
+      <TabPane icon={<Icon svg={<BytesizeFolder />} />} tab='项目' itemKey='app'>
         <AppFileList />
       </TabPane>
+      <TabPane icon={<Icon svg={<ProiconsBoard />} />} tab='模板' itemKey='template' />
       <TabPane position='' tab={<Tooltip content='页面大纲视图' position='rightTop'><Icon svg={<IconClist />} /> </Tooltip>} itemKey='outline'>
         <OutLineTree />
       </TabPane>

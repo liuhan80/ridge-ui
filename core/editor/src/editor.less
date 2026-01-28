@@ -65,11 +65,16 @@ html, body {
       }
       .semi-tabs-tab-button.semi-tabs-tab {
         padding-left: 8px;
-        height: 46px;
+        height: 56px;
         padding-top: 10px;
         margin-bottom: 1px;
-        .semi-icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .semi-tabs-bar-icon {
           margin-left: 8px;
+          margin-bottom: 6px;
         }
       }
       >.semi-tabs-bar-extra {
@@ -80,8 +85,6 @@ html, body {
         justify-content: flex-end;
         align-items: center;
         .semi-button svg {
-          width: 20px;
-          height: 20px;
           color: var(--semi-color-text-2);
         }
       }
