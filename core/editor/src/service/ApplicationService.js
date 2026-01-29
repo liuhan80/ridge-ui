@@ -17,18 +17,15 @@ const trace = debug('ridge:app-service')
  * 应用管理服务，用于创建、修改、查询应用下资源（包括页面、图片、音视频、组件包等）
  */
 export default class ApplicationService {
-  constructor (loader) {
+  constructor () {
     this.collection = new NeCollection('ridge.app.db')
     this.store = Localforge.createInstance({ name: 'ridge-store' })
     this.backUpService = new BackUpService(this)
-    this.loader = loader
     this.dataUrlByPath = {}
     this.dataUrls = {}
     this.fileTree = null
 
     this.init = once(this._init)
-
-    // this.updateAppFileTree()
   }
 
   /**

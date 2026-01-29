@@ -21,6 +21,7 @@ import ProiconsHome from '../../icons/ProiconsHome.svg'
 import { FILE_COMPOSITE, FILE_FOLDER, FILE_IMAGE, FILE_JS, FILE_JSON, FILE_MARKDOWN } from '../../icons/icons.js'
 import { STORE_TEMPLATE } from '../../utils/template.js'
 import './file-list.less'
+import { FileList } from '../../pure/FileList/FileList.jsx'
 
 const { Text, Paragraph } = Typography
 
@@ -47,6 +48,7 @@ class AppFileList extends React.Component {
 
       packageSearchDialogVisible: false,
 
+      showRootList: false,
       publishing: false
     }
     context.services.appFileListPanel = this
@@ -548,9 +550,15 @@ class AppFileList extends React.Component {
     )
   }
 
+  onRootListClick = () => {
+    this.setState({
+      showRootList: true
+    })
+  }
+
   render () {
-    const { renderFullLabel, state, RenderCreateDropDown, RenderAppImportDialog, RenderShareDropDown } = this
-    const { treeData, dialogCreateShow, dialogCreateTitle, dialogRenameShow, valueRename } = state
+    const { renderFullLabel, state, RenderCreateDropDown, onRootListClick, RenderShareDropDown } = this
+    const { treeData, dialogCreateShow, dialogCreateTitle, dialogRenameShow, valueRename, showRootList } = state
 
     return (
       <>
@@ -560,7 +568,7 @@ class AppFileList extends React.Component {
               width: 80
             }}
           >
-            <Breadcrumb.Item icon={<ProiconsHome />}>项目列表</Breadcrumb.Item>
+            <Breadcrumb.Item onClick={onRootListClick} icon={<ProiconsHome />}>项目列表</Breadcrumb.Item>
             <Breadcrumb.Item>您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge</Breadcrumb.Item>
           </Breadcrumb>
           <RenderCreateDropDown />
@@ -594,7 +602,7 @@ class AppFileList extends React.Component {
             })
           }}
         />
-        {treeData &&
+        {!showRootList && treeData &&
           <Tree
             className='file-tree'
             showFilteredOnly
@@ -621,8 +629,19 @@ class AppFileList extends React.Component {
               })
             }}
           />}
-        {!treeData && <div className='tree-loading'><Spin size='middle' /></div>}
+        {!showRootList && !treeData && <div className='tree-loading'><Spin size='middle' /></div>}
         {/* {this.renderAppDropDown()} */}
+
+        {showRootList && <FileList fileData={[
+          { id: 1, name: '项目需求文档.txt', type: 'txt' },
+          { id: 2, name: '首页设计稿.png', type: 'png' },
+          { id: 3, name: '产品演示视频.mp4', type: 'mp4' },
+          { id: 4, name: '技术方案.pdf', type: 'pdf' },
+          { id: 5, name: '组件封装.jsx', type: 'jsx' },
+          { id: 6, name: '用户头像.jpg', type: 'jpg' },
+          { id: 7, name: '接口代码.js', type: 'js' }
+        ]}
+                         />}
       </>
     )
   }
