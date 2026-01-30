@@ -22,7 +22,7 @@ import { STORE_TEMPLATE } from '../../utils/template.js'
 import './file-list.less'
 import { FileList } from '../../pure/FileList/FileList.jsx'
 
-import appStore from '../../store/app.store.js'
+// import appStore from '../../store/app.store.js'
 
 const { Text, Paragraph } = Typography
 
@@ -46,16 +46,16 @@ const AppFileList = () => {
     publishing: false,
     exportToastId: null
   })
-  const currentAppFilesTree = appStore((state) => state.currentAppFilesTree)
-  const initAppStore = appStore((state) => state.initAppStore)
-  const loadingAppFiles = appStore((state) => state.loadingAppFiles)
+  // const currentAppFilesTree = appStore((state) => state.currentAppFilesTree)
+  // const initAppStore = appStore((state) => state.initAppStore)
+  // const loadingAppFiles = appStore((state) => state.loadingAppFiles)
 
   // 存储节点映射
   const nodeMap = useRef({})
 
   // 挂载时初始化
   useEffect(() => {
-    initAppStore()
+    // initAppStore()
   }, [])
 
   // 原有类方法 -> 函数式内部函数
@@ -108,6 +108,7 @@ const AppFileList = () => {
         file.icon = FILE_FOLDER
       }
     })
+    return treeData
   }
 
   // computed 相关方法
@@ -497,7 +498,7 @@ const AppFileList = () => {
   const RenderShareDropDown = () => {
     return (
       <Dropdown
-        trigger='click'
+        trigger='hover'
         closeOnEsc
         clickToHide
         keepDOM
@@ -544,6 +545,7 @@ const AppFileList = () => {
   return (
     <>
       <div className='file-actions panel-actions'>
+        <RenderCreateDropDown />
         <Breadcrumb
           style={{ flex: 1 }} showTooltip={{
             width: 80
@@ -552,7 +554,6 @@ const AppFileList = () => {
           <Breadcrumb.Item onClick={onRootListClick} icon={<ProiconsHome />}>项目列表</Breadcrumb.Item>
           <Breadcrumb.Item>您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge</Breadcrumb.Item>
         </Breadcrumb>
-        <RenderCreateDropDown />
         <RenderShareDropDown />
       </div>
       <DialogCreate
@@ -584,7 +585,7 @@ const AppFileList = () => {
           filterTreeNode
           draggable
           renderLabel={renderFullLabel}
-          treeData={rebuildTreeIcons(currentAppFilesTree)}
+          treeData={[]}
           onDragStart={(target) => {
             if (target.node && target.node.type === 'page') {
               context.draggingComposite = target.node
