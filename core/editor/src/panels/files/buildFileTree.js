@@ -17,8 +17,9 @@ const sortFile = (a, b) => {
 }
 
 export const eachNode = async (files, callback) => {
+  const result = []
   for (const file of files) {
-    await callback(file)
+    result.push(await callback(file))
     if (file.children) {
       await eachNode(file.children, callback)
     }
@@ -48,12 +49,8 @@ export const mapTree = (treeData, map) => {
     if (mapped) {
       if (node.children) {
         mapped.children = mapTree(node.children, map)
-        if (mapped.children.length) {
-          result.push(mapped)
-        }
-      } else {
-        result.push(mapped)
       }
+      result.push(mapped)
     }
   })
   return result

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 
 import { Button, Tree, Dropdown, Typography, Toast, Upload, Spin, Modal, Space, Divider, Breadcrumb } from '@douyinfe/semi-ui'
 import context from '../../service/RidgeEditorContext.js'
-import { eachNode } from './buildFileTree.js'
+import { mapTree } from './buildFileTree.js'
 import DialogRename from './DialogRename.jsx'
 import DialogCreate from './DialogCreate.jsx'
 import { stringToBlob } from '../../utils/blob.js'
@@ -22,7 +22,7 @@ import { STORE_TEMPLATE } from '../../utils/template.js'
 import './file-list.less'
 import { FileList } from '../../pure/FileList/FileList.jsx'
 
-// import appStore from '../../store/app.store.js'
+import appStore from '../../store/app.store.js'
 
 const { Text, Paragraph } = Typography
 
@@ -46,16 +46,16 @@ const AppFileList = () => {
     publishing: false,
     exportToastId: null
   })
-  // const currentAppFilesTree = appStore((state) => state.currentAppFilesTree)
-  // const initAppStore = appStore((state) => state.initAppStore)
-  // const loadingAppFiles = appStore((state) => state.loadingAppFiles)
+  const currentAppFilesTree = appStore((state) => state.currentAppFilesTree)
+  const initAppStore = appStore((state) => state.initAppStore)
+  const loadingAppFiles = appStore((state) => state.loadingAppFiles)
 
   // 存储节点映射
   const nodeMap = useRef({})
 
   // 挂载时初始化
   useEffect(() => {
-    // initAppStore()
+    initAppStore()
   }, [])
 
   // 原有类方法 -> 函数式内部函数
@@ -74,9 +74,7 @@ const AppFileList = () => {
   }
 
   const rebuildTreeIcons = (treeData) => {
-    nodeMap.current = {}
-    eachNode(treeData, file => {
-      nodeMap.current[file.id] = file
+    const fileTree = mapTree(treeData, file => {
       if (file.mimeType) {
         if (file.mimeType === 'application/font-woff') {
           file.icon = (<i className='bi bi-fonts' />)
@@ -88,7 +86,6 @@ const AppFileList = () => {
           file.icon = <i className='bi bi-file-earmark' />
         }
       }
-
       if (file.label.endsWith('.svg')) {
         file.icon = FILE_IMAGE
       }
@@ -107,8 +104,15 @@ const AppFileList = () => {
       if (file.type === 'directory') {
         file.icon = FILE_FOLDER
       }
+
+      return {
+        icon: file.icon,
+        name: file.name,
+        id: file.id,
+        key: file.id
+      }
     })
-    return treeData
+    return fileTree
   }
 
   // computed 相关方法
@@ -545,7 +549,6 @@ const AppFileList = () => {
   return (
     <>
       <div className='file-actions panel-actions'>
-        <RenderCreateDropDown />
         <Breadcrumb
           style={{ flex: 1 }} showTooltip={{
             width: 80
@@ -554,7 +557,8 @@ const AppFileList = () => {
           <Breadcrumb.Item onClick={onRootListClick} icon={<ProiconsHome />}>项目列表</Breadcrumb.Item>
           <Breadcrumb.Item>您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge</Breadcrumb.Item>
         </Breadcrumb>
-        <RenderShareDropDown />
+        {RenderCreateDropDown()}
+        {RenderShareDropDown()}
       </div>
       <DialogCreate
         show={dialogCreateShow}
@@ -585,7 +589,7 @@ const AppFileList = () => {
           filterTreeNode
           draggable
           renderLabel={renderFullLabel}
-          treeData={[]}
+          treeData={rebuildTreeIcons(currentAppFilesTree)}
           onDragStart={(target) => {
             if (target.node && target.node.type === 'page') {
               context.draggingComposite = target.node
