@@ -12,6 +12,7 @@ import { ReactComposite } from 'ridgejs'
 import './editor.less'
 import PreviewMenuBar from './panels/menu/PreviewMenuBar.jsx'
 import LayoutLeft from './LayoutLeft.jsx'
+
 // 公用错误提示方法
 globalThis.msgerror = msg => {
   Toast.error(msg)
@@ -32,7 +33,7 @@ class Editor extends React.Component {
       leftResizing: false,
       isPreview: false,
       editPreview: false,
-      leftReisizeWidth: 300,
+      leftReisizeWidth: 340,
 
       imagePreviewSrc: null,
       imagePreviewVisible: false,

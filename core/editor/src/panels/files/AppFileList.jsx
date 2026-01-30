@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import { Button, Tree, Dropdown, Typography, Toast, Upload, Spin, Modal, Space, Divider, Breadcrumb } from '@douyinfe/semi-ui'
-import { ReactComposite } from 'ridgejs'
 import context from '../../service/RidgeEditorContext.js'
 import { eachNode } from './buildFileTree.js'
 import DialogRename from './DialogRename.jsx'
@@ -23,68 +22,70 @@ import { STORE_TEMPLATE } from '../../utils/template.js'
 import './file-list.less'
 import { FileList } from '../../pure/FileList/FileList.jsx'
 
+import appStore from '../../store/app.store.js'
+
 const { Text, Paragraph } = Typography
 
 const ACCEPT_FILES = '.svg,.png,.jpg,.json,.css,.js,.md,.webp,.zip,.gif'
-class AppFileList extends React.Component {
-  constructor () {
-    super()
-    this.ref = React.createRef()
-    this.state = {
-      treeData: [],
-      selectedNodeKey: null,
 
-      dialgeCreateFileType: '',
-      dialogCreateShow: false,
-      dialogCreateTitle: '',
+const AppFileList = () => {
+  const ref = useRef()
+  const [state, setState] = useState({
+    treeData: [],
+    selectedNodeKey: null,
+    dialgeCreateFileType: '',
+    dialogCreateShow: false,
+    dialogCreateTitle: '',
+    dialogRenameShow: false,
+    dialogImportShow: false,
+    valueRename: '',
+    appJSONObject: null,
+    packageEditDialogVisible: false,
+    packageSearchDialogVisible: false,
+    showRootList: false,
+    publishing: false,
+    exportToastId: null
+  })
+  const currentAppFilesTree = appStore((state) => state.currentAppFilesTree)
+  const initAppStore = appStore((state) => state.initAppStore)
+  const loadingAppFiles = appStore((state) => state.loadingAppFiles)
 
-      dialogRenameShow: false,
+  // 存储节点映射
+  const nodeMap = useRef({})
 
-      dialogImportShow: false,
-      valueRename: '',
+  // 挂载时初始化
+  useEffect(() => {
+    initAppStore()
+  }, [])
 
-      appJSONObject: null,
-      packageEditDialogVisible: false,
-
-      packageSearchDialogVisible: false,
-
-      showRootList: false,
-      publishing: false
-    }
-    context.services.appFileListPanel = this
-  }
-
-  componentDidMount () {
-    this.loadAndUpdateFileTree()
-  }
-
-  async loadAndUpdateFileTree () {
+  // 原有类方法 -> 函数式内部函数
+  const loadAndUpdateFileTree = async () => {
     const { appService } = context.services
     await appService.init()
     await appService.updateAppFileTree()
     const appTreeData = await appService.getAppFileTree()
     const appJSONObject = await appService.getPackageJSONObject()
-    this.rebuildTreeIcons(appTreeData)
-    this.setState({
+    rebuildTreeIcons(appTreeData)
+    setState(prev => ({
+      ...prev,
       appJSONObject,
       treeData: appTreeData
-    })
+    }))
   }
 
-  rebuildTreeIcons (treeData) {
-    this.nodeMap = {}
-    // TODO update icons
+  const rebuildTreeIcons = (treeData) => {
+    nodeMap.current = {}
     eachNode(treeData, file => {
-      this.nodeMap[file.id] = file
+      nodeMap.current[file.id] = file
       if (file.mimeType) {
         if (file.mimeType === 'application/font-woff') {
-          file.icon = (<i class='bi bi-fonts' />)
+          file.icon = (<i className='bi bi-fonts' />)
         } else if (file.mimeType.indexOf('audio') > -1) {
-          file.icon = (<i class='bi bi-file-earmark-music' />)
+          file.icon = (<i className='bi bi-file-earmark-music' />)
         } else if (file.mimeType.indexOf('image') > -1) {
-          file.icon = FILE_IMAGE /* (<IconImage style={{ color: 'var(--semi-color-text-2)' }} />) */
+          file.icon = FILE_IMAGE
         } else {
-          file.icon = <i class='bi bi-file-earmark' />
+          file.icon = <i className='bi bi-file-earmark' />
         }
       }
 
@@ -109,12 +110,12 @@ class AppFileList extends React.Component {
     })
   }
 
-  // computed
-  getCurrentSiblingNames () {
-    const { selectedNodeKey, treeData } = this.state
+  // computed 相关方法
+  const getCurrentSiblingNames = () => {
+    const { selectedNodeKey, treeData } = state
     let siblings = []
     if (selectedNodeKey) {
-      const node = this.nodeMap[selectedNodeKey]
+      const node = nodeMap.current[selectedNodeKey]
       siblings = node.parent === -1 ? treeData : node.parentNode.children
     } else {
       siblings = treeData
@@ -122,10 +123,10 @@ class AppFileList extends React.Component {
     return siblings.map(node => node.label)
   }
 
-  getCurrentPath () {
-    const { selectedNodeKey } = this.state
+  const getCurrentPath = () => {
+    const { selectedNodeKey } = state
     if (selectedNodeKey) {
-      const node = this.nodeMap[selectedNodeKey]
+      const node = nodeMap.current[selectedNodeKey]
       if (node.type === 'directory') {
         return node.path
       } else if (node.parentNode) {
@@ -138,10 +139,10 @@ class AppFileList extends React.Component {
     }
   }
 
-  getCurrentParentId () {
-    const { selectedNodeKey } = this.state
+  const getCurrentParentId = () => {
+    const { selectedNodeKey } = state
     if (selectedNodeKey) {
-      const node = this.nodeMap[selectedNodeKey]
+      const node = nodeMap.current[selectedNodeKey]
       if (node.type === 'directory') {
         return node.key
       } else {
@@ -152,64 +153,64 @@ class AppFileList extends React.Component {
     }
   }
 
-  openSearchPackageDialog = () => {
-    this.setState({
+  const openSearchPackageDialog = () => {
+    setState(prev => ({
+      ...prev,
       packageSearchDialogVisible: true
-    })
+    }))
   }
 
-  showCreateDialog = fileType => {
+  const showCreateDialog = (fileType) => {
     const titles = {
       js: '创建程序文件',
       page: '创建页面',
       text: '创建文本文件',
       folder: '创建目录'
     }
-    this.setState({
+    setState(prev => ({
+      ...prev,
       dialgeCreateFileType: fileType,
       dialogCreateShow: true,
       dialogCreateTitle: titles[fileType]
-    })
+    }))
   }
 
-  onCreateConfirm = async name => {
-    const { dialgeCreateFileType } = this.state
+  const onCreateConfirm = async (name) => {
+    const { dialgeCreateFileType } = state
     const { appService } = context.services
     try {
       if (dialgeCreateFileType === 'page') {
-        await appService.createComposite(this.getCurrentParentId(), name)
+        await appService.createComposite(getCurrentParentId(), name)
       } else if (dialgeCreateFileType === 'folder') {
-        await appService.createDirectory(this.getCurrentParentId(), name)
+        await appService.createDirectory(getCurrentParentId(), name)
       } else if (dialgeCreateFileType === 'js') {
-        await appService.createFile(this.getCurrentParentId(), name, stringToBlob(STORE_TEMPLATE, 'text/javascript'))
+        await appService.createFile(getCurrentParentId(), name, stringToBlob(STORE_TEMPLATE, 'text/javascript'))
       } else if (dialgeCreateFileType === 'text') {
-        await appService.createFile(this.getCurrentParentId(), name, stringToBlob('', 'text/plain'))
+        await appService.createFile(getCurrentParentId(), name, stringToBlob('', 'text/plain'))
       }
-      this.setState({
-        dialogCreateShow: false
-      })
+      setState(prev => ({ ...prev, dialogCreateShow: false }))
       Toast.success('已经成功创建 ' + name)
-      await this.loadAndUpdateFileTree()
+      await loadAndUpdateFileTree()
     } catch (e) {
       Toast.success('创建文件失败 ' + e)
     }
   }
 
-  onFileUpload = async (files) => {
+  const onFileUpload = async (files) => {
     const { appService } = context.services
     const errors = []
     for (const file of files) {
       try {
         if (file.name.endsWith('.zip')) {
-          await appService.backUpService.importFolderArchive(file, this.getCurrentPath())
+          await appService.backUpService.importFolderArchive(file, getCurrentPath())
         } else {
-          const result = await appService.createFile(this.getCurrentParentId(), file.name, file)
+          const result = await appService.createFile(getCurrentParentId(), file.name, file)
         }
       } catch (e) {
         errors.push(file)
       }
     }
-    await this.loadAndUpdateFileTree()
+    await loadAndUpdateFileTree()
     if (errors.length) {
       Toast.warning({
         content: '文件添加错误：存在相同名称文件',
@@ -220,22 +221,20 @@ class AppFileList extends React.Component {
     }
   }
 
-  onRenameConfirm = async () => {
+  const onRenameConfirm = async () => {
     const { appService } = context.services
-    const { selectedNodeKey, valueRename } = this.state
+    const { selectedNodeKey, valueRename } = state
 
     const result = await appService.rename(selectedNodeKey, valueRename)
 
     context.onFileRenamed(selectedNodeKey, valueRename)
     if (result) {
-      await this.loadAndUpdateFileTree()
-      this.setState({
-        dialogRenameShow: false
-      })
+      await loadAndUpdateFileTree()
+      setState(prev => ({ ...prev, dialogRenameShow: false }))
     }
   }
 
-  onRemoveClicked = async data => {
+  const onRemoveClicked = async (data) => {
     const openedFileMap = context.getOpenedFileMap()
 
     if (openedFileMap.has(data.id)) {
@@ -250,37 +249,36 @@ class AppFileList extends React.Component {
       onOk: async () => {
         const { appService } = context.services
         await appService.deleteFile(data.key)
-        this.setState({
-          selectedNodeKey: null
-        })
-        this.loadAndUpdateFileTree()
+        setState(prev => ({ ...prev, selectedNodeKey: null }))
+        loadAndUpdateFileTree()
         Toast.success('已经成功删除 ' + data.label)
       }
     })
   }
 
-  onCopyClicked = async node => {
+  const onCopyClicked = async (node) => {
     const { appService } = context.services
     await appService.copy(node.key)
-    this.loadAndUpdateFileTree()
+    loadAndUpdateFileTree()
     Toast.success('文件复制完成')
   }
 
-  onOpenClicked = node => {
+  const onOpenClicked = (node) => {
     if (node.type !== 'directory') {
       context.openFile(node.key)
     }
   }
 
-  onRenameClicked = node => {
-    this.setState({
+  const onRenameClicked = (node) => {
+    setState(prev => ({
+      ...prev,
       selectedNodeKey: node.key,
       dialogRenameShow: true,
       valueRename: node.label
-    })
+    }))
   }
 
-  move = async (node, dragNode, dropToGap) => {
+  const move = async (node, dragNode, dropToGap) => {
     let parentId = -1
 
     if (dropToGap === false) { // 放置于node内
@@ -295,7 +293,7 @@ class AppFileList extends React.Component {
     const { appService } = context.services
     const moveResult = await appService.move(dragNode.key, parentId)
     if (moveResult) {
-      await this.loadAndUpdateFileTree()
+      await loadAndUpdateFileTree()
     } else {
       Toast.warning({
         content: '目录移动错误：存在同名的文件',
@@ -304,32 +302,28 @@ class AppFileList extends React.Component {
     }
   }
 
-  onUploadAppArchive = async file => {
+  const onUploadAppArchive = async (file) => {
     const { appService } = context.services
     await appService.importAppArchive(file)
   }
 
-  onFileExportClick = data => {
+  const onFileExportClick = (data) => {
     const { appService } = context.services
     appService.exportFileArchive(data.key)
   }
 
-  async exportApp (isArchive) {
-    if (this.state.exportToastId) {
+  const exportApp = async (isArchive) => {
+    if (state.exportToastId) {
       return
     }
     const id = Toast.info({
       content: '正在导出应用，请稍侯...',
       duration: 0,
       onClose: () => {
-        this.setState({
-          exportToastId: null
-        })
+        setState(prev => ({ ...prev, exportToastId: null }))
       }
     })
-    this.setState({
-      exportToastId: id
-    })
+    setState(prev => ({ ...prev, exportToastId: id }))
     const { appService } = context.services
     if (isArchive) {
       await appService.exportAppArchive()
@@ -337,12 +331,10 @@ class AppFileList extends React.Component {
       await context.services.distributeService.distributeApp()
     }
     Toast.close(id)
-    this.setState({
-      exportToastId: null
-    })
+    setState(prev => ({ ...prev, exportToastId: null }))
   }
 
-  newEmptyApp = () => {
+  const newEmptyApp = () => {
     Modal.confirm({
       title: '新增应用',
       content: '确认新增应用？ 现有工作区间内容将会被清除。如果需要内容，您可以先整体导出应用内容',
@@ -353,16 +345,15 @@ class AppFileList extends React.Component {
     })
   }
 
-  renderFullLabel = (label, data) => {
-    const { currentOpenId } = this.state
+  const renderFullLabel = (label, data) => {
+    const { currentOpenId } = state
     const MORE_MENUS = []
 
-    // if (data.type === 'page') {
     MORE_MENUS.push(
       <Dropdown.Item
         key='open'
-        icon={<i class='bi bi-pencil-square' />} onClick={() => {
-          this.onOpenClicked(data)
+        icon={<i className='bi bi-pencil-square' />} onClick={() => {
+          onOpenClicked(data)
         }}
       >打开
       </Dropdown.Item>
@@ -370,18 +361,17 @@ class AppFileList extends React.Component {
     MORE_MENUS.push(
       <Dropdown.Item
         key='copy'
-        icon={<i class='bi bi-copy' />} onClick={() => {
-          this.onCopyClicked(data)
+        icon={<i className='bi bi-copy' />} onClick={() => {
+          onCopyClicked(data)
         }}
       >复制
       </Dropdown.Item>
     )
-    // }
     MORE_MENUS.push(
       <Dropdown.Item
         key='export'
-        icon={<i style={{ fontSize: '16px' }} class='bi bi-file-zip' />} onClick={() => {
-          this.onFileExportClick(data)
+        icon={<i style={{ fontSize: '16px' }} className='bi bi-file-zip' />} onClick={() => {
+          onFileExportClick(data)
         }}
       >导出
       </Dropdown.Item>
@@ -389,8 +379,8 @@ class AppFileList extends React.Component {
     MORE_MENUS.push(
       <Dropdown.Item
         key='rename'
-        icon={<i class='bi bi-pencil' />} onClick={() => {
-          this.onRenameClicked(data)
+        icon={<i className='bi bi-pencil' />} onClick={() => {
+          onRenameClicked(data)
         }}
       >重命名
       </Dropdown.Item>
@@ -400,9 +390,9 @@ class AppFileList extends React.Component {
       <Dropdown.Item
         key='delete'
         type='danger'
-        icon={<i class='bi bi-trash3' />}
+        icon={<i className='bi bi-trash3' />}
         onClick={() => {
-          this.onRemoveClicked(data)
+          onRemoveClicked(data)
         }}
       >删除
       </Dropdown.Item>
@@ -416,14 +406,14 @@ class AppFileList extends React.Component {
           clickToHide
           render={<Dropdown.Menu>{MORE_MENUS}</Dropdown.Menu>}
         >
-          <Button className='more-button' size='small' theme='borderless' type='tertiary' icon={<i class='bi bi-three-dots-vertical' />} />
+          <Button className='more-button' size='small' theme='borderless' type='tertiary' icon={<i className='bi bi-three-dots-vertical' />} />
         </Dropdown>
       </div>
     )
   }
 
-  RenderAppImportDialog = () => {
-    const { dialogImportShow } = this.state
+  const RenderAppImportDialog = () => {
+    const { dialogImportShow } = state
     return (
       <Modal
         width={560}
@@ -432,14 +422,10 @@ class AppFileList extends React.Component {
         okText='关闭'
         hasCancel={false}
         onCancel={() => {
-          this.setState({
-            dialogImportShow: false
-          })
+          setState(prev => ({ ...prev, dialogImportShow: false }))
         }}
         onOk={() => {
-          this.setState({
-            dialogImportShow: false
-          })
+          setState(prev => ({ ...prev, dialogImportShow: false }))
         }}
       >
         <Paragraph>项目整体导入</Paragraph>
@@ -450,7 +436,7 @@ class AppFileList extends React.Component {
         >
           <Upload
             action='none' showUploadList={false} uploadTrigger='custom' accept='.zip' onFileChange={async files => {
-              await this.onUploadAppArchive(files[0])
+              await onUploadAppArchive(files[0])
               window.location.reload()
             }}
           >
@@ -467,7 +453,7 @@ class AppFileList extends React.Component {
         >
           <Button
             theme='light' onClick={() => {
-              this.exportApp()
+              exportApp()
             }}
           >
             导出
@@ -477,8 +463,7 @@ class AppFileList extends React.Component {
     )
   }
 
-  RenderCreateDropDown = () => {
-    const { showCreateDialog, newEmptyApp } = this
+  const RenderCreateDropDown = () => {
     return (
       <Dropdown
         trigger='click'
@@ -495,21 +480,21 @@ class AppFileList extends React.Component {
               <Upload
                 action='none'
                 multiple showUploadList={false} uploadTrigger='custom' onFileChange={files => {
-                  this.onFileUpload(files)
+                  onFileUpload(files)
                 }} accept={ACCEPT_FILES}
               >
                 上传文件
               </Upload>
             </Dropdown.Item>
           </Dropdown.Menu>
-            }
+        }
       >
-        <Button theme='borderless' type='tertiary' icon={<i class='bi bi-plus-lg' style={{ color: 'var(--semi-color-text-0)' }} />} />
+        <Button theme='borderless' type='tertiary' icon={<i className='bi bi-plus-lg' style={{ color: 'var(--semi-color-text-0)' }} />} />
       </Dropdown>
     )
   }
 
-  RenderShareDropDown = () => {
+  const RenderShareDropDown = () => {
     return (
       <Dropdown
         trigger='click'
@@ -521,21 +506,21 @@ class AppFileList extends React.Component {
           <Dropdown.Menu className='app-files-dropdown'>
             <Dropdown.Item
               icon={<CarbonRun />} onClick={() => {
-                this.exportApp(false)
+                exportApp(false)
               }}
             >导出运行包
             </Dropdown.Item>
             <Dropdown.Divider title='项目导入/导出' />
             <Dropdown.Item
               icon={<GravityUiAbbrZip />} onClick={() => {
-                this.exportApp(true)
+                exportApp(true)
               }}
             >导出为压缩包
             </Dropdown.Item>
             <Dropdown.Item icon={<IxImport />}>
               <Upload
                 action='none' showUploadList={false} uploadTrigger='custom' accept='.zip' onFileChange={async files => {
-                  await this.onUploadAppArchive(files[0])
+                  await onUploadAppArchive(files[0])
                   window.location.reload()
                 }}
               >
@@ -543,108 +528,95 @@ class AppFileList extends React.Component {
               </Upload>
             </Dropdown.Item>
           </Dropdown.Menu>
-            }
+        }
       >
         <Button theme='borderless' type='tertiary' icon={<UilShare />} />
       </Dropdown>
     )
   }
 
-  onRootListClick = () => {
-    this.setState({
-      showRootList: true
-    })
+  const onRootListClick = () => {
+    setState(prev => ({ ...prev, showRootList: true }))
   }
 
-  render () {
-    const { renderFullLabel, state, RenderCreateDropDown, onRootListClick, RenderShareDropDown } = this
-    const { treeData, dialogCreateShow, dialogCreateTitle, dialogRenameShow, valueRename, showRootList } = state
+  // 渲染逻辑
+  const { dialogCreateShow, dialogCreateTitle, dialogRenameShow, valueRename, showRootList } = state
+  return (
+    <>
+      <div className='file-actions panel-actions'>
+        <Breadcrumb
+          style={{ flex: 1 }} showTooltip={{
+            width: 80
+          }}
+        >
+          <Breadcrumb.Item onClick={onRootListClick} icon={<ProiconsHome />}>项目列表</Breadcrumb.Item>
+          <Breadcrumb.Item>您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge</Breadcrumb.Item>
+        </Breadcrumb>
+        <RenderCreateDropDown />
+        <RenderShareDropDown />
+      </div>
+      <DialogCreate
+        show={dialogCreateShow}
+        title={dialogCreateTitle}
+        parentPaths={getCurrentPath()}
+        siblingNames={getCurrentSiblingNames()}
+        confirm={val => {
+          onCreateConfirm(val)
+        }}
+        cancel={() => {
+          setState(prev => ({ ...prev, dialogCreateShow: false }))
+        }}
+      />
+      <DialogRename
+        show={dialogRenameShow} value={valueRename} siblingNames={getCurrentSiblingNames()} change={val => {
+          setState(prev => ({ ...prev, valueRename: val }))
+        }} confirm={() => {
+          onRenameConfirm()
+        }}
+        cancel={() => {
+          setState(prev => ({ ...prev, dialogRenameShow: false }))
+        }}
+      />
+      {!showRootList &&
+        <Tree
+          className='file-tree'
+          showFilteredOnly
+          filterTreeNode
+          draggable
+          renderLabel={renderFullLabel}
+          treeData={rebuildTreeIcons(currentAppFilesTree)}
+          onDragStart={(target) => {
+            if (target.node && target.node.type === 'page') {
+              context.draggingComposite = target.node
+            } else {
+              context.draggingComposite = null
+            }
+          }}
+          onDrop={({ node, dragNode, dropPosition, dropToGap }) => {
+            move(node, dragNode, dropToGap)
+          }}
+          onDoubleClick={(ev, node) => {
+            onOpenClicked(node)
+          }}
+          onChange={key => {
+            setState(prev => ({ ...prev, selectedNodeKey: key }))
+          }}
+        />}
+      {!showRootList && <div className='tree-loading'><Spin size='middle' /></div>}
 
-    return (
-      <>
-        <div className='file-actions panel-actions'>
-          <Breadcrumb
-            style={{ flex: 1 }} showTooltip={{
-              width: 80
-            }}
-          >
-            <Breadcrumb.Item onClick={onRootListClick} icon={<ProiconsHome />}>项目列表</Breadcrumb.Item>
-            <Breadcrumb.Item>您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge</Breadcrumb.Item>
-          </Breadcrumb>
-          <RenderCreateDropDown />
-          <RenderShareDropDown />
-        </div>
-        <DialogCreate
-          show={dialogCreateShow}
-          title={dialogCreateTitle}
-          parentPaths={this.getCurrentPath()}
-          siblingNames={this.getCurrentSiblingNames()}
-          confirm={val => {
-            this.onCreateConfirm(val)
-          }}
-          cancel={() => {
-            this.setState({
-              dialogCreateShow: false
-            })
-          }}
-        />
-        <DialogRename
-          show={dialogRenameShow} value={valueRename} siblingNames={this.getCurrentSiblingNames()} change={val => {
-            this.setState({
-              valueRename: val
-            })
-          }} confirm={() => {
-            this.onRenameConfirm()
-          }}
-          cancel={() => {
-            this.setState({
-              dialogRenameShow: false
-            })
-          }}
-        />
-        {!showRootList && treeData &&
-          <Tree
-            className='file-tree'
-            showFilteredOnly
-            filterTreeNode
-            draggable
-            renderLabel={renderFullLabel}
-            treeData={treeData}
-            onDragStart={(target) => {
-              if (target.node && target.node.type === 'page') {
-                context.draggingComposite = target.node
-              } else {
-                context.draggingComposite = null
-              }
-            }}
-            onDrop={({ node, dragNode, dropPosition, dropToGap }) => {
-              this.move(node, dragNode, dropToGap)
-            }}
-            onDoubleClick={(ev, node) => {
-              this.onOpenClicked(node)
-            }}
-            onChange={key => {
-              this.setState({
-                selectedNodeKey: key
-              })
-            }}
-          />}
-        {!showRootList && !treeData && <div className='tree-loading'><Spin size='middle' /></div>}
-        {/* {this.renderAppDropDown()} */}
-
-        {showRootList && <FileList fileData={[
-          { id: 1, name: '项目需求文档.txt', type: 'txt' },
-          { id: 2, name: '首页设计稿.png', type: 'png' },
-          { id: 3, name: '产品演示视频.mp4', type: 'mp4' },
-          { id: 4, name: '技术方案.pdf', type: 'pdf' },
-          { id: 5, name: '组件封装.jsx', type: 'jsx' },
-          { id: 6, name: '用户头像.jpg', type: 'jpg' },
-          { id: 7, name: '接口代码.js', type: 'js' }
-        ]}
-                         />}
-      </>
-    )
-  }
+      {showRootList && <FileList fileData={[
+        { id: 1, name: '项目需求文档.txt', type: 'txt' },
+        { id: 2, name: '首页设计稿.png', type: 'png' },
+        { id: 3, name: '产品演示视频.mp4', type: 'mp4' },
+        { id: 4, name: '技术方案.pdf', type: 'pdf' },
+        { id: 5, name: '组件封装.jsx', type: 'jsx' },
+        { id: 6, name: '用户头像.jpg', type: 'jpg' },
+        { id: 7, name: '接口代码.js', type: 'js' }
+      ]}
+                       />}
+      {RenderAppImportDialog()}
+    </>
+  )
 }
 
 export default AppFileList

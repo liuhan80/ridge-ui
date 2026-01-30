@@ -20,26 +20,9 @@ export default class ApplicationService {
   constructor () {
     this.collection = new NeCollection('ridge.app.db')
     this.store = Localforge.createInstance({ name: 'ridge-store' })
-    this.backUpService = new BackUpService(this)
     this.dataUrlByPath = {}
     this.dataUrls = {}
     this.fileTree = null
-
-    this.init = once(this._init)
-  }
-
-  /**
-   * 初始化动作： 初始化应用树信息
-   */
-  async _init () {
-    const files = await this.collection.find({})
-
-    if (files.length === 0) {
-      // 空白的工作区间
-      console.log('No files found in workspace')
-      await this.backUpService.importHelloArchive()
-    }
-    await this.getAppFileTree()
   }
 
   getFileTree () {
@@ -86,11 +69,7 @@ export default class ApplicationService {
 
   async getAppFileTree () {
     if (!this.fileTree) {
-      // 文件列表 数组
-      const files = await this.getFiles()
-      this.updateFileBlobUrls(files)
-      // 转为树状结构
-      this.fileTree = getFileTree(files)
+      await this.updateAppFileTree()
     }
     return this.fileTree
   }
@@ -365,24 +344,6 @@ export default class ApplicationService {
     await this.updateFileContent(file.key, JSON.stringify(packageObject, null, 2))
   }
 
-  async getPackageJSONObject () {
-    if (!this.fileTree) {
-      await this.init()
-    }
-
-    const file = this.getFileByPath('/package.json')
-    if (file == null) {
-      return null
-    } else {
-      try {
-        const content = await this.getFileContent(file)
-        return JSON.parse(content)
-      } catch (e) {
-
-      }
-    }
-  }
-
   async publishApp (isPublishToNpm) {
     const appBlob = await this.getAppPackageBlob()
     const formData = new FormData()
@@ -400,12 +361,6 @@ export default class ApplicationService {
       query.name = new RegExp(filter)
     }
     const files = await this.collection.find(query)
-
-    const packageJSONFile = files.filter(file => file.parent === -1 && file.name === 'package.json')[0]
-
-    if (!packageJSONFile) {
-      files.push(await this.createFile(-1, 'package.json', stringToBlob(JSON.stringify(APP_PACKAGE_JSON, null, 2), 'text/json')))
-    }
     return files
   }
 

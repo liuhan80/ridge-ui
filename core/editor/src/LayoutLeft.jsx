@@ -55,7 +55,7 @@ export default ({
     // await this.ensurePackageComponents(loadedPackages[0], loadedPackages)
   }
   useEffect(() => {
-    loadPackages()
+    // loadPackages()
   }, [])
 
   return (

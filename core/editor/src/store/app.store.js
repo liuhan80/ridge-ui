@@ -11,15 +11,8 @@ const backUpService = new BackUpService(appService)
 const useStore = create((set) => ({
   // 初始化状态
   appList: [],
-
-  setLeftshow: () => set(state => {
-    return {
-      leftShow: !state.leftShow
-    }
-  }),
-  count: 0,
-  theme: 'light',
-  user: null,
+  loadingAppFiles: true,
+  currentAppFilesTree: [],
 
   setScores: scores => set(state => {
     return {
@@ -43,9 +36,13 @@ const useStore = create((set) => ({
     if (appList.length === 0) {
       // 创建一个默认应用
       await backUpService.importHelloArchive()
-    } else {
-      // 打开上次应用
     }
+    await appService.updateAppFileTree()
+
+    set({
+      loadingAppFiles: false,
+      currentAppFilesTree: appService.fileTree
+    })
   },
 
   updateAppList: async () => {
