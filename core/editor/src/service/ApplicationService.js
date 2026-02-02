@@ -22,6 +22,7 @@ export default class ApplicationService {
     this.store = Localforge.createInstance({ name: 'ridge-store' })
     this.dataUrlByPath = {}
     this.dataUrls = {}
+    this.currentAppId = null
     this.fileTree = null
   }
 
@@ -512,8 +513,7 @@ export default class ApplicationService {
   }
 
   async exportAppArchive () {
-    const packageJSONObjct = await this.getPackageJSONObject()
-    await this.backUpService.exportAppArchive(packageJSONObjct)
+    await this.backUpService.exportAppArchive()
   }
 
   async exportPage (id) {

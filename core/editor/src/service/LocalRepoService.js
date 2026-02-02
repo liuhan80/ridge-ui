@@ -2,9 +2,32 @@ import NeCollection from './NeCollection.js'
 import Localforge from 'localforage'
 
 export default class LocalRepoService {
-  constructor () {
+  constructor (appService, backupService) {
     this.collection = new NeCollection('ridge.repo.db')
     this.store = Localforge.createInstance({ name: 'ridge-repo' })
+    this.appService = appService
+    this.backupService = backupService
+  }
+
+  // 持久化保存当前App
+  async persistanceCurrentApp () {
+    const { appService, backupService } = this
+    const existed = await this.collection.findOne({ id: appService.currentAppId })
+    const zipBlob = await backupService.getAppBlob()
+
+    if (!existed) {
+      await this.collection.insert({
+        id: appService.currentAppId,
+        name: appService.currentAppName
+      })
+    } else {
+      await this.collection.update({
+        id: appService.currentAppId
+      }, {
+        name: appService.currentAppName
+      })
+    }
+    await this.store.setItem(appService.currentAppId, zipBlob)
   }
 
   async insertLocalApp (id, name, meta, zipBlob) {

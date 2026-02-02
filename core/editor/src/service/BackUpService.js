@@ -3,7 +3,7 @@ import JSZip, { version } from 'jszip'
 import NeCollection from './NeCollection.js'
 import Localforge from 'localforage'
 import { dataURLtoBlob, saveAs } from '../utils/blob'
-import { basename, dirname, extname, formateDate } from '../utils/string.js'
+import { basename, dirname, extname, formateDate, nanoid } from '../utils/string.js'
 import { buildFileTree, getFileTree } from '../panels/files/buildFileTree.js'
 import axios from 'axios'
 import { TarReader } from '../utils/tarball.js'
@@ -130,7 +130,7 @@ export default class BackUpService {
    * @param {*} coll
    * @param {*} store
    */
-  async exportAppArchive (packageJSON) {
+  async exportAppArchive () {
     const blob = await this.getAppBlob()
     saveAs(blob, packageJSON.name + '-' + packageJSON.version + '.zip')
   }
@@ -168,7 +168,7 @@ export default class BackUpService {
    * @param {*} file 选择的文件
    * @param {*} appService 应用管理服务
    */
-  async importAppArchive (file) {
+  async importAppArchive (file, name = '未命名应用') {
     const zip = new JSZip()
 
     try {
@@ -197,7 +197,8 @@ export default class BackUpService {
         await appService.ensureDir(filePath)
       }
     }
-
+    appService.currentAppName = name
+    appService.currentAppId = nanoid(10)
     return fileMap
   }
 

@@ -41,14 +41,16 @@ export const filterTree = (treeData, filterCb) => {
   return result
 }
 
-export const mapTree = (treeData, map) => {
+export const mapTree = (treeData, map, parentPath = '/') => {
   const result = []
 
   treeData.forEach(node => {
-    const mapped = map(node)
+    const mapped = map(Object.assign(node, {
+      parentPath
+    }))
     if (mapped) {
       if (node.children) {
-        mapped.children = mapTree(node.children, map)
+        mapped.children = mapTree(node.children, map, parentPath + '/' + node.name)
       }
       result.push(mapped)
     }

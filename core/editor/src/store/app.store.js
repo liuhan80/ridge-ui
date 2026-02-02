@@ -5,13 +5,14 @@ import ApplicationService from '../service/ApplicationService'
 import BackUpService from '../service/BackUpService'
 
 const appService = new ApplicationService()
-const localRepoService = new LocalRepoService()
 const backUpService = new BackUpService(appService)
+const localRepoService = new LocalRepoService(appService, backUpService)
 
-const useStore = create((set) => ({
+const useStore = create((set, get) => ({
   // 初始化状态
   appList: [],
   loadingAppFiles: true,
+  currentAppName: '',
   currentAppFilesTree: [],
 
   setScores: scores => set(state => {
@@ -33,13 +34,18 @@ const useStore = create((set) => ({
 
   initAppStore: async () => {
     const appList = await localRepoService.getLocalAppList()
+    set({
+      loadingAppFiles: true
+    })
     if (appList.length === 0) {
       // 创建一个默认应用
       await backUpService.importHelloArchive()
+      await localRepoService.persistanceCurrentApp()
     }
     await appService.updateAppFileTree()
 
     set({
+      currentAppName: appService.currentAppName,
       loadingAppFiles: false,
       currentAppFilesTree: appService.fileTree
     })
@@ -50,8 +56,17 @@ const useStore = create((set) => ({
     set({
       appList
     })
-  }
+  },
 
+  createFolder: async (parentId, name) => {
+    try {
+      await appService.createDirectory(parentId, name)
+      await get().initAppStore()
+      return true
+    } catch (e) {
+      return false
+    }
+  }
 }))
 
 export { localRepoService, appService }

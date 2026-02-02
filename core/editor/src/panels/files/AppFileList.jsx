@@ -40,14 +40,18 @@ const AppFileList = () => {
     dialogImportShow: false,
     valueRename: '',
     appJSONObject: null,
+    createParentNodeId: -1,
     packageEditDialogVisible: false,
     packageSearchDialogVisible: false,
     showRootList: false,
     publishing: false,
     exportToastId: null
   })
+  const currentAppName = appStore((state) => state.currentAppName)
+
   const currentAppFilesTree = appStore((state) => state.currentAppFilesTree)
   const initAppStore = appStore((state) => state.initAppStore)
+  const createFolder = appStore((state) => state.createFolder)
   const loadingAppFiles = appStore((state) => state.loadingAppFiles)
 
   // 存储节点映射
@@ -106,8 +110,9 @@ const AppFileList = () => {
       }
 
       return {
+        path: file.parentPath + '/' + file.name,
         icon: file.icon,
-        name: file.name,
+        label: file.name,
         id: file.id,
         key: file.id
       }
@@ -181,13 +186,14 @@ const AppFileList = () => {
   }
 
   const onCreateConfirm = async (name) => {
-    const { dialgeCreateFileType } = state
+    const { dialgeCreateFileType, createParentNodeId } = state
     const { appService } = context.services
     try {
       if (dialgeCreateFileType === 'page') {
         await appService.createComposite(getCurrentParentId(), name)
       } else if (dialgeCreateFileType === 'folder') {
-        await appService.createDirectory(getCurrentParentId(), name)
+        await createFolder(createParentNodeId, name)
+        // appService.createDirectory(getCurrentParentId(), name)
       } else if (dialgeCreateFileType === 'js') {
         await appService.createFile(getCurrentParentId(), name, stringToBlob(STORE_TEMPLATE, 'text/javascript'))
       } else if (dialgeCreateFileType === 'text') {
@@ -555,7 +561,7 @@ const AppFileList = () => {
           }}
         >
           <Breadcrumb.Item onClick={onRootListClick} icon={<ProiconsHome />}>项目列表</Breadcrumb.Item>
-          <Breadcrumb.Item>您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge您好Ridge</Breadcrumb.Item>
+          <Breadcrumb.Item>{currentAppName}</Breadcrumb.Item>
         </Breadcrumb>
         {RenderCreateDropDown()}
         {RenderShareDropDown()}
@@ -603,8 +609,8 @@ const AppFileList = () => {
           onDoubleClick={(ev, node) => {
             onOpenClicked(node)
           }}
-          onChange={key => {
-            setState(prev => ({ ...prev, selectedNodeKey: key }))
+          onChange={(key, node) => {
+            // setState(prev => ({ ...prev, selectedNodeKey: key }))
           }}
         />}
       {!showRootList && <div className='tree-loading'><Spin size='middle' /></div>}
