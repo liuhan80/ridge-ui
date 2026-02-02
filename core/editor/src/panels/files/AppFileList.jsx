@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import { Button, Tree, Dropdown, Typography, Toast, Upload, Spin, Modal, Space, Divider, Breadcrumb } from '@douyinfe/semi-ui'
+import { Button, Tree, Dropdown, Typography, Toast, Upload, Spin, Modal, Space, Divider, Breadcrumb, Input } from '@douyinfe/semi-ui'
 import context from '../../service/RidgeEditorContext.js'
 import { mapTree } from './buildFileTree.js'
 import DialogRename from './DialogRename.jsx'
@@ -32,7 +32,6 @@ const AppFileList = () => {
   const ref = useRef()
   const [state, setState] = useState({
     treeData: [],
-    selectedNodeKey: null,
     dialgeCreateFileType: '',
     dialogCreateShow: false,
     dialogCreateTitle: '',
@@ -48,6 +47,9 @@ const AppFileList = () => {
     exportToastId: null
   })
   const currentAppName = appStore((state) => state.currentAppName)
+
+  const [currentSelected, setCurrentSelected] = useState(null)
+  const [currentRename, setCurrentRename] = useState(null)
 
   const currentAppFilesTree = appStore((state) => state.currentAppFilesTree)
   const initAppStore = appStore((state) => state.initAppStore)
@@ -410,7 +412,25 @@ const AppFileList = () => {
     )
     return (
       <div className={'tree-label' + (currentOpenId === data.key ? ' opened' : '')}>
-        <Text ellipsis={{ showTooltip: true }} style={{ width: 'calc(100% - 48px)' }} className='label-content'>{label}</Text>
+        {currentRename && currentRename.key === data.key && <Input
+          value={currentRename.value} onChange={val => {
+            setCurrentRename({
+              ...currentRename,
+              value: val
+            })
+          }}
+        />}
+        <Text
+          onClick={() => {
+            if (currentSelected && currentSelected.key === data.key) {
+              setCurrentRename({
+                key: data.key,
+                value: currentSelected.label
+              })
+            }
+          }} ellipsis={{ showTooltip: true }} style={{ width: 'calc(100% - 48px)' }} className='label-content'
+        >{label}
+        </Text>
         <Dropdown
           className='app-files-dropdown'
           trigger='click'
@@ -609,7 +629,11 @@ const AppFileList = () => {
           onDoubleClick={(ev, node) => {
             onOpenClicked(node)
           }}
-          onChange={(key, node) => {
+          onChangeWithObject
+          onSelect={(key, selected, node) => {
+            setCurrentSelected(node)
+          }}
+          onChange={(node) => {
             // setState(prev => ({ ...prev, selectedNodeKey: key }))
           }}
         />}

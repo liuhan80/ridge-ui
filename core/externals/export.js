@@ -25,4 +25,21 @@ async function exportToLocal (servicePath, dist) {
   }
 }
 
+const setIntervalX = (func, time) => {
+  let canceled = false
+  const intervalDo = () => {
+    setTimeout(() => {
+      if (!canceled) {
+        func()
+      }
+      intervalDo()
+    }, time)
+  }
+  intervalDo()
+
+  return () => {
+    canceled = true
+  }
+}
+
 exportToLocal('http://10.10.247.1:4877/api/unpkg', './unpkg')
