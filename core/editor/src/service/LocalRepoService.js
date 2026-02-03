@@ -13,7 +13,6 @@ export default class LocalRepoService {
   async persistanceCurrentApp () {
     const { appService, backupService } = this
     const existed = await this.collection.findOne({ id: appService.currentAppId })
-    const zipBlob = await backupService.getAppBlob()
 
     if (!existed) {
       await this.collection.insert({
@@ -27,40 +26,11 @@ export default class LocalRepoService {
         name: appService.currentAppName
       })
     }
+    const zipBlob = await backupService.getAppBlob()
     await this.store.setItem(appService.currentAppId, zipBlob)
   }
 
-  async insertLocalApp (id, name, meta, zipBlob) {
-    const existed = await this.collection.findOne({ id })
-    if (existed) {
-      return false
-    }
-    await this.collection.insert({
-      id,
-      name,
-      meta
-    })
-    await this.store.setItem(id, zipBlob)
-  }
-
-  async updateLocalApp (id, name, meta, zipBlob) {
-    const existed = await this.collection.findOne({ id })
-    if (!existed) {
-      return false
-    }
-    await this.collection.patch({ id }, {
-      name,
-      meta
-    })
-
-    await this.store.setItem(id, zipBlob)
-  }
-
-  async getCurrentApp () {
-
-  }
-
-  async loadAndSetCurrentApp (id) {
+  async getApp (id) {
     const existed = await this.collection.findOne({ id })
     if (existed) {
       return {

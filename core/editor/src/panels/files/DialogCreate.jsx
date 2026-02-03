@@ -5,8 +5,7 @@ import { Modal, Form } from '@douyinfe/semi-ui'
 export default ({
   show,
   title,
-  parentPaths,
-  siblingNames,
+  parentId,
   confirm,
   cancel
 }) => {
@@ -48,7 +47,7 @@ export default ({
         labelAlign='right'
         labelWidth={80}
       >
-        <Form.Input disabled label='所在目录' initValue={parentPaths} />
+        <Form.Input disabled label='所在目录' initValue={'/'} />
         <Form.Input
           value={value}
           validateStatus={nameValid ? '' : 'error'}

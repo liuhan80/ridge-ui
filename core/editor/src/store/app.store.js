@@ -15,40 +15,45 @@ const useStore = create((set, get) => ({
   currentAppName: '',
   currentAppFilesTree: [],
 
-  setScores: scores => set(state => {
-    return {
-      scores
-    }
-  }),
+  persistanceCurrentApp: async () => {
+    await localRepoService.persistanceCurrentApp()
+  },
 
-  // 定义更新状态的方法（支持同步/异步）
-  increment: () => set((state) => ({ count: state.count + 1 })),
-  toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
-  setUser: (user) => set({ user }),
-  // 异步方法（如请求接口获取用户信息）
-  fetchUser: async (userId) => {
-    const res = await fetch(`/api/user/${userId}`)
-    const user = await res.json()
-    set({ user })
+  openApp: async id => {
+    const appInfo = await localRepoService.getApp(id)
+
+    if (appInfo) {
+      await appService.importAppArchive(appInfo.blob)
+      appService.setCurrentAppInfo(id, appInfo.name)
+      await appService.updateAppFileTree()
+      set({
+        currentAppName: appInfo.name,
+        currentAppFilesTree: appService.fileTree
+      })
+    }
   },
 
   initAppStore: async () => {
     const appList = await localRepoService.getLocalAppList()
     set({
-      loadingAppFiles: true
+      loadingAppFiles: true,
+      appList
     })
     if (appList.length === 0) {
       // 创建一个默认应用
       await backUpService.importHelloArchive()
       await localRepoService.persistanceCurrentApp()
     }
-    await appService.updateAppFileTree()
-
-    set({
-      currentAppName: appService.currentAppName,
-      loadingAppFiles: false,
-      currentAppFilesTree: appService.fileTree
-    })
+    if (await appService.getCurrentApp()) {
+      await appService.updateAppFileTree()
+      set({
+        currentAppName: appService.currentAppName,
+        currentAppFilesTree: appService.fileTree,
+        loadingAppFiles: false
+      })
+    } else {
+      // 没有应用打开
+    }
   },
 
   updateAppList: async () => {
@@ -66,6 +71,14 @@ const useStore = create((set, get) => ({
     } catch (e) {
       return false
     }
+  },
+
+  fileRename: async (fileId, name) => {
+    const renamed = await appService.rename(fileId, name)
+    if (renamed === 1) {
+      await get().initAppStore()
+    }
+    return renamed
   }
 }))
 

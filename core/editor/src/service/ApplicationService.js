@@ -3,7 +3,6 @@ import debug from 'debug'
 import once from 'lodash/once.js'
 // import LowCollection from './LowCollection.js'
 import Localforge from 'localforage'
-import BackUpService from './BackUpService.js'
 import { blobToDataUrl, dataURLtoBlob, dataURLToString, stringToBlob, stringToDataUrl, saveAs } from '../utils/blob.js'
 import { getFileTree, eachNode, filterTree, mapTree } from '../panels/files/buildFileTree.js'
 import { APP_PACKAGE_JSON, PAGE_JSON_TEMPLATE } from '../utils/template.js'
@@ -22,8 +21,18 @@ export default class ApplicationService {
     this.store = Localforge.createInstance({ name: 'ridge-store' })
     this.dataUrlByPath = {}
     this.dataUrls = {}
-    this.currentAppId = null
     this.fileTree = null
+  }
+
+  async getCurrentApp () {
+    return await this.store.getItem('current-open-app')
+  }
+ 
+  setCurrentAppInfo (id, name) {
+    this.currentAppId = id
+    this.currentAppName = name
+
+    this.store.setItem('current-open-app', id)
   }
 
   getFileTree () {
@@ -231,7 +240,11 @@ export default class ApplicationService {
   async rename (id, newName) {
     const existed = await this.collection.findOne({ id })
     if (!existed) {
-      return false
+      return -1
+    }
+
+    if (existed.name === newName) {
+      return 0
     }
 
     const nameDuplicated = await this.collection.findOne({
@@ -240,13 +253,13 @@ export default class ApplicationService {
     })
 
     if (nameDuplicated) {
-      return false
+      return -1
     }
 
     await this.collection.patch({ id }, {
       name: newName
     })
-    return true
+    return 1
   }
 
   async checkNewNameValid (parentId, newName) {
@@ -559,7 +572,7 @@ export default class ApplicationService {
   }
 
   async importAppArchive (file) {
-    await this.backupCurrentApp()
+    // await this.backupCurrentApp()
     return await this.backUpService.importAppArchive(file)
   }
 

@@ -13,6 +13,7 @@ const getFileIcon = (fileType) => {
 
 // 文件列表组件
 const FileList = ({
+  onItemClick,
   fileData = [], menu = [
     { node: 'item', name: '打开' },
     { node: 'item', name: '导出可执行包', type: 'tertiary' },
@@ -32,7 +33,11 @@ const FileList = ({
       renderItem={file => {
         return (
           <List.Item key={file.id}>
-            <div className='more-button' style={{ position: 'absolute', top: 4, right: 4 }}>
+            <div
+              className='more-button' style={{ position: 'absolute', top: 4, right: 4 }} onDoubleClick={() => {
+                onItemClick && onItemClick(file)
+              }}
+            >
               <Dropdown
                 position='bottomLeft'
                 trigger='click'

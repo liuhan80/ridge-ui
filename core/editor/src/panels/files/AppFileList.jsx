@@ -31,30 +31,31 @@ const ACCEPT_FILES = '.svg,.png,.jpg,.json,.css,.js,.md,.webp,.zip,.gif'
 const AppFileList = () => {
   const ref = useRef()
   const [state, setState] = useState({
-    treeData: [],
     dialgeCreateFileType: '',
     dialogCreateShow: false,
     dialogCreateTitle: '',
-    dialogRenameShow: false,
-    dialogImportShow: false,
-    valueRename: '',
     appJSONObject: null,
     createParentNodeId: -1,
     packageEditDialogVisible: false,
     packageSearchDialogVisible: false,
-    showRootList: false,
     publishing: false,
     exportToastId: null
   })
   const currentAppName = appStore((state) => state.currentAppName)
 
+  const [showRootList, setShowRootList] = useState(false)
+
   const [currentSelected, setCurrentSelected] = useState(null)
+  const [currentSelectedTime, setCurrentSelectedTime] = useState(0)
   const [currentRename, setCurrentRename] = useState(null)
 
   const currentAppFilesTree = appStore((state) => state.currentAppFilesTree)
+  const appList = appStore((state) => state.appList)
+  const persistanceCurrentApp = appStore((state) => state.persistanceCurrentApp)
   const initAppStore = appStore((state) => state.initAppStore)
+  const openApp = appStore((state) => state.openApp)
   const createFolder = appStore((state) => state.createFolder)
-  const loadingAppFiles = appStore((state) => state.loadingAppFiles)
+  const fileRename = appStore((state) => state.fileRename)
 
   // 存储节点映射
   const nodeMap = useRef({})
@@ -62,6 +63,9 @@ const AppFileList = () => {
   // 挂载时初始化
   useEffect(() => {
     initAppStore()
+    if (!currentAppName) {
+      setShowRootList(true)
+    }
   }, [])
 
   // 原有类方法 -> 函数式内部函数
@@ -234,19 +238,6 @@ const AppFileList = () => {
     }
   }
 
-  const onRenameConfirm = async () => {
-    const { appService } = context.services
-    const { selectedNodeKey, valueRename } = state
-
-    const result = await appService.rename(selectedNodeKey, valueRename)
-
-    context.onFileRenamed(selectedNodeKey, valueRename)
-    if (result) {
-      await loadAndUpdateFileTree()
-      setState(prev => ({ ...prev, dialogRenameShow: false }))
-    }
-  }
-
   const onRemoveClicked = async (data) => {
     const openedFileMap = context.getOpenedFileMap()
 
@@ -277,18 +268,10 @@ const AppFileList = () => {
   }
 
   const onOpenClicked = (node) => {
+    if (currentRename && currentRename.key === node.key) return
     if (node.type !== 'directory') {
       context.openFile(node.key)
     }
-  }
-
-  const onRenameClicked = (node) => {
-    setState(prev => ({
-      ...prev,
-      selectedNodeKey: node.key,
-      dialogRenameShow: true,
-      valueRename: node.label
-    }))
   }
 
   const move = async (node, dragNode, dropToGap) => {
@@ -389,15 +372,6 @@ const AppFileList = () => {
       >导出
       </Dropdown.Item>
     )
-    MORE_MENUS.push(
-      <Dropdown.Item
-        key='rename'
-        icon={<i className='bi bi-pencil' />} onClick={() => {
-          onRenameClicked(data)
-        }}
-      >重命名
-      </Dropdown.Item>
-    )
     MORE_MENUS.push(<Dropdown.Divider key='div' />)
     MORE_MENUS.push(
       <Dropdown.Item
@@ -413,16 +387,26 @@ const AppFileList = () => {
     return (
       <div className={'tree-label' + (currentOpenId === data.key ? ' opened' : '')}>
         {currentRename && currentRename.key === data.key && <Input
+          onKeyPress={async ({ key }) => {
+            if (key === 'Enter') {
+              const result = await fileRename(currentRename.key, currentRename.value)
+              if (result === -1) {
+                Toast.error('文件名称冲突')
+              } else {
+                setCurrentRename(null)
+              }
+            }
+          }}
           value={currentRename.value} onChange={val => {
             setCurrentRename({
               ...currentRename,
               value: val
             })
           }}
-        />}
+                                                            />}
         <Text
           onClick={() => {
-            if (currentSelected && currentSelected.key === data.key) {
+            if (currentSelected && currentSelected.key === data.key && currentSelectedTime && new Date().getTime() - currentSelectedTime > 1000) {
               setCurrentRename({
                 key: data.key,
                 value: currentSelected.label
@@ -567,11 +551,27 @@ const AppFileList = () => {
   }
 
   const onRootListClick = () => {
-    setState(prev => ({ ...prev, showRootList: true }))
+    setShowRootList(true)
+    persistanceCurrentApp()
+  }
+
+  const onNodeSelect = async node => {
+    if (currentSelected && node.id === currentSelected.id) {
+      return
+    }
+    if (currentRename && currentRename.key !== node.key) {
+      const result = await fileRename(currentRename.key, currentRename.value)
+      if (result === -1) {
+        Toast.error('文件名称冲突')
+      }
+      setCurrentRename(null)
+    }
+    setCurrentSelected(node)
+    setCurrentSelectedTime(new Date().getTime())
   }
 
   // 渲染逻辑
-  const { dialogCreateShow, dialogCreateTitle, dialogRenameShow, valueRename, showRootList } = state
+  const { dialogCreateShow, dialogCreateTitle, dialogRenameShow, valueRename } = state
   return (
     <>
       <div className='file-actions panel-actions'>
@@ -580,7 +580,7 @@ const AppFileList = () => {
             width: 80
           }}
         >
-          <Breadcrumb.Item onClick={onRootListClick} icon={<ProiconsHome />}>项目列表</Breadcrumb.Item>
+          <Breadcrumb.Item onClick={onRootListClick} icon={<ProiconsHome />}>全部应用</Breadcrumb.Item>
           <Breadcrumb.Item>{currentAppName}</Breadcrumb.Item>
         </Breadcrumb>
         {RenderCreateDropDown()}
@@ -589,23 +589,11 @@ const AppFileList = () => {
       <DialogCreate
         show={dialogCreateShow}
         title={dialogCreateTitle}
-        parentPaths={getCurrentPath()}
-        siblingNames={getCurrentSiblingNames()}
         confirm={val => {
           onCreateConfirm(val)
         }}
         cancel={() => {
           setState(prev => ({ ...prev, dialogCreateShow: false }))
-        }}
-      />
-      <DialogRename
-        show={dialogRenameShow} value={valueRename} siblingNames={getCurrentSiblingNames()} change={val => {
-          setState(prev => ({ ...prev, valueRename: val }))
-        }} confirm={() => {
-          onRenameConfirm()
-        }}
-        cancel={() => {
-          setState(prev => ({ ...prev, dialogRenameShow: false }))
         }}
       />
       {!showRootList &&
@@ -631,7 +619,10 @@ const AppFileList = () => {
           }}
           onChangeWithObject
           onSelect={(key, selected, node) => {
-            setCurrentSelected(node)
+            onNodeSelect(node)
+          }}
+          onClick={() => {
+            console.log('clicked')
           }}
           onChange={(node) => {
             // setState(prev => ({ ...prev, selectedNodeKey: key }))
@@ -639,15 +630,25 @@ const AppFileList = () => {
         />}
       {!showRootList && <div className='tree-loading'><Spin size='middle' /></div>}
 
-      {showRootList && <FileList fileData={[
-        { id: 1, name: '项目需求文档.txt', type: 'txt' },
-        { id: 2, name: '首页设计稿.png', type: 'png' },
-        { id: 3, name: '产品演示视频.mp4', type: 'mp4' },
-        { id: 4, name: '技术方案.pdf', type: 'pdf' },
-        { id: 5, name: '组件封装.jsx', type: 'jsx' },
-        { id: 6, name: '用户头像.jpg', type: 'jpg' },
-        { id: 7, name: '接口代码.js', type: 'js' }
-      ]}
+      {showRootList && <FileList
+        onItemClick={item => {
+          setShowRootList(false)
+          openApp(item.id)
+        }} fileData={appList}
+        menu={[
+          {
+            node: 'item',
+            name: '打开',
+            onClick: item => {
+              setShowRootList(false)
+              openApp(item.id)
+            }
+          },
+          { node: 'item', name: '导出可执行包', type: 'tertiary' },
+          { node: 'item', name: '导出归档', type: 'tertiary' },
+          { node: 'divider' },
+          { node: 'item', name: '删除', type: 'danger' }
+        ]}
                        />}
       {RenderAppImportDialog()}
     </>

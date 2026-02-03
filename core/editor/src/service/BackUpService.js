@@ -168,7 +168,7 @@ export default class BackUpService {
    * @param {*} file 选择的文件
    * @param {*} appService 应用管理服务
    */
-  async importAppArchive (file, name = '未命名应用') {
+  async importAppArchive (file) {
     const zip = new JSZip()
 
     try {
@@ -197,8 +197,6 @@ export default class BackUpService {
         await appService.ensureDir(filePath)
       }
     }
-    appService.currentAppName = name
-    appService.currentAppId = nanoid(10)
     return fileMap
   }
 
