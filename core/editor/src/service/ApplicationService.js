@@ -7,8 +7,10 @@ import { blobToDataUrl, dataURLtoBlob, dataURLToString, stringToBlob, stringToDa
 import { getFileTree, eachNode, filterTree, mapTree } from '../panels/files/buildFileTree.js'
 import { APP_PACKAGE_JSON, PAGE_JSON_TEMPLATE } from '../utils/template.js'
 import axios from 'axios'
+import { basename, dirname, extname, formateDate, nanoid } from '../utils/string.js'
 import { getByMimeType } from '../utils/mimeTypes.js'
-const { nanoid, extname } = require('../utils/string')
+import helloZipApp from '../ridge-app-hello-1.0.0.zip'
+import JSZip, { version } from 'jszip'
 
 const trace = debug('ridge:app-service')
 
@@ -19,20 +21,21 @@ export default class ApplicationService {
   constructor () {
     this.collection = new NeCollection('ridge.app.db')
     this.store = Localforge.createInstance({ name: 'ridge-store' })
-    this.dataUrlByPath = {}
     this.dataUrls = {}
     this.fileTree = null
   }
 
-  async getCurrentApp () {
-    return await this.store.getItem('current-open-app')
+  async getCurrentAppId () {
+    return await this.store.getItem('current-app-id')
   }
- 
-  setCurrentAppInfo (id, name) {
-    this.currentAppId = id
-    this.currentAppName = name
 
-    this.store.setItem('current-open-app', id)
+  setCurrentAppId (id) {
+    this.currentAppId = id
+    if (id) {
+      this.store.setItem('current-app-id', id)
+    } else {
+      this.store.removeItem('current-app-id')
+    }
   }
 
   getFileTree () {
@@ -41,27 +44,6 @@ export default class ApplicationService {
 
   mapFileTree (map) {
     return mapTree(this.fileTree, map)
-  }
-
-  /**
-   * 获取UI组件需要的树状结构数据，用于编辑器组件中选择应用资源的情况
-   * @param {*} filter
-   * @returns Array of { label, value, key, isLeaf, children }
-   */
-  getUITreeData (filter) {
-    return mapTree(this.fileTree, node => {
-      if (node.type === 'directory' || filter(node)) {
-        return {
-          isLeaf: node.type !== 'directory',
-          disabled: node.type === 'directory',
-          label: node.label,
-          value: node.path,
-          key: node.path
-        }
-      } else {
-        return null
-      }
-    })
   }
 
   filterFiles (filter) {
@@ -557,6 +539,73 @@ export default class ApplicationService {
     // location.href = location.href
   }
 
+  /**
+     * 导入应用的存档
+     * @param {*} file 选择的文件
+     * @param {*} appService 应用管理服务
+     */
+  async importAppArchive (file) {
+    const zip = new JSZip()
+
+    try {
+      await zip.loadAsync(file)
+    } catch (e) {
+      console.error('invalid zip file', e)
+      return false
+    }
+
+    await this.coll.clean()
+    await this.store.clear()
+    const fileMap = []
+    zip.forEach(async (filePath, zipObject) => {
+      fileMap.push({
+        filePath,
+        zipObject
+      })
+    })
+
+    for (const { filePath, zipObject } of fileMap) {
+      if (!zipObject.dir) {
+        await this.importZipEntryFile(filePath, zipObject)
+      } else {
+        await this.ensureDir(filePath)
+      }
+    }
+    this.setCurrentAppId(nanoid(16))
+  }
+
+  /**
+   * 导入单个文件(zipEntry)到当前应用
+   * @param {*} filePath 
+   * @param {*} zipObject 
+   */
+  async importZipEntryFile (filePath, zipObject) {
+    const dirNode = await this.ensureDir(dirname(filePath))
+    const parentId = dirNode ? dirNode.id : -1
+    const filename = basename(zipObject.name)
+    const ext = extname(zipObject.name)
+    if (filePath.endsWith('.json')) { // 对json文件判断是否为图纸，是图纸则导入
+      const jsonObject = JSON.parse(await zipObject.async('text'))
+      if (jsonObject.elements) {
+        await this.createComposite(parentId, basename(filename, '.json'), jsonObject)
+      } else {
+        await this.createFile(parentId, filename, new File([JSON.stringify(jsonObject, null, 2)], filename), 'text/json')
+      }
+    } else {
+      // 其他类型文件，例如图片、脚本
+      const mimeType = getByMimeType(ext)
+      await this.createFile(parentId, filename, new File([await zipObject.async('blob')], filename, {
+        type: mimeType
+      }), getByMimeType(ext))
+    }
+  }
+
+  async importHelloArchive () {
+    const response = await fetch(helloZipApp)
+    const buffer = await response.arrayBuffer()
+    await this.importAppArchive(buffer)
+  }
+
   async backupCurrentApp () {
     await this.backUpService.backup()
   }
@@ -569,11 +618,6 @@ export default class ApplicationService {
   async importFromRidgeCloud (path) {
     await this.backupCurrentApp()
     return await this.backUpService.importFromRidgeCloud(path)
-  }
-
-  async importAppArchive (file) {
-    // await this.backupCurrentApp()
-    return await this.backUpService.importAppArchive(file)
   }
 
   async backUpAppArchive (tag) {

@@ -20,10 +20,9 @@ import ProiconsHome from '../../icons/ProiconsHome.svg'
 import { FILE_COMPOSITE, FILE_FOLDER, FILE_IMAGE, FILE_JS, FILE_JSON, FILE_MARKDOWN } from '../../icons/icons.js'
 import { STORE_TEMPLATE } from '../../utils/template.js'
 import './file-list.less'
-import { FileList } from '../../pure/FileList/FileList.jsx'
 
 import appStore from '../../store/app.store.js'
-
+import AppListPanel from '../apps/AppListPanel.jsx'
 const { Text, Paragraph } = Typography
 
 const ACCEPT_FILES = '.svg,.png,.jpg,.json,.css,.js,.md,.webp,.zip,.gif'
@@ -50,10 +49,8 @@ const AppFileList = () => {
   const [currentRename, setCurrentRename] = useState(null)
 
   const currentAppFilesTree = appStore((state) => state.currentAppFilesTree)
-  const appList = appStore((state) => state.appList)
   const persistanceCurrentApp = appStore((state) => state.persistanceCurrentApp)
   const initAppStore = appStore((state) => state.initAppStore)
-  const openApp = appStore((state) => state.openApp)
   const createFolder = appStore((state) => state.createFolder)
   const fileRename = appStore((state) => state.fileRename)
 
@@ -630,26 +627,7 @@ const AppFileList = () => {
         />}
       {!showRootList && <div className='tree-loading'><Spin size='middle' /></div>}
 
-      {showRootList && <FileList
-        onItemClick={item => {
-          setShowRootList(false)
-          openApp(item.id)
-        }} fileData={appList}
-        menu={[
-          {
-            node: 'item',
-            name: '打开',
-            onClick: item => {
-              setShowRootList(false)
-              openApp(item.id)
-            }
-          },
-          { node: 'item', name: '导出可执行包', type: 'tertiary' },
-          { node: 'item', name: '导出归档', type: 'tertiary' },
-          { node: 'divider' },
-          { node: 'item', name: '删除', type: 'danger' }
-        ]}
-                       />}
+      {showRootList && <AppListPanel></AppListPanel>}
       {RenderAppImportDialog()}
     </>
   )

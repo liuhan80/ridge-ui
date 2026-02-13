@@ -7,6 +7,7 @@ export default class LocalRepoService {
     this.store = Localforge.createInstance({ name: 'ridge-repo' })
     this.appService = appService
     this.backupService = backupService
+    this.collection.clean()
   }
 
   // 持久化保存当前App
@@ -28,6 +29,27 @@ export default class LocalRepoService {
     }
     const zipBlob = await backupService.getAppBlob()
     await this.store.setItem(appService.currentAppId, zipBlob)
+  }
+
+  async removeApp (id) {
+    if (id == null) return
+    if (this.appService.getCurrentAppId() === id) {
+      await this.appService.clear()
+    }
+    await this.collection.remove({
+      id
+    })
+  }
+
+  async renameApp (id, newName) {
+    const existed = await this.collection.findOne({ id })
+    if (existed) {
+      await this.collection.patch({
+        id
+      }, {
+        name: newName
+      })
+    }
   }
 
   async getApp (id) {

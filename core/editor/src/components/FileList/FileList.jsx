@@ -14,7 +14,8 @@ const getFileIcon = (fileType) => {
 // 文件列表组件
 const FileList = ({
   onItemClick,
-  fileData = [], menu = [
+  fileData = [],
+  menu = [
     { node: 'item', name: '打开' },
     { node: 'item', name: '导出可执行包', type: 'tertiary' },
     { node: 'item', name: '导出归档', type: 'tertiary' },
@@ -41,7 +42,14 @@ const FileList = ({
               <Dropdown
                 position='bottomLeft'
                 trigger='click'
-                menu={menu}
+                menu={menu.map(m => {
+                  return {
+                    ...m,
+                    onClick: () => {
+                      m.onClick && m.onClick(file)
+                    }
+                  }
+                })}
               >
                 <Button size='small' theme='borderless' type='tertiary' icon={<IconMoreStroked />} />
               </Dropdown>

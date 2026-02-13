@@ -33,6 +33,10 @@ const useStore = create((set, get) => ({
     }
   },
 
+  removeApp: async id => {
+    await localRepoService.removeApp(id)
+  },
+
   initAppStore: async () => {
     const appList = await localRepoService.getLocalAppList()
     set({
@@ -44,11 +48,12 @@ const useStore = create((set, get) => ({
       await backUpService.importHelloArchive()
       await localRepoService.persistanceCurrentApp()
     }
-    if (await appService.getCurrentApp()) {
-      await appService.updateAppFileTree()
+    const currentAppId = await appService.getCurrentAppId()
+    if (currentAppId) {
+      const appInfo = await localRepoService.getApp(currentAppId)
       set({
-        currentAppName: appService.currentAppName,
-        currentAppFilesTree: appService.fileTree,
+        currentAppName: appInfo.name,
+        currentAppFilesTree: await appService.getAppFileTree(),
         loadingAppFiles: false
       })
     } else {
