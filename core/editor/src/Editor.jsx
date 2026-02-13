@@ -12,12 +12,6 @@ import { ReactComposite } from 'ridgejs'
 import './editor.less'
 import PreviewMenuBar from './panels/menu/PreviewMenuBar.jsx'
 import LayoutLeft from './LayoutLeft.jsx'
-
-// 公用错误提示方法
-globalThis.msgerror = msg => {
-  Toast.error(msg)
-}
-globalThis.success = Toast.success
 class Editor extends React.Component {
   constructor (props) {
     super(props)

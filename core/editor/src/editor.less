@@ -52,72 +52,13 @@ html, body {
   align-items: stretch;
   height: 100%;
   .root-nav {
-    // transition: width .3s cubic-bezier(0.075, 0.82, 0.165, 1);
-    // border-right: 1px solid var(--semi-color-border);
-    >.semi-tabs-bar {
-      width: 56px;
-      background-color: var( --semi-color-fill-0);
-      border-radius: 16px;
-      overflow: hidden;
-      margin-top: 2px;
-      margin-left: 2px;
-      .semi-icon {
-        svg {
-          width: 20px;
-          height: 20px;
-        }
-      }
-      .semi-tabs-tab-button.semi-tabs-tab {
-        padding-left: 8px;
-        height: 56px;
-        padding-top: 10px;
-        margin-bottom: 1px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        .semi-tabs-bar-icon {
-          margin-left: 8px;
-          margin-bottom: 6px;
-        }
-      }
-      >.semi-tabs-bar-extra {
-        padding: 10px 0;
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: center;
-        .semi-button svg {
-          color: var(--semi-color-text-2);
-        }
-      }
-
-      .package-icon {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        svg {
-           width: 24px;
-          height: 24px;
-        }
-      }
-    }
-    >.semi-tabs-content {
-      flex: 1;
-      overflow: hidden;
-      &.semi-tabs-content-left {
-        padding-right: 0;
-      }
-      >.semi-tabs-pane {
-        height: 100%;
-        .semi-tabs-pane-motion-overlay {
-          height: 100%;
-        }
-      }
+    overflow: hidden;
+    padding: 4px;
+    .semi-breadcrumb-item-icon {
+      width: 16px;
+      height: 16px;
     }
   }
-
   .left-resizer {
     width: 6px;
     cursor: e-resize;

@@ -17,7 +17,7 @@ const CardList = ({
       dataSource={list}
       renderItem={file => {
         return (
-          <List.Item key={file.name}>
+          <List.Item key={file.id}>
             <Card
               headerLine={false} cover={
                 <img
@@ -27,7 +27,7 @@ const CardList = ({
             }
             >
               <Meta
-                description='全面、易用、优质'
+                description={file.name}
               />
             </Card>
           </List.Item>

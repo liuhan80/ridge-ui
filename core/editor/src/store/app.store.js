@@ -15,6 +15,13 @@ const useStore = create((set, get) => ({
   currentAppName: '',
   currentAppFilesTree: [],
 
+  backToAppList: async () => {
+    await get().persistanceCurrentApp()
+    set({
+      currentAppName: ''
+    })
+  },
+
   persistanceCurrentApp: async () => {
     await localRepoService.persistanceCurrentApp()
   },

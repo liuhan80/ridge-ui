@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
-import { Dropdown, Tabs, TabPane, Icon, Button, Tooltip, Space } from '@douyinfe/semi-ui'
+import { Breadcrumb } from '@douyinfe/semi-ui'
 
-import ComponentListing from './panels/component/ComponentListing.jsx'
-import AppFileList from './panels/files/AppFileList.jsx'
-import OutLineTree from './panels/outline/OutLineTree.jsx'
-import context from './service/RidgeEditorContext.js'
-import SvgLoader from './utils/SVGFromSrc.js'
-
-import BytesizeFolder from './icons/ProiconsFolder.svg'
-import IconClist from './icons/CilList.svg'
 import ProiconsHome from './icons/ProiconsHome.svg'
-import ProiconsBoard from './icons/ProiconsBoard.svg'
+
+import AppListPanel from './panels/apps/AppListPanel.jsx'
+import AppFileList from './panels/files/AppFileList.jsx'
+import appStore from './store/app.store.js'
 
 const THEMES = [{
   label: '默认',
@@ -34,107 +29,31 @@ const THEMES = [{
 }]
 
 export default ({
-  isLight,
-  risizeWidth,
-  toggleLight
+  risizeWidth
 }) => {
-  const [currentTabKey, setCurrentTabKey] = useState('app')
-  const [collapseLeft, setCollapseLeft] = useState(false)
+  const currentAppName = appStore((state) => state.currentAppName)
+  const backToAppList = appStore((state) => state.backToAppList)
 
-  const [appPackageObject, setAppObject] = useState(null)
-  const [packageList, setPackageList] = useState([])
-
-  const loadPackages = async () => {
-    const { loadedPackages, appPackageObject } = await context.loadAppPackages()
-
-    if (loadedPackages.length) {
-      setPackageList(loadedPackages)
-    }
-
-    setAppObject(appPackageObject)
-    // await this.ensurePackageComponents(loadedPackages[0], loadedPackages)
+  const onRootListClick = () => {
+    backToAppList()
   }
-  useEffect(() => {
-    // loadPackages()
-  }, [])
 
   return (
-    <Tabs
-      className='root-nav'
-      activeKey={currentTabKey}
-      style={{
-        width: collapseLeft ? '58px' : (risizeWidth + 'px')
+    <div
+      className='root-nav' style={{
+        width: risizeWidth + 'px'
       }}
-      onTabClick={(key, ev) => {
-        if (key === currentTabKey) {
-          setCollapseLeft(!collapseLeft)
-        }
-        setCurrentTabKey(key)
-      }}
-      tabPosition='left' type='button' tabBarExtraContent={
-        <Space vertical>
-          <Tooltip content='夜间/日间模式'>
-            <Button
-              type='tertiary'
-              theme='borderless'
-              icon={isLight ? <i className='bi bi-moon-stars-fill' /> : <i className='bi bi-sun' />}
-              onClick={() => {
-                toggleLight(!isLight)
-              }}
-            />
-          </Tooltip>
-          <Dropdown
-            trigger='click'
-            position='right'
-            render={
-              <Dropdown.Menu>
-                <Dropdown.Item>切换主题配色</Dropdown.Item>
-                <Dropdown.Divider />
-                {THEMES.map(theme =>
-                  <Dropdown.Item
-                    key={theme.value}
-                    onClick={() => {
-                      context.setTheme(theme.value)
-                    }}
-                  >{theme.label}
-                  </Dropdown.Item>)}
-              </Dropdown.Menu>
-            }
-          >
-            <Button icon={<i className='bi bi-palette2' />} theme='borderless' size='small' type='tertiary' />
-          </Dropdown>
-        </Space>
-              }
     >
-      <TabPane icon={<Icon svg={<BytesizeFolder />} />} tab='项目' itemKey='app'>
-        <AppFileList />
-      </TabPane>
-      <TabPane icon={<Icon svg={<ProiconsBoard />} />} tab='模板' itemKey='template' />
-      <TabPane position='' tab={<Tooltip content='页面大纲视图' position='rightTop'><Icon svg={<IconClist />} /> </Tooltip>} itemKey='outline'>
-        <OutLineTree />
-      </TabPane>
-      {packageList && packageList.map(packageObject => {
-        return (
-          <TabPane
-            itemKey={packageObject.name}
-            key={packageObject.name}
-            tab={
-              <Tooltip
-                content={packageObject.description} position='rightTop'
-              >
-                <div className='package-icon'>
-                  <SvgLoader src={context.baseUrl + '/' + packageObject.name + '/' + packageObject.icon} />
-                </div>
-              </Tooltip>
-            }
-          >
-            <ComponentListing packageObject={packageObject} appPackageObject={appPackageObject} />
-          </TabPane>
-        )
-      })}
-      {/* <TabPane tab={<Tooltip content='组件面板' position='rightTop'> <Icon svg={<FluentAppsAddIn28Filled />} /></Tooltip>} itemKey='app'>
-        <ComponentListing />
-      </TabPane> */}
-    </Tabs>
+      <Breadcrumb
+        style={{ flex: 1 }} showTooltip={{
+          width: 80
+        }}
+      >
+        <Breadcrumb.Item onClick={onRootListClick} icon={<ProiconsHome />}>全部应用</Breadcrumb.Item>
+        {currentAppName && <Breadcrumb.Item>{currentAppName}</Breadcrumb.Item>}
+      </Breadcrumb>
+      {currentAppName === '' && <AppListPanel />}
+      {currentAppName && <AppFileList />}
+    </div>
   )
 }
