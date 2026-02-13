@@ -1,43 +1,16 @@
-<p align="center">
-  <a href="https://ridgego.github.io/" target="_blank">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/tailwindlabs/tailwindcss/HEAD/.github/logo-dark.svg">
-      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/tailwindlabs/tailwindcss/HEAD/.github/logo-light.svg">
-      <img alt="Tailwind CSS" src="https://raw.githubusercontent.com/tailwindlabs/tailwindcss/HEAD/.github/logo-light.svg" width="350" height="70" style="max-width: 100%;">
-    </picture>
-  </a>
-</p>
+## 关于RidgeUI
 
-<p align="center">
-  Build the user interface in the way necessary
-</p>
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+RidgeUI希望能帮助普通用户能够制作和发布具有丰富交互功能的应用界面。
+
+如果制作一个PPT或者一个平面展示（例如使用Canva）对普通用户来说，是个可行的工作： 那么制作一个可使用、可交互的应用节目理应也是同样简单。 RidgeUI就是致力于此，并且对于使用者也不需要任何负担： 所有代码都是开源可商用并且工具、运行、发布等一系列工作也是完全免费。
+
+## 我们如何实现这一点
 
 
 
 
-<p align="center">
-    <a href="https://github.com/tailwindlabs/tailwindcss/actions"><img src="https://img.shields.io/github/actions/workflow/status/tailwindlabs/tailwindcss/ci.yml?branch=master" alt="Build Status"></a>
-    <a href="https://www.npmjs.com/package/tailwindcss"><img src="https://img.shields.io/npm/dt/tailwindcss.svg" alt="Total Downloads"></a>
-    <a href="https://github.com/tailwindcss/tailwindcss/releases"><img src="https://img.shields.io/npm/v/tailwindcss.svg" alt="Latest Release"></a>
-    <a href="https://github.com/tailwindcss/tailwindcss/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/tailwindcss.svg" alt="License"></a>
-</p>
 
-------
-
-## Documentation
-
-For full documentation, visit [tailwindcss.com](https://tailwindcss.com/).
-
-## Community
-
-For help, discussion about best practices, or any other conversation that would benefit from being searchable:
-
-[Discuss Tailwind CSS on GitHub](https://github.com/tailwindcss/tailwindcss/discussions)
-
-For casual chit-chat with others using the framework:
-
-[Join the Tailwind CSS Discord Server](https://discord.gg/7NF8GNe)
-
-## Contributing
-
-If you're interested in contributing to Tailwind CSS, please read our [contributing docs](https://github.com/tailwindcss/tailwindcss/blob/master/.github/CONTRIBUTING.md) **before submitting a pull request**.
+## 许可证
+本项目基于 MIT 许可证开源，你可以自由使用、修改、分发本项目，详见根目录 [LICENSE](LICENSE) 文件。
