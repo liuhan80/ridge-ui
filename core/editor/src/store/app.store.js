@@ -2,21 +2,22 @@
 import { create } from 'zustand'
 import LocalRepoService from '../service/LocalRepoService'
 import ApplicationService from '../service/ApplicationService'
-import BackUpService from '../service/BackUpService'
 
 const appService = new ApplicationService()
-const backUpService = new BackUpService(appService)
-const localRepoService = new LocalRepoService(appService, backUpService)
+const localRepoService = new LocalRepoService(appService)
 
 const useStore = create((set, get) => ({
   // 初始化状态
   appList: [],
   loadingAppFiles: true,
   currentAppName: '',
+  currentAppId: '',
   currentAppFilesTree: [],
 
   backToAppList: async () => {
-    await get().persistanceCurrentApp()
+    if (get().currentAppId) {
+      localRepoService.saveApp(get().currentAppId, get().currentAppName, await appService.getAppBlob())
+    }
     set({
       currentAppName: ''
     })
@@ -26,15 +27,21 @@ const useStore = create((set, get) => ({
     await localRepoService.persistanceCurrentApp()
   },
 
+  createApp: async (name, tplName) => {
+    const id = await appService.createApp(name, tplName)
+
+    await localRepoService.saveApp(id, name, await appService.getAppBlob())
+  },
+
   openApp: async id => {
     const appInfo = await localRepoService.getApp(id)
 
     if (appInfo) {
       await appService.importAppArchive(appInfo.blob)
-      appService.setCurrentAppInfo(id, appInfo.name)
       await appService.updateAppFileTree()
       set({
         currentAppName: appInfo.name,
+        currentAppId: id,
         currentAppFilesTree: appService.fileTree
       })
     }

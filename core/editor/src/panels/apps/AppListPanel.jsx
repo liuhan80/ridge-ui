@@ -9,7 +9,9 @@ const AppListPanel = () => {
   const [createDialogVisible, setCreateDialogVisible] = useState(false)
   const appList = appStore((state) => state.appList)
   const openApp = appStore((state) => state.openApp)
+
   const removeApp = appStore((state) => state.removeApp)
+  const createApp = appStore((state) => state.createApp)
 
   return (
     <div className='app-list-panel'>
@@ -23,8 +25,9 @@ const AppListPanel = () => {
         <Button theme='outline' type='tertiary'>导入应用</Button>
       </div>
       <CreateAppDialog
-        visible={createDialogVisible} onConfirm={name => {
-
+        visible={createDialogVisible} onConfirm={async (name, tplName) => {
+          setCreateDialogVisible(false)
+          await createApp(name, tplName)
         }}
       />
       <FileList

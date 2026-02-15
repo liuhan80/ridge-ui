@@ -25,19 +25,6 @@ export default class ApplicationService {
     this.fileTree = null
   }
 
-  async getCurrentAppId () {
-    return await this.store.getItem('current-app-id')
-  }
-
-  setCurrentAppId (id) {
-    this.currentAppId = id
-    if (id) {
-      this.store.setItem('current-app-id', id)
-    } else {
-      this.store.removeItem('current-app-id')
-    }
-  }
-
   getFileTree () {
     return this.fileTree
   }
@@ -539,6 +526,15 @@ export default class ApplicationService {
     // location.href = location.href
   }
 
+  async createApp (name, tplName) {
+    if (tplName !== 'empty') {
+    } else {
+      await this.importHelloArchive()
+    }
+
+    return this.getCurrentAppId()
+  }
+
   /**
      * 导入应用的存档
      * @param {*} file 选择的文件
@@ -554,7 +550,7 @@ export default class ApplicationService {
       return false
     }
 
-    await this.coll.clean()
+    await this.collection.clean()
     await this.store.clear()
     const fileMap = []
     zip.forEach(async (filePath, zipObject) => {
@@ -576,8 +572,8 @@ export default class ApplicationService {
 
   /**
    * 导入单个文件(zipEntry)到当前应用
-   * @param {*} filePath 
-   * @param {*} zipObject 
+   * @param {*} filePath
+   * @param {*} zipObject
    */
   async importZipEntryFile (filePath, zipObject) {
     const dirNode = await this.ensureDir(dirname(filePath))
